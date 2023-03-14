@@ -1,0 +1,11 @@
+#ignore virtual environments
+.venv
+venv
+
+#ignore private files
+.env
+env
+
+#ignore heavy dirs
+
+nodemodules
