@@ -1,0 +1,12 @@
+django
+django-cors-headers
+django-storages
+django-silk
+djangorestframework
+djangorestframework-simplejwt
+python-dotenv
+mysqlclient
+requests
+drf-yasg
+channels
+channels_redis
