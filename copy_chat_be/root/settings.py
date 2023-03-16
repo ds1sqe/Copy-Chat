@@ -92,15 +92,30 @@ WSGI_APPLICATION = 'root.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# TODO: migrate to mariaDb
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),
+        'NAME': os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PW"),
+    },
+    "OPTIONS": {
+        "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+        "charset": "utf8mb4",
+        "use_unicode": True,
+    },
+}
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(os.getenv("REDIS_HOST"), os.getenv("REDIS_PORT"))],
+        },
+    },
 }
 
-# TODO: ADD_REDIS
 
 
 # Password validation

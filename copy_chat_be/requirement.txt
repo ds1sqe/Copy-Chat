@@ -10,3 +10,4 @@ requests
 drf-yasg
 channels
 channels_redis
+pillow #image
