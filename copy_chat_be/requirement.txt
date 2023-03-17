@@ -3,7 +3,8 @@ django-cors-headers
 django-storages
 django-silk
 djangorestframework
-djangorestframework-simplejwt
+djangorestframework-simplejwt[crypto]
+dj_rest_auth
 python-dotenv
 mysqlclient
 requests
