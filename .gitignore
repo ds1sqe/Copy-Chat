@@ -9,3 +9,5 @@ env
 #ignore heavy dirs
 
 nodemodules
+
+__pycache__

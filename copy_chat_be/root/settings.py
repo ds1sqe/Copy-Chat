@@ -16,8 +16,6 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
-from xlack.settings import ASGI_APPLICATION
-
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -48,6 +46,11 @@ CSRF_TRUSTED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    # apps
+    'account.apps.AccountConfig',
+    'account.apps.ProfileConfig',
+    'account.apps.RelationConfig',
+    'account.apps.StateConfig',
     # builtin
     'django.contrib.admin',
     'django.contrib.auth',
@@ -116,10 +119,13 @@ CHANNEL_LAYERS = {
     },
 }
 
+AUTH_USER_MODEL: str = "account.Account"
 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -136,7 +142,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# TODO: add more auth specs
 
 
 REST_FRAMEWORK = {
