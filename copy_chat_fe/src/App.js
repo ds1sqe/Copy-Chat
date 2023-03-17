@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import Login from "./components/Account/Login";
+import Body from "./components/Body/Body";
+import SidePannel from "./components/SidePannel/SidePannel";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React from "react";
+
+import useAuth from "./hook/auth/useAuth";
 
 function App() {
+  const { auth, setAuth } = useAuth();
+
+  if (!auth) {
+    return <Login setAuth={setAuth} />;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>APP</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/sidepannel" element={<SidePannel />} />
+          <Route path="/body" element={<Body />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
