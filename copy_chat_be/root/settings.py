@@ -51,6 +51,13 @@ INSTALLED_APPS = [
     'account.apps.ProfileConfig',
     'account.apps.RelationConfig',
     'account.apps.StateConfig',
+    'data.apps.FileConfig',
+    'data.apps.MessageConfig',
+    'data.apps.EventConfig',
+    'data.apps.InvitationConfig',
+    'data.apps.CounterConfig',
+    'group.apps.GroupConfig',
+    'group.apps.GroupRollConfig',
     # builtin
     'django.contrib.admin',
     'django.contrib.auth',

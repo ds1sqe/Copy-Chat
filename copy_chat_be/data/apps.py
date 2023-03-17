@@ -1,22 +1,22 @@
 from django.apps import AppConfig
 
 
-class AccountConfig(AppConfig):
+class FileConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'account'
+    name = 'data.file'
 
-class ProfileConfig(AppConfig):
+class MessageConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'account.profile'
+    name = 'data.message'
 
-class RelationConfig(AppConfig):
+class EventConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'account.relation'
+    name = 'data.meta.event'
 
-class StateConfig(AppConfig):
+class InvitationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'account.state'
+    name = 'data.meta.invitation'
 
-class SettingConfig(AppConfig):
+class CounterConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'account.setting'
+    name = 'data.meta.readcounter'
