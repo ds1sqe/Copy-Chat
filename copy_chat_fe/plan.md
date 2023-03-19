@@ -1,25 +1,34 @@
 Structure 
 
-<Context Wrapper (Auth), Notifications, Back-ground data >
-  <Setter or Manager Wrapper>
-    <Setters or Managers>
-  <Visible's wrapper>
-    <Header>
-      <Current Group and room>
-      <Profile>
-      <Status>
-    <Upper Body>
-      <Sidebar>
-        <Friends>
-        <Groups>
-          <Members>
-          <SubGroups>
-            <Members>
+<DOM WRAPPER >
+  <ROUTER => logined ?? />
+     < NOT LOGIEND/>
+       <LandingPage/>
+         <LOGIN />
+           <FORGET PASSWORD/>
+         <REGIESTER />
+     < LOGIEND/>
+       <HOME />
+         <HEADER/>
+           <POP-UPs/>
+           <SETTINGS>
+         <LEFT SIDEBAR/>
+           <NOTIFICARION>
+           <FRIEND AND GROUP>
+         <BODY />
+           <CHATS>
+           <CALL?>
+</>
 
-      <Body>
-        <Pop-Up notification>
-        <Chat Room>
-        <Call Participants's videos>
-          => Scrollable
-
-    <Footer? if need>
+<HOOKS >
+  <AUTH />
+    <USE AUTH/>
+    <USE TOKEN>
+  <ENDPOINT/>
+    <USE AXIOS>
+    <USE WS>
+  <META />
+    <??>
+  <SETTING />
+    <??>
+</>
