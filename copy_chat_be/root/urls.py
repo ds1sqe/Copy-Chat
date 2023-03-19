@@ -1,6 +1,7 @@
 from rest_framework_simplejwt.views import (
         TokenObtainPairView,
         TokenRefreshView,
+        TokenVerifyView,
         )
 
 from django.contrib import admin
@@ -16,6 +17,7 @@ from account.views import AccountView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('account/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('account/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # URLs that do not require a session or valid token
     path('account/password/reset/', PasswordResetView.as_view(), name='rest_password_reset'),
