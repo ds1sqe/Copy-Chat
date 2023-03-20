@@ -13,9 +13,9 @@ import React from "react";
 const REST_DOMAIN = process.env.REACT_APP_REST_DOMAIN;
 
 // HACK: this is test function
-export default function CheckToken({ token }) {
+export default function CheckToken({ getToken }) {
   async function verify() {
-    console.log(token);
+    console.log(getToken());
   }
 
   return (

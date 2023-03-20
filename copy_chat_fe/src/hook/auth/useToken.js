@@ -8,7 +8,6 @@ export default function useToken() {
       refresh: refresh_token,
     });
 
-    console.log(refresh_token);
     return fetch(REST_DOMAIN + "/account/token/refresh/", {
       method: "POST",
       headers: {
@@ -17,7 +16,7 @@ export default function useToken() {
       body: r,
     }).then((data) => {
       console.log("useToken>renew_token", data);
-      data.json();
+      return data.json();
     });
   }
 
@@ -51,8 +50,6 @@ export default function useToken() {
     return token;
   };
 
-  const [__token, setToken] = useState(getToken());
-
   const saveToken = (new_token) => {
     let token;
     if (new_token === null) {
@@ -60,17 +57,16 @@ export default function useToken() {
     } else {
       token = {
         ...new_token,
-        expire_on: Date.now() + 5000, //(5 * 60 * 1000 - 1000),
+        expire_on: Date.now() + (5 * 60 * 1000 - 3 * 1000),
       };
     }
 
     sessionStorage.setItem("token", JSON.stringify(token));
     console.log("useToken>saveToken:token", token);
-    setToken(getToken());
   };
 
   return {
     setToken: saveToken,
-    token: __token,
+    getToken: getToken,
   };
 }

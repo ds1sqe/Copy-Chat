@@ -18,11 +18,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 
 function App() {
-  const { token, setToken } = useToken();
+  const { getToken, setToken } = useToken();
   const { user, setUser } = useUser();
 
   // Not authorized
-  if (!token) {
+  if (!getToken()) {
     return (
       <div className="App">
         <BrowserRouter>
@@ -50,7 +50,7 @@ function App() {
               <Home
                 user={user}
                 setUser={setUser}
-                token={token}
+                getToken={getToken}
                 setToken={setToken}
               />
             }
