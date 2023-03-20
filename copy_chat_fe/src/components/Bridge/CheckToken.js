@@ -6,8 +6,7 @@ import React from "react";
  * margin @ 5sec, 295,000ms
  */
 
-// TODO: create two custom hook,
-// useToken, => manage token vaildations
+// TODO: create custom hook,
 // useRest => custom axios that manange rest requests
 
 const REST_DOMAIN = process.env.REACT_APP_REST_DOMAIN;

@@ -39,7 +39,11 @@ export default function useToken() {
       const next_token = {
         access_token: new_access_token,
         refresh_token: token?.refresh_token,
-        expire_on: Date.now() + 5000, //(5 * 60 * 1000 - 1000),
+        /*
+         * expire time => 5 * 60 * 1000 => 300,000ms
+         * margin @3sec
+         */
+        expire_on: Date.now() + (5 * 60 * 1000 - 3 * 1000),
       };
 
       console.log("useToken>getToken:next_token:", next_token);
