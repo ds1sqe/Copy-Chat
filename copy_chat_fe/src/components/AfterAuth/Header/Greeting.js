@@ -1,9 +1,10 @@
 import React from "react";
 
-export default function Greeting({ auth }) {
-  const firstname = auth?.user.firstname;
-  const lastname = auth?.user.lastname;
-  const username = auth?.user.username;
+export default function Greeting({ user }) {
+  console.log("Greeting>arg user", user);
+  const firstname = user?.firstname;
+  const lastname = user?.lastname;
+  const username = user?.username;
 
   let uname;
 

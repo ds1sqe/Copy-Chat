@@ -16,7 +16,7 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
-export default function Login({ setAuth }) {
+export default function Login({ setUser, setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -33,10 +33,16 @@ export default function Login({ setAuth }) {
     if (!result?.user) {
       console.log("login faild");
       setIsFaild(true);
-      setAuth(null);
+      setUser(null);
+      setToken(null);
     } else {
       console.log(result);
-      setAuth(result);
+      setUser(result?.user);
+      const token = {
+        access_token: result?.access_token,
+        refresh_token: result?.refresh_token,
+      };
+      setToken(token);
       navigate("/");
     }
   };
@@ -90,5 +96,6 @@ export default function Login({ setAuth }) {
 }
 
 Login.propTypes = {
-  setAuth: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
+  setToken: PropTypes.func.isRequired,
 };
