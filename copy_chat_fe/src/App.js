@@ -1,29 +1,37 @@
 import "./App.css";
 
+// BeforeAuth
 import Landing from "./components/BeforeAuth/Landing/Landing";
 import Login from "./components/BeforeAuth/Login/Login";
 import Register from "./components/BeforeAuth/Login/Register";
 import ForgetPassword from "./components/BeforeAuth/Login/ForgetPassword";
 
+// AfterAuth
 import Home from "./components/AfterAuth/Home";
 
-import useAuth from "./hook/auth/useAuth";
+// Hooks
+import useToken from "./hook/auth/useToken";
+import useUser from "./hook/auth/useUser";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import React from "react";
 
 function App() {
-  const { auth, setAuth } = useAuth();
+  const { token, setToken } = useToken();
+  const { user, setUser } = useUser();
 
   // Not authorized
-  if (!auth) {
+  if (!token) {
     return (
       <div className="App">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login setAuth={setAuth} />} />
+            <Route
+              path="/login"
+              element={<Login setUser={setUser} setToken={setToken} />}
+            />
             <Route path="/register" element={<Register />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
           </Routes>
@@ -36,7 +44,17 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home auth={auth} setAuth={setAuth} />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                user={user}
+                setUser={setUser}
+                token={token}
+                setToken={setToken}
+              />
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

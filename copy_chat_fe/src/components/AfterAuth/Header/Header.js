@@ -1,10 +1,10 @@
 import React from "react";
 import Greeting from "./Greeting";
 
-export default function Header({ auth }) {
+export default function Header({ user }) {
   return (
     <div className="header">
-      <Greeting auth={auth} />
+      <Greeting user={user} />
     </div>
   );
 }
