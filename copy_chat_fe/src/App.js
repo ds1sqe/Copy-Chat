@@ -18,11 +18,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 
 function App() {
-  const { getToken, setToken } = useToken();
+  const { isToken, getToken, setToken } = useToken();
   const { user, setUser } = useUser();
 
   // Not authorized
-  if (!getToken()) {
+  if (!isToken) {
     return (
       <div className="App">
         <BrowserRouter>
