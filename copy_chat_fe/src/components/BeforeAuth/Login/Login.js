@@ -3,59 +3,59 @@ import PropTypes from "prop-types";
 import "./Login.css";
 
 import { Link, useNavigate } from "react-router-dom";
-
-const REST_DOMAIN = process.env.REACT_APP_REST_DOMAIN;
-
-async function loginUser(credentials) {
-  return fetch(REST_DOMAIN + "/account/login/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
-  }).then((data) => data.json());
-}
+import { useAxiosAtEvent } from "../../../hook/endpoint/axios/useAxios";
 
 export default function Login({ setUser, setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-
-  const [isFaild, setIsFaild] = useState(false);
-
+r const [isFaild, setIsFaild] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const result = await loginUser({
-      username,
-      password,
-    });
-    if (!result?.user) {
+  const { data, error, loading, loaded, fire } = useAxiosAtEvent();
+
+  function check_login() {
+    console.log("check login");
+    console.log(data);
+    if (error) {
       console.log("login faild");
+      console.log("error");
       setIsFaild(true);
-      setUser(null);
       setToken(null);
-    } else {
-      console.log(result);
-      setUser(result?.user);
+      setUser(null);
+    } else if (data) {
+      console.log("user logined", data);
       const token = {
-        access_token: result?.access_token,
-        refresh_token: result?.refresh_token,
+        access_token: data?.access_token,
+        refresh_token: data?.refresh_token,
       };
+      setUser(data?.user);
       setToken(token);
       navigate("/");
     }
+  }
+
+  const handleSubmit = async (e) => {
+    await fire({
+      url: "/account/login/",
+      method: "post",
+      payload: { username, password },
+      callback: check_login,
+    });
   };
 
   return (
     <div className="login-wrapper">
       <h1>Please Log In</h1>
-      {isFaild && (
+      {error && (
         <p className="login-faild">
           <strong>invalied password or username</strong>
         </p>
       )}
-
+      {loading && (
+        <p className="login-loading">
+          <strong>loading...</strong>
+        </p>
+      )}
       <form action="" onSubmit={handleSubmit}>
         <label>
           <p>Username</p>

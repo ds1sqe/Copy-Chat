@@ -3,7 +3,6 @@ import { useState } from "react";
 const REST_DOMAIN = process.env.REACT_APP_REST_DOMAIN;
 
 export default function useToken() {
-  //
   // flag for token's vaildation
   const [isToken, setIsToken] = useState(false);
 
