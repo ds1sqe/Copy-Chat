@@ -3,44 +3,49 @@ import PropTypes from "prop-types";
 import "./Login.css";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useAxiosAtEvent } from "../../../hook/endpoint/axios/useAxios";
+import axios from "axios";
+
+const REST_DOMAIN = process.env.REACT_APP_REST_DOMAIN;
 
 export default function Login({ setUser, setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-r const [isFaild, setIsFaild] = useState(false);
+
+  const [fetching, setFetching] = useState(false);
+  const [error, setError] = useState(false);
+
   const navigate = useNavigate();
 
-  const { data, error, loading, loaded, fire } = useAxiosAtEvent();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  function check_login() {
-    console.log("check login");
-    console.log(data);
-    if (error) {
+    const login = axios.create({
+      baseURL: REST_DOMAIN,
+    });
+
+    try {
+      setFetching(true);
+      const response = await login.request({
+        url: "/account/login/",
+        method: "post",
+        data: { username: username, password: password },
+      });
+      const token = {
+        access_token: response.data?.access_token,
+        refresh_token: response.data?.refresh_token,
+      };
+      setUser(response.data?.user);
+      navigate("/", { replace: true });
+      setToken(token);
+    } catch (error) {
       console.log("login faild");
-      console.log("error");
-      setIsFaild(true);
+      console.log("error", error);
+      setError(error.message);
       setToken(null);
       setUser(null);
-    } else if (data) {
-      console.log("user logined", data);
-      const token = {
-        access_token: data?.access_token,
-        refresh_token: data?.refresh_token,
-      };
-      setUser(data?.user);
-      setToken(token);
-      navigate("/");
+    } finally {
+      setFetching(false);
     }
-  }
-
-  const handleSubmit = async (e) => {
-    await fire({
-      url: "/account/login/",
-      method: "post",
-      payload: { username, password },
-      callback: check_login,
-    });
   };
 
   return (
@@ -51,12 +56,12 @@ r const [isFaild, setIsFaild] = useState(false);
           <strong>invalied password or username</strong>
         </p>
       )}
-      {loading && (
+      {fetching && (
         <p className="login-loading">
-          <strong>loading...</strong>
+          <strong>fetching...</strong>
         </p>
       )}
-      <form action="" onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleLogin}>
         <label>
           <p>Username</p>
           <input

@@ -8,7 +8,7 @@ export default function Home({ getToken, setToken, user, setUser }) {
   return (
     <div className="home">
       <Header user={user} />
-      <Logout setToken={setToken} />
+      <Logout setToken={setToken} setUser={setUser} />
       <CheckToken getToken={getToken} />
     </div>
   );

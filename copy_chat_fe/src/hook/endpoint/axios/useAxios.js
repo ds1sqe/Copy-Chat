@@ -37,7 +37,7 @@ export const AxiosInstanceProvider = ({
   );
 };
 
-export const useAxiosAtLoad = ({ url, method, payload }) => {
+export function useAxiosAtLoad({ url, method, payload }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -73,9 +73,9 @@ export const useAxiosAtLoad = ({ url, method, payload }) => {
   });
 
   return { cancel, data, error, loaded, loading };
-};
+}
 
-export const useAxiosAtEvent = () => {
+export function useAxiosAtEvent() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -88,7 +88,8 @@ export const useAxiosAtEvent = () => {
   const cancel = () => {
     controllerRef.current.abort();
   };
-  const fire = async ({ url, method, payload, callback }) => {
+
+  const fire = async ({ url, method, payload }) => {
     try {
       console.log("useAxiosAtFire loading");
       console.log(method, payload);
@@ -107,11 +108,16 @@ export const useAxiosAtEvent = () => {
       setLoading(false);
       setLoaded(true);
       console.log("setLoaded");
-      if (callback !== undefined) {
-        callback();
-      }
     }
   };
 
   return { cancel, data, error, loaded, loading, fire };
-};
+}
+
+export function useAxios() {
+  const contextInstance = useContext(AxiosContext);
+  const instance = useMemo(() => {
+    return contextInstance || axios;
+  }, [contextInstance]);
+  return instance;
+}

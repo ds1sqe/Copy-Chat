@@ -12,34 +12,31 @@ import Home from "./components/AfterAuth/Home";
 // Hooks
 import useToken from "./hook/auth/useToken";
 import useUser from "./hook/auth/useUser";
-import { AxiosInstanceProvider } from "./hook/endpoint/axios/useAxios";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import React from "react";
-const REST_DOMAIN = process.env.REACT_APP_REST_DOMAIN;
 
 function App() {
-  const { isToken, getToken, setToken } = useToken();
+  const { token, getToken, setToken } = useToken();
   const { user, setUser } = useUser();
 
-  // Not authorized
   return (
     <div className="App">
-      <AxiosInstanceProvider config={{ baseURL: REST_DOMAIN }}>
-        <BrowserRouter>
-          <Routes>
-            {!isToken ? (
-              <>
-                <Route path="/" element={<Landing />} />
-                <Route
-                  path="/login"
-                  element={<Login setUser={setUser} setToken={setToken} />}
-                />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forget-password" element={<ForgetPassword />} />
-              </>
-            ) : (
+      <BrowserRouter>
+        <Routes>
+          {!token ? (
+            <>
+              <Route path="/" element={<Landing />} />
+              <Route
+                path="/login"
+                element={<Login setUser={setUser} setToken={setToken} />}
+              />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forget-password" element={<ForgetPassword />} />
+            </>
+          ) : (
+            <>
               <Route
                 path="/"
                 element={
@@ -51,10 +48,10 @@ function App() {
                   />
                 }
               />
-            )}
-          </Routes>
-        </BrowserRouter>
-      </AxiosInstanceProvider>
+            </>
+          )}
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

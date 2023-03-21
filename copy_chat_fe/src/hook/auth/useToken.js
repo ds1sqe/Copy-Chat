@@ -3,8 +3,7 @@ import { useState } from "react";
 const REST_DOMAIN = process.env.REACT_APP_REST_DOMAIN;
 
 export default function useToken() {
-  // flag for token's vaildation
-  const [isToken, setIsToken] = useState(false);
+  const [token, setToken] = useState(null !== getToken());
 
   async function renew_token(refresh_token) {
     const r = JSON.stringify({
@@ -23,7 +22,7 @@ export default function useToken() {
     });
   }
 
-  const getToken = () => {
+  function getToken() {
     const token = JSON.parse(sessionStorage.getItem("token"));
     console.log("useToken>getToken:token", token);
 
@@ -53,31 +52,30 @@ export default function useToken() {
       sessionStorage.setItem("token", JSON.stringify(next_token));
       return next_token;
     } else if (token == null) {
-      setIsToken(false);
+      return null;
     }
     return token;
-  };
+  }
 
-  const saveToken = (new_token) => {
+  function saveToken(new_token) {
     let token;
     if (new_token === null) {
-      setIsToken(false);
+      setToken(false);
       token = null;
     } else {
       token = {
         ...new_token,
         expire_on: Date.now() + (5 * 60 * 1000 - 3 * 1000),
       };
-      setIsToken(true);
+      setToken(true);
     }
-
     sessionStorage.setItem("token", JSON.stringify(token));
     console.log("useToken>saveToken:token", token);
-  };
+  }
 
   return {
-    isToken: isToken,
-    setToken: saveToken,
+    token: token,
     getToken: getToken,
+    setToken: saveToken,
   };
 }
