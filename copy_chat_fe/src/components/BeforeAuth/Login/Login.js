@@ -7,10 +7,9 @@ import axios from "axios";
 
 const REST_DOMAIN = process.env.REACT_APP_REST_DOMAIN;
 
-export default function Login({ setUser, setToken }) {
+export default function Login({ setUser, setToken, registerMessage }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);
 
@@ -61,6 +60,12 @@ export default function Login({ setUser, setToken }) {
           <strong>fetching...</strong>
         </p>
       )}
+      {registerMessage && (
+        <p className="login-message">
+          <strong>{registerMessage}</strong>
+        </p>
+      )}
+
       <form action="" onSubmit={handleLogin}>
         <label>
           <p>Username</p>

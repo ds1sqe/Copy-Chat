@@ -15,11 +15,12 @@ import useUser from "./hook/auth/useUser";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import React from "react";
+import React, { useState } from "react";
 
 function App() {
   const { token, getToken, setToken } = useToken();
   const { user, setUser } = useUser();
+  const [registerMessage, setRegisterMessage] = useState(null);
 
   return (
     <div className="App">
@@ -30,9 +31,18 @@ function App() {
               <Route path="/" element={<Landing />} />
               <Route
                 path="/login"
-                element={<Login setUser={setUser} setToken={setToken} />}
+                element={
+                  <Login
+                    setUser={setUser}
+                    setToken={setToken}
+                    registerMessage={registerMessage}
+                  />
+                }
               />
-              <Route path="/register" element={<Register />} />
+              <Route
+                path="/register"
+                element={<Register setRegisterMessage={setRegisterMessage} />}
+              />
               <Route path="/forget-password" element={<ForgetPassword />} />
             </>
           ) : (

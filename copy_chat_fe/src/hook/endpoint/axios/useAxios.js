@@ -89,7 +89,7 @@ export function useAxiosAtEvent() {
     controllerRef.current.abort();
   };
 
-  const fire = async ({ url, method, payload }) => {
+  async function fire ({ url, method, payload }) {
     try {
       console.log("useAxiosAtFire loading");
       console.log(method, payload);
