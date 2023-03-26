@@ -2,18 +2,15 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./Login.css";
 
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const REST_DOMAIN = process.env.REACT_APP_REST_DOMAIN;
 
-export default function Login({ setUser, setToken, registerMessage }) {
+export default function Login({ setUser, setToken, registerMessage, setMenu }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,7 +31,6 @@ export default function Login({ setUser, setToken, registerMessage }) {
         refresh_token: response.data?.refresh_token,
       };
       setUser(response.data?.user);
-      navigate("/", { replace: true });
       setToken(token);
     } catch (error) {
       console.log("login faild");
@@ -93,12 +89,20 @@ export default function Login({ setUser, setToken, registerMessage }) {
       <footer>
         <p>
           Did you forgot password?
-          <Link to="/forget-password">
-            <label className="login-forget-password"> Reset my password</label>
-          </Link>
+          <label
+            className="login-forget-password"
+            onClick={() => setMenu("forget")}
+          >
+            {" "}
+            Reset my password
+          </label>
         </p>
         <p>
-          First time? <Link to="/register">Create an account</Link>.
+          First time?
+          <label className="login-register" onClick={() => setMenu("register")}>
+            {" "}
+            Create an account
+          </label>
         </p>
       </footer>
     </div>

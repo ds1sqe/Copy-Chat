@@ -1,8 +1,6 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
-
-export default function ForgetPassword() {
+export default function ForgetPassword({ setMenu }) {
   return (
     <div className="reset-password-root">
       <h2>Reset your password</h2>
@@ -20,10 +18,17 @@ export default function ForgetPassword() {
 
       <footer>
         <p>
-          First time? <Link to="/register">Create an account</Link>.
+          <label className="login-register" onClick={() => setMenu("login")}>
+            {" "}
+            return to login menu
+          </label>
         </p>
         <p>
-          <Link to="/">Back to Landingpage</Link>.
+          First time?
+          <label className="login-register" onClick={() => setMenu("register")}>
+            {" "}
+            Create an account
+          </label>
         </p>
       </footer>
     </div>

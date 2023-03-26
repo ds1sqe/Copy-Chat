@@ -1,0 +1,7 @@
+.group_selector {
+  display: flex;
+  flex-direction: column;
+  width: 10vw;
+  height: 100vh;
+  background-color: #1a1a42;
+}
