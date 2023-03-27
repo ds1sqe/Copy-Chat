@@ -1,9 +1,14 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { rest } from "./middleware/rest";
 import auth from "./auth";
+import ui from "./ui";
 
-export const store = () =>
-  configureStore({
-    middleware: [rest],
-    reducer: combineReducers({ auth }),
-  });
+import { Store } from "../types/store";
+
+const store = configureStore<Store.AppState>({
+  middleware: [rest],
+  reducer: { auth, ui },
+});
+export default store;
+
+export type AppDispatch = typeof store.dispatch;

@@ -1,13 +1,13 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { registerUser } from "../../../dispatcher/auth";
+import { registerUser } from "../../../store/sideEffects/auth";
 
 export default function Register() {
-  const dispatch = useDispatch();
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleRegister = async (e: any) => {
     e.preventDefault();

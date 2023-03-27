@@ -22,9 +22,22 @@ export default function App() {
           <Route path="/register/" Component={Register} />
           <Route path="/forgot-password/" Component={ForgetPassword} />
 
-          <ProtectedRoute path="/invitation/" Component={Invitation} />
-          <ProtectedRoute path="/@me" Component={DashBoard} />
-          {/* <ProtectedRoute path="" /> */}
+          <Route
+            path="/invitation/"
+            element={
+              <ProtectedRoute>
+                <Invitation />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/@me/"
+            element={
+              <ProtectedRoute>
+                <DashBoard />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

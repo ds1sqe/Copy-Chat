@@ -3,7 +3,9 @@ import { Store } from "../types/store";
 
 const slice = createSlice({
   name: "ui",
-  initialState: {} as Store.AppState["ui"],
+  initialState: {
+    saveChangesOpen: false,
+  } as Store.AppState["ui"],
   reducers: {
     openedModal: (state, { payload }) => {
       state.openModal = payload;
@@ -19,6 +21,10 @@ const slice = createSlice({
     },
     focusedUser: (state, { payload }) => {
       state.activeUser = payload;
+    },
+    pageSwitched: (state, { payload }) => {
+      state.activeGroup = payload.Group;
+      state.activeSubGroup = payload.SubGroup;
     },
   },
 });

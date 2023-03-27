@@ -1,7 +1,0 @@
-.detail_pannel {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  width: 20vw;
-  background-color: #1c1c1f;
-}

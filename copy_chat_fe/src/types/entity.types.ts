@@ -2,9 +2,18 @@ export namespace Entity {
   export interface User {
     id: number;
     username: string;
-    email: string;
-    first_name: string;
-    last_name: string;
+    email?: string;
+    first_name?: string;
+    last_name?: string;
+  }
+  export interface Group {
+    id: number;
+    name: string;
+  }
+  export interface SubGroup {
+    id: number;
+    name: string;
+    group: Group;
   }
 }
 

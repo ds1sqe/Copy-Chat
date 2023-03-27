@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Store } from "../types/store";
 
 const slice = createSlice({
   name: "auth",
@@ -16,9 +17,8 @@ const slice = createSlice({
       auth.loginAttempted = false;
       auth.logined = false;
     },
-    login: (auth, user) => {
+    loginSuccess: (auth) => {
       auth.logined = true;
-      auth.user = user;
     },
     created: (auth) => {
       auth.hasCreated = true;

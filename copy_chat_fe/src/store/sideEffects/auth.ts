@@ -1,12 +1,12 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { actions as api } from "../store/api";
-import { actions } from "../store/auth";
-import { REST } from "../types/rest.types";
+import { actions as api } from "../api";
+import { actions as auth } from "../auth";
+import { REST } from "../../types/rest.types";
 
-export function loginUser(
+export const loginUser = async (
   data: REST.To.Post["/account/login/"],
   dispatch: Dispatch
-) {
+) => {
   dispatch(
     api.restCallInit({
       onSuccess: [],
@@ -14,7 +14,7 @@ export function loginUser(
       data,
       url: `/account/login/`,
       callback: (result) => {
-        dispatch(actions.logInAttempted());
+        dispatch(auth.logInAttempted());
         if (result?.access_token) {
           const token = {
             access_token: result.access_token,
@@ -23,13 +23,13 @@ export function loginUser(
           };
           sessionStorage.setItem("token", JSON.stringify(token));
           console.log("dispatch login with:", result?.user);
-          dispatch(actions.login(result?.user));
+          dispatch(auth.loginSuccess());
         }
       },
-      errorCallback: () => dispatch(actions.logInAttempted()),
+      errorCallback: () => dispatch(auth.logInAttempted()),
     })
   );
-}
+};
 
 export function registerUser(
   data: REST.To.Post["/account/register/"],
@@ -44,7 +44,7 @@ export function registerUser(
       callback: (result) => {
         console.log(result);
         if (result?.success) {
-          dispatch(actions.created());
+          dispatch(auth.created());
         }
       },
       errorCallback: () => {
@@ -55,6 +55,7 @@ export function registerUser(
 }
 
 export function logoutUser(dispatch: Dispatch) {
-  dispatch(actions.logOut());
+  dispatch(auth.logOut());
   localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
 }

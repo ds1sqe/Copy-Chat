@@ -13,6 +13,8 @@ declare namespace Store {
       openModal?: string;
       saveChangesOpen?: boolean;
       activeUser?: Entity.User;
+      activeGroup?: Entity.Group;
+      activeSubGroup?: Entity.SubGroup;
     };
   }
   export interface Action<P> {
