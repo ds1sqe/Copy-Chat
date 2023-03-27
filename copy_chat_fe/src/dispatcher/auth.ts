@@ -33,8 +33,7 @@ export function loginUser(
 
 export function registerUser(
   data: REST.To.Post["/account/register/"],
-  dispatch: Dispatch,
-  onSuccess: Function
+  dispatch: Dispatch
 ) {
   dispatch(
     api.restCallInit({
@@ -46,7 +45,6 @@ export function registerUser(
         console.log(result);
         if (result?.success) {
           dispatch(actions.created());
-          onSuccess("login");
         }
       },
       errorCallback: () => {
@@ -56,10 +54,7 @@ export function registerUser(
   );
 }
 
-// export function logoutUser() {
-//   return (dispatch) => {
-//     dispatch(actions.loggedOut());
-//     localStorage.removeItem("token");
-//   };
-// }
-//
+export function logoutUser(dispatch: Dispatch) {
+  dispatch(actions.logOut());
+  localStorage.removeItem("token");
+}

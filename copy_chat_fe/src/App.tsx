@@ -1,25 +1,23 @@
-import { useSelector } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Landing from "./pages/Landing/Landing";
+import ForgetPassword from "./pages/Landing/SubMenu/ForgetPassword";
+import Login from "./pages/Landing/SubMenu/Login";
+import Logout from "./pages/Landing/SubMenu/Logout";
+import Register from "./pages/Landing/SubMenu/Register";
 
 export default function App() {
-  const user = useSelector((s: Store.AppState) => s.auth.user);
-
   return (
     <div className="App">
-      {!user ? (
-        <>
-          <Landing />
-        </>
-      ) : (
-        <>
-          {/* <Main */}
-          {/*   user={user} */}
-          {/*   setUser={setUser} */}
-          {/*   getToken={getToken} */}
-          {/*   setToken={setToken} */}
-          {/* /> */}
-        </>
-      )}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" Component={Landing} />
+          <Route path="/login/" Component={Login} />
+          <Route path="/logout/" Component={Logout} />
+          <Route path="/register/" Component={Register} />
+          <Route path="/forgot-password/" Component={ForgetPassword} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

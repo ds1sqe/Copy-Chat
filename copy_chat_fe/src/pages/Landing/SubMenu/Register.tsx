@@ -1,12 +1,9 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { registerUser } from "../../../dispatcher/auth";
 
-interface Props {
-  setMenu: Dispatch<SetStateAction<string>>;
-}
-
-export default function Register(props: Props) {
+export default function Register() {
   const dispatch = useDispatch();
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +16,7 @@ export default function Register(props: Props) {
       email: email,
       password: password,
     };
-    registerUser(payload, dispatch, props.setMenu);
+    registerUser(payload, dispatch);
   };
 
   return (
@@ -72,7 +69,9 @@ export default function Register(props: Props) {
       </form>
 
       <footer>
-        <p>Back to Homepage.</p>
+        <Link to="/">
+          <p>Back to Landing Page.</p>
+        </Link>
       </footer>
     </div>
   );

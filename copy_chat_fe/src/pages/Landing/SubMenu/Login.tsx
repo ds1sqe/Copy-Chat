@@ -1,15 +1,12 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import "./Login.css";
 
 import { useDispatch } from "react-redux";
 
 import { loginUser } from "../../../dispatcher/auth";
+import { Link } from "react-router-dom";
 
-interface Props {
-  setMenu: Dispatch<SetStateAction<string>>;
-}
-
-export default function Login(props: Props) {
+export default function Login() {
   const dispatch = useDispatch();
 
   const [username, setUserName] = useState<string>("");
@@ -55,23 +52,15 @@ export default function Login(props: Props) {
       <footer>
         <p>
           Did you forgot password?
-          <label
-            className="login-forget-password"
-            onClick={() => props.setMenu("forget")}
-          >
-            {" "}
-            Reset my password
-          </label>
+          <Link to="/forgot-password/">
+            <label className="login-forgot-password"> Reset my password</label>
+          </Link>
         </p>
         <p>
           First time?
-          <label
-            className="login-register"
-            onClick={() => props.setMenu("register")}
-          >
-            {" "}
-            Create an account
-          </label>
+          <Link to="/register/">
+            <label className="login-register"> Create an account</label>
+          </Link>
         </p>
       </footer>
     </div>

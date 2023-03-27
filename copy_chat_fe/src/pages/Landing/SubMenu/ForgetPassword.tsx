@@ -1,15 +1,11 @@
-import { Dispatch, SetStateAction } from "react";
+import { Link } from "react-router-dom";
 
-interface Props {
-  setMenu: Dispatch<SetStateAction<string>>;
-}
-
-export default function ForgetPassword(props: Props) {
+export default function ForgetPassword() {
   return (
     <div className="reset-password-root">
       <h2>Reset your password</h2>
       <h5>Enter your email address and we will send you a new password</h5>
-      <form action="/login">
+      <form action="">
         <p>
           <label id="reset-password-email">Email address</label>
           <br />
@@ -21,25 +17,17 @@ export default function ForgetPassword(props: Props) {
       </form>
 
       <footer>
-        <p>
-          <label
-            className="login-register"
-            onClick={() => props.setMenu("login")}
-          >
-            {" "}
-            return to login menu
-          </label>
-        </p>
-        <p>
-          First time?
-          <label
-            className="login-register"
-            onClick={() => props.setMenu("register")}
-          >
-            {" "}
-            Create an account
-          </label>
-        </p>
+        <Link to="/login/">
+          <p>
+            <label className="forgot-login"> return to login menu</label>
+          </p>
+        </Link>
+        <Link to="/register/">
+          <p>
+            First time?
+            <label className="forgot-register"> Create an account</label>
+          </p>
+        </Link>
       </footer>
     </div>
   );
