@@ -5,6 +5,7 @@ const slice = createSlice({
   name: "ui",
   initialState: {
     saveChangesOpen: false,
+    popupNotifications: [],
   } as Store.AppState["ui"],
   reducers: {
     openedModal: (state, { payload }) => {
@@ -25,6 +26,14 @@ const slice = createSlice({
     pageSwitched: (state, { payload }) => {
       state.activeGroup = payload.Group;
       state.activeSubGroup = payload.SubGroup;
+    },
+    addPopNotice: (state, { payload }) => {
+      state.popupNotifications.reverse();
+      state.popupNotifications.push(payload);
+      state.popupNotifications.reverse();
+    },
+    removePopNotice: (state) => {
+      state.popupNotifications.pop();
     },
   },
 });

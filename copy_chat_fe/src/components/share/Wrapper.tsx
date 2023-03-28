@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as ui } from "../../store/ui";
 import { Store } from "../../types/store";
+import Listener from "./Listener/Listener";
 
 export type WrapperProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -18,5 +19,10 @@ export default function Wrapper(props: WrapperProps) {
 
   const onClick = () => dropdown && dispatch(ui.toggleDropdown({}));
 
-  return <div onClick={onClick}>{props.children}</div>;
+  return (
+    <div onClick={onClick}>
+      {props.children}
+      <Listener />
+    </div>
+  );
 }

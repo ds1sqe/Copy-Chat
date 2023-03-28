@@ -7,15 +7,18 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 
 import store from "./store/configStore";
+import { SnackbarProvider } from "notistack";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <SnackbarProvider maxSnack={3}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </SnackbarProvider>
   </React.StrictMode>
 );
 

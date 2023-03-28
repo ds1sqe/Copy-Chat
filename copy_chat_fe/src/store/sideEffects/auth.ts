@@ -2,6 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { actions as api } from "../api";
 import { actions as auth } from "../auth";
 import { REST } from "../../types/rest.types";
+import { actions as ui } from "../ui";
 
 export const loginUser = async (
   data: REST.To.Post["/account/login/"],
@@ -23,9 +24,19 @@ export const loginUser = async (
           };
           sessionStorage.setItem("token", JSON.stringify(token));
           dispatch(auth.loginSuccess());
+          dispatch(
+            ui.addPopNotice({ content: "Login Success", variant: "success" })
+          );
+        } else {
+          dispatch(
+            ui.addPopNotice({ content: "Login Faild", variant: "error" })
+          );
         }
       },
-      errorCallback: () => dispatch(auth.loginFailed()),
+      errorCallback: () => {
+        dispatch(auth.loginFailed());
+        dispatch(ui.addPopNotice({ content: "Login Faild", variant: "error" }));
+      },
     })
   );
 };
@@ -43,11 +54,10 @@ export function registerUser(
       callback: (result) => {
         if (result?.success) {
           dispatch(auth.created());
+        } else if (result?.msg) {
         }
       },
-      errorCallback: () => {
-        console.log("error occured on registerUser");
-      },
+      errorCallback: () => {},
     })
   );
 }

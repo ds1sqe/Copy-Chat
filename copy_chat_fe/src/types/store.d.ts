@@ -1,4 +1,5 @@
 import { Entity, UserTypes } from "./entity.types";
+import { Ui } from "./ui.types";
 
 declare namespace Store {
   export interface AppState {
@@ -16,6 +17,10 @@ declare namespace Store {
       activeUser?: Entity.User;
       activeGroup?: Entity.Group;
       activeSubGroup?: Entity.SubGroup;
+      popupNotifications: Ui.PopUpNotification[];
+    };
+    meta: {
+      listenerAttached?: boolean;
     };
   }
   export interface Action<P> {
