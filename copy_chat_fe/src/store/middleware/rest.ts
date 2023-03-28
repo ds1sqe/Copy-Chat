@@ -13,19 +13,25 @@ export const rest: Middleware<{}> = (store) => (next) => async (action) => {
   next(action);
 
   try {
-    const { data: payload } = await axios.request({
-      baseURL: process.env.REACT_APP_REST_DOMAIN,
-      data,
-      method,
-      url,
-      headers,
-    });
+    await axios
+      .request({
+        baseURL: process.env.REACT_APP_REST_DOMAIN,
+        data,
+        method,
+        url,
+        headers,
+      })
+      .then((response) => {
+        console.log(response);
+        const result = response.data;
+        console.log(result);
 
-    store.dispatch(actions.restCallSucceded({ url, response: payload }));
-    if (onSuccess)
-      for (const type of onSuccess) store.dispatch({ type, payload });
-
-    if (callback) await callback(payload);
+        store.dispatch(actions.restCallSucceded({ url, response: result }));
+        if (onSuccess)
+          for (const type of onSuccess)
+            store.dispatch({ type, payload: result });
+        if (callback) callback(result);
+      });
   } catch (error) {
     const response = (error as any).response;
     store.dispatch(actions.restCallFailed({ url, response }));

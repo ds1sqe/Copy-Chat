@@ -4,6 +4,7 @@ declare namespace Store {
   export interface AppState {
     auth: {
       loginAttempted: boolean;
+      loginFailed: boolean;
       logined: boolean;
       hasCreated: boolean;
       user?: UserTypes.Self;

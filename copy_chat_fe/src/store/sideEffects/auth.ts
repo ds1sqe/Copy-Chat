@@ -22,11 +22,10 @@ export const loginUser = async (
             expire_on: Date.now() + (5 * 60 * 1000 - 3 * 1000),
           };
           sessionStorage.setItem("token", JSON.stringify(token));
-          console.log("dispatch login with:", result?.user);
           dispatch(auth.loginSuccess());
         }
       },
-      errorCallback: () => dispatch(auth.logInAttempted()),
+      errorCallback: () => dispatch(auth.loginFailed()),
     })
   );
 };
@@ -42,7 +41,6 @@ export function registerUser(
       data,
       url: `/account/register/`,
       callback: (result) => {
-        console.log(result);
         if (result?.success) {
           dispatch(auth.created());
         }

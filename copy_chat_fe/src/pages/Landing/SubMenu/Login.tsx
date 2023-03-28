@@ -18,7 +18,7 @@ export default function Login() {
       username: username,
       password: password,
     };
-    await loginUser(payload, dispatch);
+    loginUser(payload, dispatch);
   };
 
   if (logined) {

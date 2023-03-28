@@ -5,6 +5,7 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     loginAttempted: false,
+    loginFailed: false,
     logined: false,
     hasCreated: false,
   } as Store.AppState["auth"],
@@ -19,6 +20,11 @@ const slice = createSlice({
     },
     loginSuccess: (auth) => {
       auth.logined = true;
+      auth.loginFailed = false;
+    },
+    loginFailed: (auth) => {
+      auth.logined = false;
+      auth.loginFailed = true;
     },
     created: (auth) => {
       auth.hasCreated = true;
