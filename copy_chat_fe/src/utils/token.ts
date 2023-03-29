@@ -12,7 +12,7 @@ async function renew_token(refresh_token: string) {
     },
     body: r,
   }).then((data) => {
-    console.log("useToken>renew_token", data);
+    console.log("renew_token", data);
     return data.json();
   });
 }
@@ -44,5 +44,16 @@ export function getToken() {
       return next_token;
     }
     return token;
+  }
+}
+
+export function getHeaders() {
+  const token = getToken();
+  if (token !== undefined && token !== null)
+    return {
+      Authorization: `Bearer ${token}`,
+    };
+  else {
+    return undefined;
   }
 }

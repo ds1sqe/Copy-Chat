@@ -23,6 +23,9 @@ declare namespace Store {
       listenerAttached?: boolean;
       popuplistenerAttached?: boolean;
     };
+    entities: {
+      groups: Entity.Group[];
+    };
   }
   export interface Action<P> {
     type: string;

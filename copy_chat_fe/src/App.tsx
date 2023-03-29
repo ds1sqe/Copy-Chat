@@ -38,6 +38,14 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          {/* <Route */}
+          {/*   path="/group/:groupId/:subgroupId?" */}
+          {/*   element={ */}
+          {/*     <ProtectedRoute> */}
+          {/*       < */}
+          {/*     </ProtectedRoute> */}
+          {/*   } */}
+          {/* /> */}
         </Routes>
       </BrowserRouter>
     </div>

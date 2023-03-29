@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions as ui } from "../../store/ui";
 import { Store } from "../../types/store";
 import Listener from "./Listener/Listener";
+import CreateGroup from "./Modal/CreateGroup/CreateGroup";
 
 export type WrapperProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -23,6 +24,8 @@ export default function Wrapper(props: WrapperProps) {
     <div onClick={onClick}>
       {props.children}
       <Listener />
+
+      <CreateGroup />
     </div>
   );
 }

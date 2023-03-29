@@ -10,6 +10,9 @@ export namespace REST {
         username: string;
         password: string;
       };
+      "/group/create/": {
+        groupname: string;
+      };
     }
   }
 
