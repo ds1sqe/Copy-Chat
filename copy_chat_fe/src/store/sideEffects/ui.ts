@@ -24,7 +24,7 @@ export const openSaveChanges =
   };
 
 export function closeModal(dispatch: Dispatch) {
-  dispatch(actions.closedModal());
+  dispatch(actions.closeModal());
   openSaveChanges(false);
   dispatch(actions.focusedUser(null));
 }

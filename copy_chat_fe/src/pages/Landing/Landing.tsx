@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Wrapper from "../../components/share/Wrapper";
-import "./Landing.css";
 
 export default function Landing() {
   return (

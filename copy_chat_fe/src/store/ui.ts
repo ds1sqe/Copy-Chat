@@ -8,10 +8,10 @@ const slice = createSlice({
     popupNotifications: [],
   } as Store.AppState["ui"],
   reducers: {
-    openedModal: (state, { payload }) => {
+    openModal: (state, { payload }) => {
       state.openModal = payload;
     },
-    closedModal: (state) => {
+    closeModal: (state) => {
       delete state.openModal;
     },
     toggleDropdown: (state, { payload }) => {

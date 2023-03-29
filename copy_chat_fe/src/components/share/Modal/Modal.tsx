@@ -1,18 +1,20 @@
-import { Dialog, DialogTitle, IconButton, styled } from "@mui/material";
-import { useSelector } from "react-redux";
+import { CloseOutlined } from "@mui/icons-material";
+import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal } from "../../../store/sideEffects/ui";
 import { Store } from "../../../types/store";
 
-export interface DialogTitleProps {
+export interface ModalDialogTitleProps {
   id: string;
   children?: React.ReactNode;
   onClose?: () => void;
 }
 
-function BootstrapDialogTitle(props: DialogTitleProps) {
+function ModalDialogTitle(props: ModalDialogTitleProps) {
   const { children, onClose, ...other } = props;
 
   return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+    <DialogTitle sx={{ m: 0, paddingBottom: 4 }} {...other}>
       {children}
       {onClose ? (
         <IconButton
@@ -20,26 +22,17 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
           onClick={onClose}
           sx={{
             position: "absolute",
-            right: 8,
-            top: 8,
+            right: 0,
+            top: 0,
             color: (theme) => theme.palette.grey[500],
           }}
         >
-          Close
+          <CloseOutlined />
         </IconButton>
       ) : null}
     </DialogTitle>
   );
 }
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
 
 export interface ModalProps {
   typeName: string;
@@ -47,6 +40,8 @@ export interface ModalProps {
   title?: string;
   onClose?: Function;
   children: any;
+  maxWidth?: string;
+  fullWidth?: boolean;
 }
 
 const Modal: React.FunctionComponent<ModalProps> = ({
@@ -54,20 +49,34 @@ const Modal: React.FunctionComponent<ModalProps> = ({
   children,
   className,
   typeName,
+  maxWidth,
+  fullWidth,
 }) => {
   const openModal = useSelector((s: Store.AppState) => s.ui.openModal);
+  const dispatch = useDispatch();
+
+  const max_width = maxWidth ? maxWidth : "md";
+  const full_width = fullWidth ? fullWidth : false;
 
   return (
     <div className={className}>
-      <BootstrapDialog
+      <Dialog
         aria-labelledby="customized-dialog-title"
         open={openModal === typeName}
+        // @ts-expect-error
+        maxWidth={max_width}
+        fullWidth={full_width}
       >
-        <BootstrapDialogTitle id="customized-dialog-title">
-          {title}
-        </BootstrapDialogTitle>
-        {...children}
-      </BootstrapDialog>
+        <DialogContent>
+          <ModalDialogTitle
+            id="customized-dialog-title"
+            onClose={() => closeModal(dispatch)}
+          >
+            {title}
+          </ModalDialogTitle>
+          {children}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -1,3 +1,5 @@
+import { BusinessRounded, CheckCircle } from "@mui/icons-material";
+import { InputAdornment, FormControl, TextField, Fab } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createGroup } from "../../../../store/sideEffects/groups";
@@ -16,24 +18,37 @@ export default function CreateGroup() {
   };
 
   return (
-    <Modal className="CreateGroup" typeName={"CreateGuild"}>
-      <header className="G">
-        <h1>Create Group</h1>
-        <p>Create a Group.</p>
-      </header>
-
-      <h3 className="uppercase font-bold mt-10">Create Your Own</h3>
-
+    <Modal
+      className="CreateGroup"
+      typeName={"CreateGroup"}
+      title={"Create Group"}
+    >
       <form onSubmit={handleCreate}>
-        <label>
-          <p>Username</p>
-          <input
-            type="text"
-            autoComplete="username"
+        <FormControl>
+          <TextField
+            id="create_group_input"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <BusinessRounded />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Fab size="medium">
+                    <CheckCircle />
+                  </Fab>
+                </InputAdornment>
+              ),
+            }}
             onChange={(e) => setGroupname(e.target.value)}
+            label="Please Input New Group's Name"
+            variant="outlined"
+            placeholder="groupname"
             required
+            sx={{ p: 2 }}
           />
-        </label>
+        </FormControl>
       </form>
     </Modal>
   );
