@@ -4,7 +4,7 @@ import { Store } from "../../../types/store";
 import { useEffect } from "react";
 
 import { actions as meta } from "../../../store/meta";
-import PopupListner from "./listeners/popupListner";
+import PopupListener from "./listeners/popupListener";
 
 const Listener: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -15,12 +15,15 @@ const Listener: React.FunctionComponent = () => {
   useEffect(() => {
     if (listenerAttached) return;
     dispatch(meta.AttachListener());
+    // return () => {
+    //   dispatch(meta.DetachListener());
+    // };
   });
 
   return (
-    <div>
-      <PopupListner />
-    </div>
+    <>
+      <PopupListener />
+    </>
   );
 };
 

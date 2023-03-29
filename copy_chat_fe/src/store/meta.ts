@@ -13,6 +13,12 @@ const slice = createSlice({
     DetachListener: (meta) => {
       meta.listenerAttached = false;
     },
+    AttachPopUpListener: (meta) => {
+      meta.popuplistenerAttached = true;
+    },
+    DetachPopUpListener: (meta) => {
+      meta.popuplistenerAttached = false;
+    },
   },
 });
 

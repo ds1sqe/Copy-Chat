@@ -29,6 +29,9 @@ const slice = createSlice({
     created: (auth) => {
       auth.hasCreated = true;
     },
+    resetCreated: (auth) => {
+      auth.hasCreated = false;
+    },
   },
 });
 

@@ -21,6 +21,7 @@ declare namespace Store {
     };
     meta: {
       listenerAttached?: boolean;
+      popuplistenerAttached?: boolean;
     };
   }
   export interface Action<P> {

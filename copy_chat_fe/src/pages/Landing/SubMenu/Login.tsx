@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Login.css";
 
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Store } from "../../../types/store";
 import { loginUser } from "../../../store/sideEffects/auth";
+import { actions as auth } from "../../../store/auth";
 import Wrapper from "../../../components/share/Wrapper";
 
 export default function Login() {
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const logined = useSelector((s: Store.AppState) => s.auth.logined);
+  const isCreated = useSelector((s: Store.AppState) => s.auth.hasCreated);
   const dispatch = useDispatch();
 
   const handleLogin = async (e: any) => {
@@ -22,8 +24,16 @@ export default function Login() {
     loginUser(payload, dispatch);
   };
 
+  useEffect(() => {
+    dispatch(auth.resetCreated());
+  }, [dispatch, isCreated]);
+
   if (logined) {
-    return <Navigate to={`/@me/`} />;
+    return (
+      <Wrapper>
+        <Navigate to={`/@me/`} />;
+      </Wrapper>
+    );
   } else {
     return (
       <Wrapper>

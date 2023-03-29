@@ -2,7 +2,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { actions as api } from "../api";
 import { actions as auth } from "../auth";
 import { REST } from "../../types/rest.types";
-import { actions as ui } from "../ui";
+import { emit } from "../../utils/events";
 
 export const loginUser = async (
   data: REST.To.Post["/account/login/"],
@@ -24,18 +24,20 @@ export const loginUser = async (
           };
           sessionStorage.setItem("token", JSON.stringify(token));
           dispatch(auth.loginSuccess());
-          dispatch(
-            ui.addPopNotice({ content: "Login Success", variant: "success" })
-          );
+          emit("PopupNotice", { content: "Login Success", variant: "success" });
         } else {
-          dispatch(
-            ui.addPopNotice({ content: "Login Faild", variant: "error" })
-          );
+          emit("PopupNotice", {
+            content: "Login Faild, Please Check username and password",
+            variant: "warning",
+          });
         }
       },
       errorCallback: () => {
         dispatch(auth.loginFailed());
-        dispatch(ui.addPopNotice({ content: "Login Faild", variant: "error" }));
+        emit("PopupNotice", {
+          content: "Login Faild, Please Check username and password",
+          variant: "warning",
+        });
       },
     })
   );
@@ -54,7 +56,15 @@ export function registerUser(
       callback: (result) => {
         if (result?.success) {
           dispatch(auth.created());
+          emit("PopupNotice", {
+            content: "Account created. Please Login",
+            variant: "success",
+          });
         } else if (result?.msg) {
+          emit("PopupNotice", {
+            content: result?.msg,
+            variant: "warning",
+          });
         }
       },
       errorCallback: () => {},
