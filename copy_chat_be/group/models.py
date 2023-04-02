@@ -16,12 +16,11 @@ class Group(models.Model):
 
 
 class SubGroup(models.Model):
-    group = models.ForeignKey(Group,on_delete=models.CASCADE)
-    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=20)
-    description = models.CharField(max_length=120)
-    members = models.ManyToManyField(Account, related_name="joined_subgroups")
+    group = models.ForeignKey(Group,on_delete=models.CASCADE,related_name="subgroups")
 
+    name = models.CharField(max_length=20)
+
+    description = models.CharField(max_length=120)
 
     def __str__(self):
         return f'{self.name}'

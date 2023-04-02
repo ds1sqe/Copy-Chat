@@ -10,6 +10,7 @@ import ForgetPassword from "./pages/Landing/SubMenu/ForgetPassword";
 
 import Invitation from "./pages/Invitation/Invitation";
 import DashBoard from "./pages/DashBoard/DashBoard";
+import Group from "./pages/Group/Group";
 
 export default function App() {
   return (
@@ -38,14 +39,14 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          {/* <Route */}
-          {/*   path="/group/:groupId/:subgroupId?" */}
-          {/*   element={ */}
-          {/*     <ProtectedRoute> */}
-          {/*       < */}
-          {/*     </ProtectedRoute> */}
-          {/*   } */}
-          {/* /> */}
+          <Route
+            path="/group/:groupId/:subgroupId?"
+            element={
+              <ProtectedRoute>
+                <Group />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

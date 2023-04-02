@@ -10,7 +10,10 @@ export default function Navbar() {
       {group && (
         <h3 className="group-header">
           <span>{group?.name}</span>
-          <span>{group?.id}</span>
+          <span>
+            <br />
+            id:{group?.id}
+          </span>
         </h3>
       )}
       {subgroup && (

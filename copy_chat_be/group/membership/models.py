@@ -5,15 +5,19 @@ from group.models import Group
 
 class Permission:
     """
-    1         1      => invite member
-    2        10      => kick member
+     1             1      => invite member
+     2            10      => kick member
 
-    4       100      => grant membership (give or take membership)
-    8      1000      => change membership (permission, name)
+     4           100      => grant membership (give or take membership)
+     8          1000      => change membership (permission, name)
 
-    16    10000      => delete group
-    32   100000      => modify group
+     16        10000      => delete group
+     32       100000      => modify group
 
+     64      1000000      => create subgroup
+    128     10000000      => delete subgroup
+
+    255 => all
     """
     
     def __init__(self,permission):
@@ -26,8 +30,11 @@ class Permission:
         self.delete_group = (16&permission)>0
         self.modify_group = (32&permission)>0
 
+        self.create_subgroup = (64&permission)>0
+        self.delete_subgroup = (128&permission)>0
+
     def all():
-        return 63
+        return 255
 
     def invite_only():
         return 1
