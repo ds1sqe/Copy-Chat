@@ -19,6 +19,9 @@ const slice = createSlice({
         })
       );
     },
+    remove: (groups, { payload }: PayloadAction<number>) => {
+      return groups.filter((old) => old.id !== payload);
+    },
   },
 });
 

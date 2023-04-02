@@ -20,5 +20,3 @@ class Message(models.Model):
         verbose_name = 'Message'
         verbose_name_plural = 'Messages'
         ordering = ['-id']
-
-    # def __str__(self):

@@ -13,7 +13,10 @@ export async function getGroup(dispatch: Dispatch) {
       headers: await getHeaders(),
       url: `/group/`,
       callback: (result) => {
-        dispatch(group.fetch(result));
+        console.log(result);
+        if (result?.group !== null && result?.group !== undefined) {
+          dispatch(group.fetch(result?.group));
+        }
       },
       errorCallback: (result) => {
         console.log(result.data);
@@ -41,6 +44,44 @@ export async function createGroup(
             variant: "success",
           });
           dispatch(group.add(result?.group));
+        } else {
+          console.log(result);
+          emit("PopupNotice", {
+            content: result?.msg,
+            variant: "warning",
+          });
+        }
+      },
+      errorCallback: (result) => {
+        console.log(result.data);
+        emit("PopupNotice", {
+          content: "Group Creation Faild, detail:" + result?.data?.msg,
+          variant: "warning",
+        });
+      },
+    })
+  );
+}
+
+export async function deleteGroup(
+  data: REST.To.Post["/group/delete"],
+  dispatch: Dispatch
+) {
+  dispatch(
+    api.restCallInit({
+      onSuccess: [],
+      method: "delete",
+      headers: await getHeaders(),
+      data,
+      url: `/group/`,
+      callback: (result) => {
+        if (result?.success) {
+          console.log(result);
+          emit("PopupNotice", {
+            content: "Group Remove Success",
+            variant: "success",
+          });
+          dispatch(group.remove(result?.group_id));
         } else {
           console.log(result);
           emit("PopupNotice", {

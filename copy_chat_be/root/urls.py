@@ -26,5 +26,4 @@ urlpatterns = [
     path('account/password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
 
     path('group/',GroupView.as_view(),name='group')
-
 ]

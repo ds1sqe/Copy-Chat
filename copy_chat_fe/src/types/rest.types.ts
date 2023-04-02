@@ -13,6 +13,9 @@ export namespace REST {
       "/group/": {
         groupname: string;
       };
+      "/group/delete": {
+        group_id: number;
+      };
     }
   }
 
