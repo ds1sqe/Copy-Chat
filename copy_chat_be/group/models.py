@@ -4,8 +4,12 @@ from account.models import Account
 
 class Group(models.Model):
     name = models.CharField(max_length=20,unique=True)
-    description = models.CharField(max_length=120,null=True,blank=True)
     members = models.ManyToManyField(Account, related_name="joined_groups",blank=True)
+
+    description = models.CharField(max_length=120,null=True,blank=True)
+
+    searchable = models.BooleanField(default=True)
+    invitationNeeded = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.name}'
