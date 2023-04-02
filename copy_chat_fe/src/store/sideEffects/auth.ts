@@ -1,6 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import { actions as api } from "../api";
 import { actions as auth } from "../auth";
+import { actions as meta } from "../meta";
 import { REST } from "../../types/rest.types";
 import { emit } from "../../utils/events";
 
@@ -24,6 +25,8 @@ export const loginUser = async (
           };
           sessionStorage.setItem("token", JSON.stringify(token));
           dispatch(auth.loginSuccess());
+          dispatch(meta.FetchNeeded());
+
           emit("PopupNotice", { content: "Login Success", variant: "success" });
         } else {
           emit("PopupNotice", {

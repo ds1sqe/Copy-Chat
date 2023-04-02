@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "data.apps.InvitationConfig",
     "data.apps.CounterConfig",
     "group.apps.GroupConfig",
-    "group.apps.GroupRollConfig",
+    "group.apps.GroupMembershipConfig",
     # 3rd party
     "rest_framework",
     "rest_framework.authtoken",

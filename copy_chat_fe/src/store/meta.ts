@@ -5,6 +5,8 @@ const slice = createSlice({
   name: "meta",
   initialState: {
     listenerAttached: false,
+    fetchNeeded: false,
+    isFetching: false,
   } as Store.AppState["meta"],
   reducers: {
     AttachListener: (meta) => {
@@ -18,6 +20,18 @@ const slice = createSlice({
     },
     DetachPopUpListener: (meta) => {
       meta.popuplistenerAttached = false;
+    },
+    FetchNeeded: (meta) => {
+      meta.fetchNeeded = true;
+    },
+    FetchNotNeeded: (meta) => {
+      meta.fetchNeeded = false;
+    },
+    FetchingStart: (meta) => {
+      meta.isFetching = true;
+    },
+    FetchingEnd: (meta) => {
+      meta.isFetching = false;
     },
   },
 });

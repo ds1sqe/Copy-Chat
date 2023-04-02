@@ -21,9 +21,7 @@ export const rest: Middleware<{}> = (store) => (next) => async (action) => {
       headers,
     })
     .then((response) => {
-      console.log(response);
       const result = response.data;
-      console.log(result);
 
       store.dispatch(actions.restCallSucceded({ url, response: result }));
       if (onSuccess)
@@ -32,7 +30,8 @@ export const rest: Middleware<{}> = (store) => (next) => async (action) => {
     })
     .catch((err) => {
       const response = (err as any).response;
-      store.dispatch(actions.restCallFailed({ url, response }));
+      const result = response.data;
+      store.dispatch(actions.restCallFailed({ url, response: result }));
       if (errorCallback) errorCallback(response);
     });
 };

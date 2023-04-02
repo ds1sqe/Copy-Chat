@@ -58,15 +58,13 @@ export default function Login() {
               Please login
             </Typography>
 
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                console.log(e);
-              }}
-            >
+            <form onSubmit={handleLogin}>
               <FormControl sx={{ marginBottom: 6, padding: 2 }}>
                 <TextField
                   id="username"
+                  autoComplete="username"
+                  value={username}
+                  onChange={(e) => setUserName(e.target.value)}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -75,6 +73,7 @@ export default function Login() {
                     ),
                   }}
                   label="Account id"
+                  required
                   variant="outlined"
                   placeholder="Username"
                   sx={{ p: 2 }}
@@ -88,7 +87,11 @@ export default function Login() {
                       </InputAdornment>
                     ),
                   }}
+                  type="password"
+                  autoComplete="current-password"
+                  onChange={(e) => setPassword(e.target.value)}
                   label="Password"
+                  required
                   variant="outlined"
                   placeholder="Password"
                   sx={{ p: 2 }}
@@ -115,48 +118,48 @@ export default function Login() {
           </Grid>
         </div>
 
-        <div>
-          <form action="" onSubmit={handleLogin}>
-            <label>
-              <p>Username</p>
-              <input
-                type="text"
-                autoComplete="username"
-                onChange={(e) => setUserName(e.target.value)}
-                required
-              />
-            </label>
-            <label>
-              <p>Password</p>
-              <input
-                type="password"
-                autoComplete="current-password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </label>
-            <div>
-              <button type="submit">Login</button>
-            </div>
-          </form>
-          <footer>
-            <p>
-              Did you forgot password?
-              <Link to="/forgot-password/">
-                <label className="login-forgot-password">
-                  {" "}
-                  Reset my password
-                </label>
-              </Link>
-            </p>
-            <p>
-              First time?
-              <Link to="/register/">
-                <label className="login-register"> Create an account</label>
-              </Link>
-            </p>
-          </footer>
-        </div>
+        {/* <div> */}
+        {/*   <form onSubmit={handleLogin}> */}
+        {/*     <label> */}
+        {/*       <p>Username</p> */}
+        {/*       <input */}
+        {/*         type="text" */}
+        {/*         autoComplete="username" */}
+        {/*         onChange={(e) => setUserName(e.target.value)} */}
+        {/*         required */}
+        {/*       /> */}
+        {/*     </label> */}
+        {/*     <label> */}
+        {/*       <p>Password</p> */}
+        {/*       <input */}
+        {/*         type="password" */}
+        {/*         autoComplete="current-password" */}
+        {/*         onChange={(e) => setPassword(e.target.value)} */}
+        {/*         required */}
+        {/*       /> */}
+        {/*     </label> */}
+        {/*     <div> */}
+        {/*       <button type="submit">Login</button> */}
+        {/*     </div> */}
+        {/*   </form> */}
+        {/*   <footer> */}
+        {/*     <p> */}
+        {/*       Did you forgot password? */}
+        {/*       <Link to="/forgot-password/"> */}
+        {/*         <label className="login-forgot-password"> */}
+        {/*           {" "} */}
+        {/*           Reset my password */}
+        {/*         </label> */}
+        {/*       </Link> */}
+        {/*     </p> */}
+        {/*     <p> */}
+        {/*       First time? */}
+        {/*       <Link to="/register/"> */}
+        {/*         <label className="login-register"> Create an account</label> */}
+        {/*       </Link> */}
+        {/*     </p> */}
+        {/*   </footer> */}
+        {/* </div> */}
       </Wrapper>
     );
   }

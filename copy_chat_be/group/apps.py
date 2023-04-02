@@ -5,6 +5,6 @@ class GroupConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'group'
 
-class GroupRollConfig(AppConfig):
+class GroupMembershipConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'group.roll'
+    name = 'group.membership'

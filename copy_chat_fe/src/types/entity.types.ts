@@ -9,6 +9,8 @@ export namespace Entity {
   export interface Group {
     id: number;
     name: string;
+    description?: string;
+    member_ids: number[];
   }
   export interface SubGroup {
     id: number;

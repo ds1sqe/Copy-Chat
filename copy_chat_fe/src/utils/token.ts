@@ -12,12 +12,11 @@ async function renew_token(refresh_token: string) {
     },
     body: r,
   }).then((data) => {
-    console.log("renew_token", data);
     return data.json();
   });
 }
 
-export function getToken() {
+export async function getToken() {
   let __token = sessionStorage.getItem("token");
   if (__token !== null) {
     let token = JSON.parse(__token);
@@ -28,10 +27,13 @@ export function getToken() {
         "useToken>getToken:token expired. refreshing with ",
         JSON.stringify(token?.refresh_token)
       );
-      const new_access_token = renew_token(token?.refresh_token);
-      console.log("useToken>getToken:new_access_token:", new_access_token);
+      const new_access_token = await renew_token(token?.refresh_token);
+      console.log(
+        "useToken>getToken:new_access_token:",
+        new_access_token?.access
+      );
       const next_token = {
-        access_token: new_access_token,
+        access_token: new_access_token?.access,
         refresh_token: token?.refresh_token,
         /*
          * expire time => 5 * 60 * 1000 => 300,000ms
@@ -47,11 +49,11 @@ export function getToken() {
   }
 }
 
-export function getHeaders() {
-  const token = getToken();
+export async function getHeaders() {
+  const token = await getToken();
   if (token !== undefined && token !== null)
     return {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token?.access_token}`,
     };
   else {
     return undefined;

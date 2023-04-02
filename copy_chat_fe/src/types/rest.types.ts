@@ -10,14 +10,16 @@ export namespace REST {
         username: string;
         password: string;
       };
-      "/group/create/": {
+      "/group/": {
         groupname: string;
       };
     }
   }
 
   export namespace From {
-    export interface Get {}
+    export interface Get {
+      "/group/": {};
+    }
     export interface Post {}
   }
 }

@@ -20,6 +20,8 @@ declare namespace Store {
       popupNotifications: Ui.PopUpNotification[];
     };
     meta: {
+      fetchNeeded?: boolean;
+      isFetching?: boolean;
       listenerAttached?: boolean;
       popuplistenerAttached?: boolean;
     };

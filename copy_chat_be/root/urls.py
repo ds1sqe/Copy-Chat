@@ -7,6 +7,8 @@ from django.urls import path
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView, TokenVerifyView)
 
+from group.views import GroupView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -22,4 +24,7 @@ urlpatterns = [
     path('account/logout/', LogoutView.as_view(), name='rest_logout'),
     path('account/detail/', UserDetailsView.as_view(), name='rest_user_details'),
     path('account/password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
+
+    path('group/',GroupView.as_view(),name='group')
+
 ]

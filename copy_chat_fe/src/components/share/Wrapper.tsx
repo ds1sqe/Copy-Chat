@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as ui } from "../../store/ui";
 import { Store } from "../../types/store";
+import FetchData from "./FetchData/FetchData";
 import Listener from "./Listener/Listener";
 import CreateGroup from "./Modal/CreateGroup/CreateGroup";
 
@@ -23,8 +24,9 @@ export default function Wrapper(props: WrapperProps) {
   return (
     <div onClick={onClick}>
       {props.children}
-      <Listener />
 
+      <Listener />
+      <FetchData />
       <CreateGroup />
     </div>
   );
