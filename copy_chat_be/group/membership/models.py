@@ -17,7 +17,11 @@ class Permission:
      64      1000000      => create subgroup
     128     10000000      => delete subgroup
 
-    255 => all
+    256    100000000      => create channel
+    512   1000000000      => delete channel
+
+
+    1023 => all
     """
     
     def __init__(self,permission):
@@ -33,8 +37,11 @@ class Permission:
         self.create_subgroup = (64&permission)>0
         self.delete_subgroup = (128&permission)>0
 
+        self.create_channel = (256&permission)>0
+        self.delete_channel = (512&permission)>0
+
     def all():
-        return 255
+        return 1023
 
     def invite_only():
         return 1
