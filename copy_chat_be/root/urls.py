@@ -7,7 +7,9 @@ from django.urls import path
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView, TokenVerifyView)
 
-from group.views.group_views import GroupCreateView, GroupDeleteView, GroupFetchView
+from group.views.group_fetch_views import GroupFetchView
+
+from group.views.group_views import GroupCreateView, GroupDeleteView
 from group.views.subgroup_views import SubGroupCreateView, SubGroupDeleteView
 from group.views.channel_views import ChannelCreateView,ChannelDeleteView
 
@@ -30,6 +32,7 @@ urlpatterns = [
     # URL for fetch data
     path('fetch/group/',GroupFetchView.as_view(),name='group_fetch'),
 
+    # URL for group create, update, delete
     path('group/create/',GroupCreateView.as_view(),name='group_create'),
     path('group/delete/',GroupDeleteView.as_view(),name='group_delete'),
 

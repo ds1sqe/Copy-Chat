@@ -3,29 +3,8 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated 
 from rest_framework.request import Request 
 from ..membership.models import GroupMembership, Permission 
-from ..models import Group
-from ..serializers import GroupCreateSerializer, GroupDefaultSerializer, GroupFetchSerializer, SubGroupSerializer
-
-class GroupFetchView(generics.ListAPIView):
-    http_method_names = ["get"]
-    permission_classes = (IsAuthenticated,)
-    serializer_class = GroupFetchSerializer
-
-    def get(self, request: Request, *args, **kwargs):
-        """
-        get groups which accounts' owner have enlisted
-        """
-        groups = request.user.joined_groups.all()
-        if len(groups) == 0:
-            return JsonResponse(
-                status=status.HTTP_204_NO_CONTENT, data={"group": None}, safe=False
-            )
-        else:
-            s = self.get_serializer(groups, many=True)
-            return JsonResponse(data={"group": s.data}, safe=False)
-
-
-
+from ..models import Group, Channel
+from ..serializers import GroupCreateSerializer, GroupDefaultSerializer
 
 class GroupCreateView(generics.CreateAPIView):
     http_method_names = ["post"]
@@ -77,12 +56,16 @@ class GroupCreateView(generics.CreateAPIView):
                     permission=Permission.invite_only(),
                 )
 
+                c = Channel.objects.create(is_unique=True,group=group,name=group_name)
+
                 return JsonResponse(
                     status=status.HTTP_201_CREATED,
                     data={
                         "success": True,
                         "msg": "group created",
                         "group": GroupCreateSerializer(group).data,
+                        "membership":membership,
+                        "channel":c,
                     },
                     safe=False,
                 )
