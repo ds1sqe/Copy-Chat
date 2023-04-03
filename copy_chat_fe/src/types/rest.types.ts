@@ -10,10 +10,10 @@ export namespace REST {
         username: string;
         password: string;
       };
-      "/group/": {
+      "/group/create/": {
         groupname: string;
       };
-      "/group/delete": {
+      "/group/delete/": {
         group_id: number;
       };
     }

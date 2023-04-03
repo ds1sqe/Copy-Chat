@@ -11,7 +11,7 @@ export async function getGroup(dispatch: Dispatch) {
       onSuccess: [],
       method: "get",
       headers: await getHeaders(),
-      url: `/group/`,
+      url: `/fetch/group/`,
       callback: (result) => {
         console.log(result);
         if (result?.group !== null && result?.group !== undefined) {
@@ -26,7 +26,7 @@ export async function getGroup(dispatch: Dispatch) {
 }
 
 export async function createGroup(
-  data: REST.To.Post["/group/"],
+  data: REST.To.Post["/group/create/"],
   dispatch: Dispatch
 ) {
   dispatch(
@@ -35,7 +35,7 @@ export async function createGroup(
       method: "post",
       headers: await getHeaders(),
       data,
-      url: `/group/`,
+      url: `/group/create/`,
       callback: (result) => {
         if (result?.success) {
           console.log(result);
@@ -64,7 +64,7 @@ export async function createGroup(
 }
 
 export async function deleteGroup(
-  data: REST.To.Post["/group/delete"],
+  data: REST.To.Post["/group/delete/"],
   dispatch: Dispatch
 ) {
   dispatch(
@@ -73,7 +73,7 @@ export async function deleteGroup(
       method: "delete",
       headers: await getHeaders(),
       data,
-      url: `/group/`,
+      url: `/group/delete/`,
       callback: (result) => {
         if (result?.success) {
           console.log(result);

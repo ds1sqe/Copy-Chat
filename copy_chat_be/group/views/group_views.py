@@ -3,10 +3,10 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated 
 from rest_framework.request import Request 
 from ..membership.models import GroupMembership, Permission 
-from ..models import Group, SubGroup
+from ..models import Group
 from ..serializers import GroupCreateSerializer, GroupDefaultSerializer, GroupFetchSerializer, SubGroupSerializer
 
-class GroupFetchSerializer(generics.ListAPIView):
+class GroupFetchView(generics.ListAPIView):
     http_method_names = ["get"]
     permission_classes = (IsAuthenticated,)
     serializer_class = GroupFetchSerializer

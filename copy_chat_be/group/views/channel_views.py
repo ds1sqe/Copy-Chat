@@ -91,7 +91,7 @@ class ChannelCreateView(generics.CreateAPIView):
 
 
 
-class SubGroupDeleteView(generics.DestroyAPIView):
+class ChannelDeleteView(generics.DestroyAPIView):
     http_method_names = ["delete"]
     permission_classes = (IsAuthenticated,)
     serializer_class = ChannelSerializer

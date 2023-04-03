@@ -7,7 +7,9 @@ from django.urls import path
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView, TokenVerifyView)
 
-from group.views import GroupView
+from group.views.group_views import GroupCreateView, GroupDeleteView, GroupFetchView
+from group.views.subgroup_views import SubGroupCreateView, SubGroupDeleteView
+from group.views.channel_views import ChannelCreateView,ChannelDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +27,15 @@ urlpatterns = [
     path('account/detail/', UserDetailsView.as_view(), name='rest_user_details'),
     path('account/password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
 
-    path('group/',GroupView.as_view(),name='group')
+    # URL for fetch data
+    path('fetch/group/',GroupFetchView.as_view(),name='group_fetch'),
+
+    path('group/create/',GroupCreateView.as_view(),name='group_create'),
+    path('group/delete/',GroupDeleteView.as_view(),name='group_delete'),
+
+    path('subgroup/create/',SubGroupCreateView.as_view(),name='subgroup_create'),
+    path('subgroup/delete/',SubGroupDeleteView.as_view(),name='subgroup_delete'),
+
+    path('channel/create/',ChannelCreateView.as_view(),name='channel_create'),
+    path('channel/delete/',ChannelDeleteView.as_view(),name='channel_delete'),
 ]
