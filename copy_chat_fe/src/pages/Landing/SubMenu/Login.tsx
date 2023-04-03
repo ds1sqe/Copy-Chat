@@ -117,49 +117,6 @@ export default function Login() {
             </Typography>
           </Grid>
         </div>
-
-        {/* <div> */}
-        {/*   <form onSubmit={handleLogin}> */}
-        {/*     <label> */}
-        {/*       <p>Username</p> */}
-        {/*       <input */}
-        {/*         type="text" */}
-        {/*         autoComplete="username" */}
-        {/*         onChange={(e) => setUserName(e.target.value)} */}
-        {/*         required */}
-        {/*       /> */}
-        {/*     </label> */}
-        {/*     <label> */}
-        {/*       <p>Password</p> */}
-        {/*       <input */}
-        {/*         type="password" */}
-        {/*         autoComplete="current-password" */}
-        {/*         onChange={(e) => setPassword(e.target.value)} */}
-        {/*         required */}
-        {/*       /> */}
-        {/*     </label> */}
-        {/*     <div> */}
-        {/*       <button type="submit">Login</button> */}
-        {/*     </div> */}
-        {/*   </form> */}
-        {/*   <footer> */}
-        {/*     <p> */}
-        {/*       Did you forgot password? */}
-        {/*       <Link to="/forgot-password/"> */}
-        {/*         <label className="login-forgot-password"> */}
-        {/*           {" "} */}
-        {/*           Reset my password */}
-        {/*         </label> */}
-        {/*       </Link> */}
-        {/*     </p> */}
-        {/*     <p> */}
-        {/*       First time? */}
-        {/*       <Link to="/register/"> */}
-        {/*         <label className="login-register"> Create an account</label> */}
-        {/*       </Link> */}
-        {/*     </p> */}
-        {/*   </footer> */}
-        {/* </div> */}
       </Wrapper>
     );
   }

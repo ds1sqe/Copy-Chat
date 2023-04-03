@@ -1,3 +1,14 @@
+import { AccountCircle, EmailOutlined, Key } from "@mui/icons-material";
+import {
+  Checkbox,
+  FormControl,
+  FormLabel,
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+  Link as Mlink,
+} from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
@@ -32,58 +43,95 @@ export default function Register() {
     return (
       <Wrapper>
         <div className="register-wrapper">
-          <h2>Join us</h2>
-          <h5>Create your account</h5>
+          <Grid
+            container
+            direction="column"
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={12}
+            sx={{ marginTop: 6 }}
+          >
+            <Typography variant="h3" sx={{ py: 3 }}>
+              Join us
+            </Typography>
 
-          <form onSubmit={handleRegister}>
-            <p>
-              <label>Username</label>
-              <br />
-              <input
-                type="text"
-                name="username"
-                onChange={(e) => setUserName(e.target.value)}
-                required
-              />
-            </p>
-            <p>
-              <label>Email address</label>
-              <br />
-              <input
-                type="email"
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-              />
-            </p>
-            <p>
-              <label>Password</label>
-              <br />
-              <input
-                type="password"
-                name="password"
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-              />
-            </p>
-            <p>
-              <input type="checkbox" name="checkbox" id="checkbox" required />{" "}
-              <span>
-                I agree all statements in{" "}
-                <a href="https://google.com">terms of service</a>
-              </span>
-              .
-            </p>
-            <p>
-              <button type="submit">Register</button>
-            </p>
-          </form>
+            <Typography variant="h6" sx={{ py: 1 }}>
+              Create your account
+            </Typography>
 
-          <footer>
-            <Link to="/">
-              <p>Back to Landing Page.</p>
-            </Link>
-          </footer>
+            <form onSubmit={handleRegister}>
+              <FormControl>
+                <TextField
+                  id="username"
+                  autoComplete="username"
+                  value={username}
+                  onChange={(e) => setUserName(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle />
+                      </InputAdornment>
+                    ),
+                  }}
+                  label="Account id"
+                  required
+                  variant="outlined"
+                  placeholder="Username"
+                  sx={{ p: 2 }}
+                />
+                <TextField
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <EmailOutlined />
+                      </InputAdornment>
+                    ),
+                  }}
+                  label="Email"
+                  variant="outlined"
+                  placeholder="Email"
+                  sx={{ p: 2 }}
+                />
+
+                <TextField
+                  id="password"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Key />
+                      </InputAdornment>
+                    ),
+                  }}
+                  type="password"
+                  autoComplete="new-password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  label="Password"
+                  required
+                  variant="outlined"
+                  placeholder="Password"
+                  sx={{ p: 2 }}
+                />
+                <FormLabel>
+                  <span>
+                    I agree all statements in{" "}
+                    <Mlink href="https://google.com">terms of service</Mlink>
+                  </span>
+                  <Checkbox required={true}></Checkbox>
+                </FormLabel>
+              </FormControl>
+            </form>
+
+            <footer>
+              <Link to="/">
+                <Typography variant="body2">Back to Landing Page.</Typography>
+              </Link>
+            </footer>
+          </Grid>
         </div>
       </Wrapper>
     );

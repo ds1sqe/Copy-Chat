@@ -1,3 +1,4 @@
+import { Button, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Wrapper from "../../components/share/Wrapper";
 
@@ -5,19 +6,48 @@ export default function Landing() {
   return (
     <Wrapper>
       <div className="landing-root">
-        <header className="landing-header">Login / Register</header>
-        <div className="landing-button-root">
-          <Link to="login">
-            <button className="landing-button-login">log in</button>
-          </Link>
+        <Grid
+          container
+          direction="column"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={12}
+          sx={{ marginTop: 6, p: 3 }}
+        >
+          <Typography variant="h3" sx={{ py: 3 }}>
+            Join us Now
+          </Typography>
 
-          <Link to="register">
-            <button className="landing-button-register">
-              <span>register </span>
-            </button>
-          </Link>
-        </div>
-        <p className="landing-para">join us now</p>
+          <div className="landing-button-root">
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-evenly"
+              alignItems="center"
+              spacing={1}
+              sx={{ marginTop: 3, p: 1 }}
+            >
+              <Grid item>
+                <div>
+                  <Link to="login">
+                    <Button type="button" variant="outlined">
+                      <Typography variant="body1">Login</Typography>
+                    </Button>
+                  </Link>
+                </div>
+              </Grid>
+              <Grid item>
+                <div>
+                  <Link to="register">
+                    <Button type="button" variant="outlined">
+                      <Typography variant="body1">Register</Typography>
+                    </Button>
+                  </Link>
+                </div>
+              </Grid>
+            </Grid>
+          </div>
+        </Grid>
       </div>
     </Wrapper>
   );
