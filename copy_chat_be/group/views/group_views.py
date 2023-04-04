@@ -3,8 +3,9 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated 
 from rest_framework.request import Request 
 from ..membership.models import GroupMembership, Permission 
+from ..membership.serializers import GroupMembershipSerializer
 from ..models import Group, Channel
-from ..serializers import GroupCreateSerializer, GroupDefaultSerializer
+from ..serializers import ChannelSerializer, GroupCreateSerializer, GroupDefaultSerializer
 
 class GroupCreateView(generics.CreateAPIView):
     http_method_names = ["post"]
@@ -64,8 +65,8 @@ class GroupCreateView(generics.CreateAPIView):
                         "success": True,
                         "msg": "group created",
                         "group": GroupCreateSerializer(group).data,
-                        "membership":membership,
-                        "channel":c,
+                        "membership":GroupMembershipSerializer(membership).data,
+                        "channel":ChannelSerializer(c).data,
                     },
                     safe=False,
                 )
@@ -74,7 +75,7 @@ class GroupCreateView(generics.CreateAPIView):
             )
 
 class GroupDeleteView(generics.DestroyAPIView):
-    http_method_names = ["post"]
+    http_method_names = ["delete"]
     permission_classes = (IsAuthenticated,)
     serializer_class = GroupDefaultSerializer
 

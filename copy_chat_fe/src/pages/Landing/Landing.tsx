@@ -14,6 +14,10 @@ export default function Landing() {
           spacing={12}
           sx={{ marginTop: 6, p: 3 }}
         >
+          <Typography variant="h1" sx={{ py: 3 }}>
+            Copy Chat
+          </Typography>
+
           <Typography variant="h3" sx={{ py: 3 }}>
             Join us Now
           </Typography>

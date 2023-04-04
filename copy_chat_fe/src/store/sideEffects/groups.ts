@@ -4,6 +4,7 @@ import { actions as group } from "../groups";
 import { REST } from "../../types/rest.types";
 import { emit } from "../../utils/events";
 import { getHeaders } from "../../utils/token";
+import { Entity } from "../../types/entity.types";
 
 export async function getGroup(dispatch: Dispatch) {
   dispatch(
@@ -43,7 +44,13 @@ export async function createGroup(
             content: "Group Creation Success",
             variant: "success",
           });
-          dispatch(group.add(result?.group));
+          const createdGroup: Entity.Group = {
+            ...result?.group,
+            channels: [result?.channel],
+            memberships: [result?.membership],
+          };
+
+          dispatch(group.add(createdGroup));
         } else {
           console.log(result);
           emit("PopupNotice", {

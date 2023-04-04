@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
   Link as Mlink,
+  Button,
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -123,6 +124,9 @@ export default function Register() {
                   </span>
                   <Checkbox required={true}></Checkbox>
                 </FormLabel>
+                <Button type="submit" variant="outlined">
+                  Register
+                </Button>
               </FormControl>
             </form>
 

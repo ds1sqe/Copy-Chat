@@ -11,10 +11,12 @@ class GroupDefaultSerializer(serializers.ModelSerializer):
 
 class GroupCreateSerializer(GroupDefaultSerializer):
     class Meta:
+        model = Group
         fields = ["id", "name", "description", "members"]
 
 class GroupFetchSerializer(GroupDefaultSerializer):
     class Meta:
+        model = Group
         fields = ["id", "name", "description", "members"]
 
 
@@ -26,4 +28,4 @@ class SubGroupSerializer(serializers.ModelSerializer):
 class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
-        fields = ["group","subgroup","id","name"]
+        fields = ["group","subgroup","id","name","is_unique","type"]
