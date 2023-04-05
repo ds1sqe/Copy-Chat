@@ -1,10 +1,15 @@
 import { Dispatch } from "@reduxjs/toolkit";
+
 import { actions as api } from "../api";
+
 import { actions as group } from "../groups";
+import { actions as subgroup } from "../subgroups";
+import { actions as channel } from "../channels";
+import { actions as membership } from "../memberships";
+
 import { REST } from "../../types/rest.types";
 import { emit } from "../../utils/events";
 import { getHeaders } from "../../utils/token";
-import { Entity } from "../../types/entity.types";
 
 export async function getGroup(dispatch: Dispatch) {
   dispatch(
@@ -44,13 +49,9 @@ export async function createGroup(
             content: "Group Creation Success",
             variant: "success",
           });
-          const createdGroup: Entity.Group = {
-            ...result?.group,
-            channels: [result?.channel],
-            memberships: [result?.membership],
-          };
-
-          dispatch(group.add(createdGroup));
+          dispatch(group.add(result?.group));
+          dispatch(channel.add(result?.channel));
+          dispatch(membership.add(result?.membership));
         } else {
           console.log(result);
           emit("PopupNotice", {
@@ -89,6 +90,9 @@ export async function deleteGroup(
             variant: "success",
           });
           dispatch(group.remove(result?.group_id));
+          dispatch(subgroup.remove_by_groupid(result?.group_id));
+          dispatch(channel.remove_by_groupid(result?.group_id));
+          dispatch(membership.remove_by_groupid(result?.group_id));
         } else {
           console.log(result);
           emit("PopupNotice", {

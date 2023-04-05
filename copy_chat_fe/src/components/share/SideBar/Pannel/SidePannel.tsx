@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/configStore";
-import GroupPannel from "./Group/GroupPanel";
+import GroupPannel from "./Group/GroupPannel";
 import MyPannel from "./Me/MyContents";
 
 export default function SidePannel() {
