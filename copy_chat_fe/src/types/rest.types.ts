@@ -16,6 +16,23 @@ export namespace REST {
       "/group/delete/": {
         group_id: number;
       };
+      "/subgroup/create/": {
+        group_id: number;
+        subgroup_name: string;
+      };
+      "/subgroup/delete/": {
+        group_id: number;
+        subgroup_id: number;
+      };
+      "/channel/create/": {
+        group_id: number;
+        subgroup_id: number;
+        channel_name: string;
+      };
+      "/channel/delete/": {
+        group_id: number;
+        subgroup_id: number;
+      };
     }
   }
 

@@ -2,37 +2,14 @@ import { Dispatch } from "@reduxjs/toolkit";
 
 import { actions as api } from "../api";
 
-import { actions as group } from "../groups";
 import { actions as subgroup } from "../subgroups";
-import { actions as channel } from "../channels";
-import { actions as membership } from "../memberships";
 
 import { REST } from "../../types/rest.types";
 import { emit } from "../../utils/events";
 import { getHeaders } from "../../utils/token";
 
-export async function getGroup(dispatch: Dispatch) {
-  dispatch(
-    api.restCallInit({
-      onSuccess: [],
-      method: "get",
-      headers: await getHeaders(),
-      url: `/fetch/group/`,
-      callback: (result) => {
-        console.log(result);
-        if (result?.groups !== null && result?.groups !== undefined) {
-          dispatch(group.fetch(result?.groups));
-        }
-      },
-      errorCallback: (result) => {
-        console.log(result.data);
-      },
-    })
-  );
-}
-
-export async function createGroup(
-  data: REST.To.Post["/group/create/"],
+export async function createSubgroup(
+  data: REST.To.Post["/subgroup/create/"],
   dispatch: Dispatch
 ) {
   dispatch(
@@ -41,7 +18,7 @@ export async function createGroup(
       method: "post",
       headers: await getHeaders(),
       data,
-      url: `/group/create/`,
+      url: `/subgroup/create/`,
       callback: (result) => {
         if (result?.success) {
           console.log(result);
@@ -49,10 +26,7 @@ export async function createGroup(
             content: "Group Creation Success",
             variant: "success",
           });
-          dispatch(group.add(result?.group));
           dispatch(subgroup.add(result?.subgroup));
-          dispatch(channel.add(result?.channel));
-          dispatch(membership.add(result?.membership));
         } else {
           console.log(result);
           emit("PopupNotice", {
@@ -72,8 +46,8 @@ export async function createGroup(
   );
 }
 
-export async function deleteGroup(
-  data: REST.To.Post["/group/delete/"],
+export async function deleteSubgroup(
+  data: REST.To.Post["/subgroup/delete/"],
   dispatch: Dispatch
 ) {
   dispatch(
@@ -82,7 +56,7 @@ export async function deleteGroup(
       method: "delete",
       headers: await getHeaders(),
       data,
-      url: `/group/delete/`,
+      url: `/subgroup/delete/`,
       callback: (result) => {
         if (result?.success) {
           console.log(result);
@@ -90,10 +64,7 @@ export async function deleteGroup(
             content: "Group Remove Success",
             variant: "success",
           });
-          dispatch(group.remove(result?.group_id));
-          dispatch(subgroup.remove_by_groupid(result?.group_id));
-          dispatch(channel.remove_by_groupid(result?.group_id));
-          dispatch(membership.remove_by_groupid(result?.group_id));
+          dispatch(subgroup.remove(result?.subgroup_id));
         } else {
           console.log(result);
           emit("PopupNotice", {

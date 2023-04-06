@@ -5,6 +5,7 @@ import { Store } from "../../types/store";
 import FetchData from "./FetchData/FetchData";
 import Listener from "./Listener/Listener";
 import CreateGroup from "./Modal/CreateGroup/CreateGroup";
+import CreateSubgroup from "./Modal/CreateSubgroup/CreateSubgroup";
 
 export type WrapperProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -28,6 +29,7 @@ export default function Wrapper(props: WrapperProps) {
       <Listener />
       <FetchData />
       <CreateGroup />
+      <CreateSubgroup />
     </div>
   );
 }

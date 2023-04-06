@@ -11,12 +11,14 @@ export namespace Entity {
     name: string;
     description?: string;
     member_ids: number[];
+    subgroups: SubGroup[];
+    channels: Channel[];
+    Memberships: Membership[];
   }
   export interface SubGroup {
     id: number;
     group_id: number;
     name: string;
-    channels?: Membership[];
   }
   export interface Channel {
     id: number;

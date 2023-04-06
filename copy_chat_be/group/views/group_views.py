@@ -1,11 +1,18 @@
-from django.http import JsonResponse 
-from rest_framework import generics, status 
-from rest_framework.permissions import IsAuthenticated 
-from rest_framework.request import Request 
-from ..membership.models import GroupMembership, Permission 
+from django.http import JsonResponse
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
+
+from ..membership.models import GroupMembership, Permission
 from ..membership.serializers import GroupMembershipSerializer
-from ..models import Group, Channel
-from ..serializers import ChannelSerializer, GroupCreateSerializer, GroupDefaultSerializer
+from ..models import Channel, Group, SubGroup
+from ..serializers import (
+    ChannelSerializer,
+    GroupCreateSerializer,
+    GroupDefaultSerializer,
+    SubGroupSerializer,
+)
+
 
 class GroupCreateView(generics.CreateAPIView):
     http_method_names = ["post"]
@@ -44,20 +51,27 @@ class GroupCreateView(generics.CreateAPIView):
 
                 group.members.add(request.user)
 
-                membership = GroupMembership.objects.create(
+                head = GroupMembership.objects.create(
                     group=group, name="Head", permission=Permission.all()
                 )
 
-                membership.owners.add(request.user)
+                head.owners.add(request.user)
 
-                GroupMembership.objects.create(
+                member = GroupMembership.objects.create(
                     group=group,
                     name="Member",
                     is_default=True,
                     permission=Permission.invite_only(),
                 )
 
-                c = Channel.objects.create(is_unique=True,group=group,name=group_name)
+                new_subgroup = SubGroup.objects.create(group=group, name="default")
+
+                c = Channel.objects.create(
+                    is_unique=True,
+                    group=group,
+                    subgroup=new_subgroup,
+                    name="announcements",
+                )
 
                 return JsonResponse(
                     status=status.HTTP_201_CREATED,
@@ -65,14 +79,19 @@ class GroupCreateView(generics.CreateAPIView):
                         "success": True,
                         "msg": "group created",
                         "group": GroupCreateSerializer(group).data,
-                        "membership":GroupMembershipSerializer(membership).data,
-                        "channel":ChannelSerializer(c).data,
+                        "membership": [
+                            GroupMembershipSerializer(head).data,
+                            GroupMembershipSerializer(member).data,
+                        ],
+                        "subgroup": SubGroupSerializer(new_subgroup).data,
+                        "channel": ChannelSerializer(c).data,
                     },
                     safe=False,
                 )
             return JsonResponse(
                 {"success": False, "msg": "invaild request"}, safe=False
             )
+
 
 class GroupDeleteView(generics.DestroyAPIView):
     http_method_names = ["delete"]

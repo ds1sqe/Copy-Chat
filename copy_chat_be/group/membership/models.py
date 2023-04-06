@@ -1,7 +1,7 @@
-from django.db import models
 from account.models import Account
-
+from django.db import models
 from group.models import Group
+
 
 class Permission:
     """
@@ -23,22 +23,22 @@ class Permission:
 
     1023 => all
     """
-    
-    def __init__(self,permission):
-        self.invite_member = (1&permission)>0
-        self.kick_member= (2&permission)>0
 
-        self.grant_membership=(4&permission)>0
-        self.change_mambership=(8&permission)>0
+    def __init__(self, permission):
+        self.invite_member = (1 & permission) > 0
+        self.kick_member = (2 & permission) > 0
 
-        self.delete_group = (16&permission)>0
-        self.modify_group = (32&permission)>0
+        self.grant_membership = (4 & permission) > 0
+        self.change_mambership = (8 & permission) > 0
 
-        self.create_subgroup = (64&permission)>0
-        self.delete_subgroup = (128&permission)>0
+        self.delete_group = (16 & permission) > 0
+        self.modify_group = (32 & permission) > 0
 
-        self.create_channel = (256&permission)>0
-        self.delete_channel = (512&permission)>0
+        self.create_subgroup = (64 & permission) > 0
+        self.delete_subgroup = (128 & permission) > 0
+
+        self.create_channel = (256 & permission) > 0
+        self.delete_channel = (512 & permission) > 0
 
     def all():
         return 1023
@@ -48,7 +48,9 @@ class Permission:
 
 
 class GroupMembership(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE,related_name="membership")
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, related_name="memberships"
+    )
     name = models.CharField(max_length=20)
 
     owners = models.ManyToManyField(Account)
@@ -57,4 +59,4 @@ class GroupMembership(models.Model):
     permission = models.IntegerField(default=0)
 
     class Meta:
-        unique_together = [["group", "name"],["group","is_default"]]
+        unique_together = [["group", "name"], ["group", "is_default"]]

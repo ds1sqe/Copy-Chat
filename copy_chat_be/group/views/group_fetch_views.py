@@ -1,10 +1,10 @@
-from django.http import JsonResponse 
-from rest_framework import generics, status 
-from rest_framework.permissions import IsAuthenticated 
-from rest_framework.request import Request 
-from ..membership.models import GroupMembership, Permission 
-from ..models import Group
+from django.http import JsonResponse
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
+
 from ..serializers import GroupFetchSerializer
+
 
 class GroupFetchView(generics.ListAPIView):
     http_method_names = ["get"]
@@ -26,10 +26,17 @@ class GroupFetchView(generics.ListAPIView):
             ]
         """
         groups = request.user.joined_groups.all()
+
         if len(groups) == 0:
             return JsonResponse(
                 status=status.HTTP_204_NO_CONTENT, data={"group": None}, safe=False
             )
         else:
-            s = self.get_serializer(groups, many=True)
-            return JsonResponse(data={"group": s.data}, safe=False)
+            gs = self.get_serializer(groups, many=True)
+
+            return JsonResponse(
+                data={
+                    "groups": gs.data,
+                },
+                safe=False,
+            )

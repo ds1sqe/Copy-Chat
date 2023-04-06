@@ -2,9 +2,12 @@ import { Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../../store/configStore";
+import { actions as ui } from "../../../../../../store/ui";
+import { useDispatch } from "react-redux";
 
 export default function GroupPannelHeader() {
   const group = useSelector((s: RootState) => s.ui.activeGroup);
+  const dispatch = useDispatch();
 
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
@@ -30,6 +33,10 @@ export default function GroupPannelHeader() {
     setContextMenu(null);
   };
 
+  const openSubgroupCreate = () => {
+    dispatch(ui.openModal("CreateSubgroup"));
+  };
+
   if (group) {
     return (
       <div key={group.id} id={String(group.id)} onClick={handleManu(group.id)}>
@@ -46,7 +53,7 @@ export default function GroupPannelHeader() {
         >
           <MenuItem>Invite Member</MenuItem>
           <MenuItem>Change Group Setting</MenuItem>
-          <MenuItem>Create SubGroup </MenuItem>
+          <MenuItem onClick={openSubgroupCreate}>Create SubGroup </MenuItem>
         </Menu>
       </div>
     );
