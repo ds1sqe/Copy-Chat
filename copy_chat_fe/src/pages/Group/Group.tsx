@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
+import MemberList from "../../components/Group/Member/MemberList";
 
-import Navbar from "../../components/share/Navbar/Navbar";
 import Sidebar from "../../components/share/SideBar/SideBar";
 import Wrapper from "../../components/share/Wrapper";
 import { RootState } from "../../store/configStore";
@@ -33,7 +33,7 @@ export default function Group() {
   return (
     <Wrapper>
       <Sidebar />
-      <Navbar />
+      <MemberList />
     </Wrapper>
   );
 }

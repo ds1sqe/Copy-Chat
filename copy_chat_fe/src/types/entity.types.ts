@@ -10,7 +10,7 @@ export namespace Entity {
     id: number;
     name: string;
     description?: string;
-    member_ids: number[];
+    members: User[];
     subgroups: SubGroup[];
     channels: Channel[];
     memberships: Membership[];
@@ -33,7 +33,7 @@ export namespace Entity {
     group_id: number;
     name: string;
     is_default: boolean;
-    owner_ids: number[];
+    owners: number[];
     permission: number;
   }
 }
