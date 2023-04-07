@@ -30,6 +30,9 @@ const slice = createSlice({
     focusSubgroup: (state, { payload }: PayloadAction<Entity.SubGroup>) => {
       state.activeSubGroup = payload;
     },
+    focusChannel: (state, { payload }: PayloadAction<Entity.Channel>) => {
+      state.activeChannel = payload;
+    },
 
     addPopNotice: (state, { payload }) => {
       state.popupNotifications.reverse();

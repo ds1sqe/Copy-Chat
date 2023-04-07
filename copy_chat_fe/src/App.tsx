@@ -40,7 +40,7 @@ export default function App() {
             }
           />
           <Route
-            path="/group/:groupId/:subgroupId?"
+            path="/group/:groupId/:channelId?"
             element={
               <ProtectedRoute>
                 <Group />

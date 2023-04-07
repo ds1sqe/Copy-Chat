@@ -1,25 +1,31 @@
+import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
-import MemberList from "../../components/Group/Member/MemberList";
+import GroupBody from "../../components/Group/GroupBody";
 
 import Sidebar from "../../components/share/SideBar/SideBar";
 import Wrapper from "../../components/share/Wrapper";
-import { RootState } from "../../store/configStore";
 import { findGroup } from "../../store/selectors/group";
 
 import { ui_actions } from "../../store/ui";
 
 export default function Group() {
-  const { groupId, subgroupId } = useParams();
+  const { groupId, channelId } = useParams();
 
   const dispatch = useDispatch();
 
-  const ui_current = useSelector((s: RootState) => s.ui);
   const group = useSelector(findGroup(Number(groupId)));
+
+  const activeChannel = group?.channels.find(
+    (ch) => ch.id === Number(channelId)
+  );
 
   useEffect(() => {
     dispatch(ui_actions.pageSwitched({ Group: group }));
+    if (activeChannel) {
+      dispatch(ui_actions.focusChannel(activeChannel));
+    }
   });
 
   if (!group) {
@@ -32,8 +38,14 @@ export default function Group() {
 
   return (
     <Wrapper>
-      <Sidebar />
-      <MemberList />
+      <Grid container direction="row" spacing={1}>
+        <Grid item xs={4}>
+          <Sidebar />
+        </Grid>
+        <Grid item xs={8}>
+          <GroupBody />
+        </Grid>
+      </Grid>
     </Wrapper>
   );
 }

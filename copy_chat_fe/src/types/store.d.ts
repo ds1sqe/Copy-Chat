@@ -17,6 +17,7 @@ declare namespace Store {
       activeUser?: Entity.User;
       activeGroup?: Entity.Group;
       activeSubGroup?: Entity.SubGroup;
+      activeChannel?: Entity.Channel;
       popupNotifications: Ui.PopUpNotification[];
     };
     meta: {

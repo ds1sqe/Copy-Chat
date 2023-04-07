@@ -1,36 +1,23 @@
-import { Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../../store/configStore";
 import { ui_actions } from "../../../../../../store/ui";
 import { useDispatch } from "react-redux";
+import { Close, ExpandMore } from "@mui/icons-material";
 
 export default function GroupPannelHeader() {
   const group = useSelector((s: RootState) => s.ui.activeGroup);
   const dispatch = useDispatch();
 
-  const [contextMenu, setContextMenu] = React.useState<{
-    mouseX: number;
-    mouseY: number;
-  } | null>(null);
+  const [groupMenuAnchor, setGroupMenuAnchor] =
+    React.useState<HTMLElement | null>(null);
 
-  const [groupid, setGroupId] = React.useState<number | null>(null);
-
-  const handleManu = (id: number) => (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    setGroupId(groupid === null ? id : null);
-    setContextMenu(
-      contextMenu === null
-        ? {
-            mouseX: e.clientX + 3,
-            mouseY: e.clientY - 6,
-          }
-        : null
-    );
+  const handleManu = (e: React.MouseEvent<HTMLElement>) => {
+    setGroupMenuAnchor(e.currentTarget);
   };
   const handleManuClose = () => {
-    setGroupId(null);
-    setContextMenu(null);
+    setGroupMenuAnchor(null);
   };
 
   const openSubgroupCreate = () => {
@@ -39,17 +26,30 @@ export default function GroupPannelHeader() {
 
   if (group) {
     return (
-      <div key={group.id} id={String(group.id)} onClick={handleManu(group.id)}>
-        <h3>{group.name}</h3>
+      <div>
+        <Button
+          key={group.id}
+          onClick={(e) => handleManu(e)}
+          style={{ display: "flex", flexDirection: "row" }}
+        >
+          <Typography variant="h5">{group.name}</Typography>
+          {groupMenuAnchor === null ? (
+            <ExpandMore
+              fontSize="large"
+              style={{ flexDirection: "row-reverse" }}
+            />
+          ) : (
+            <Close fontSize="large" style={{ flexDirection: "row-reverse" }} />
+          )}
+        </Button>
+
         <Menu
-          open={contextMenu !== null}
+          open={groupMenuAnchor !== null}
           onClose={handleManuClose}
-          anchorReference="anchorPosition"
-          anchorPosition={
-            contextMenu !== null
-              ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
-              : undefined
-          }
+          anchorEl={groupMenuAnchor}
+          anchorPosition={{ top: 0, left: 0 }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          transformOrigin={{ vertical: "top", horizontal: "left" }}
         >
           <MenuItem>Invite Member</MenuItem>
           <MenuItem>Change Group Setting</MenuItem>

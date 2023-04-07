@@ -20,6 +20,7 @@ const MemberList = () => {
         if (member) {
           return (
             <div
+              key={member.id}
               style={{
                 marginRight: 0,
                 paddingRight: 0,
@@ -30,10 +31,14 @@ const MemberList = () => {
               <Typography variant="body1" key={member.id}>
                 {member.username}
               </Typography>
-              {membership.permission >= 1023 && <StarOutline />}
+              {membership.permission >= 1023 ? (
+                <StarOutline fontSize="small" />
+              ) : (
+                <AccountCircle />
+              )}
             </div>
           );
-        }
+        } else return null;
       })}
     </div>
   ));
@@ -45,7 +50,7 @@ const MemberList = () => {
         flexDirection: "column",
         position: "absolute",
         right: "10px",
-        top: "10px",
+        top: "100px",
       }}
     >
       {lists}
