@@ -1,6 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 
-export const actions = {
+export const api_actions = {
   restCallInit: createAction<REST_Args>("api/restCallInit"),
   restCallSucceded: createAction<{}>("api/restCallSucceeded"),
   restCallFailed: createAction<{}>("api/restCallFailed"),

@@ -1,8 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit";
 
-import { actions as api } from "../api";
-
-import { actions as subgroup } from "../subgroups";
+import { api_actions } from "../api";
+import { group_actions } from "../groups";
 
 import { REST } from "../../types/rest.types";
 import { emit } from "../../utils/events";
@@ -13,7 +12,7 @@ export async function createSubgroup(
   dispatch: Dispatch
 ) {
   dispatch(
-    api.restCallInit({
+    api_actions.restCallInit({
       onSuccess: [],
       method: "post",
       headers: await getHeaders(),
@@ -26,7 +25,7 @@ export async function createSubgroup(
             content: "Group Creation Success",
             variant: "success",
           });
-          dispatch(subgroup.add(result?.subgroup));
+          dispatch(group_actions.add_subgroup(result?.subgroup));
         } else {
           console.log(result);
           emit("PopupNotice", {
@@ -51,7 +50,7 @@ export async function deleteSubgroup(
   dispatch: Dispatch
 ) {
   dispatch(
-    api.restCallInit({
+    api_actions.restCallInit({
       onSuccess: [],
       method: "delete",
       headers: await getHeaders(),
@@ -64,7 +63,7 @@ export async function deleteSubgroup(
             content: "Group Remove Success",
             variant: "success",
           });
-          dispatch(subgroup.remove(result?.subgroup_id));
+          dispatch(group_actions.remove_subgroup(result?.subgroup_id));
         } else {
           console.log(result);
           emit("PopupNotice", {

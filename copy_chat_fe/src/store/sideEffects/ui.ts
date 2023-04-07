@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { actions } from "../ui";
+import { ui_actions } from "../ui";
 import { Store } from "../../types/store";
 import { Dispatch } from "@reduxjs/toolkit";
 
@@ -20,11 +20,11 @@ export const openSaveChanges =
   (isOpen: boolean) => (dispatch: Dispatch, getState: () => Store.AppState) => {
     if (getState().ui.saveChangesOpen === isOpen) return;
 
-    dispatch(actions.toggleSaveChanges(isOpen));
+    dispatch(ui_actions.toggleSaveChanges(isOpen));
   };
 
 export function closeModal(dispatch: Dispatch) {
-  dispatch(actions.closeModal());
+  dispatch(ui_actions.closeModal());
   openSaveChanges(false);
-  dispatch(actions.focusedUser(null));
+  dispatch(ui_actions.focusedUser(null));
 }

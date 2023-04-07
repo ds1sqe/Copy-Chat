@@ -56,7 +56,4 @@ class Channel(models.Model):
     type = models.CharField(max_length=3, choices=TYPE, default=TEXT)
 
     class Meta:
-        unique_together = [
-            ["group", "subgroup", "name", "is_unique"],
-            ["group", "is_unique"],
-        ]
+        unique_together = [["group", "subgroup", "name"]]

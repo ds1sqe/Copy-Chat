@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actions as ui } from "../../store/ui";
+import { ui_actions } from "../../store/ui";
 import { Store } from "../../types/store";
 import FetchData from "./FetchData/FetchData";
 import Listener from "./Listener/Listener";
+import CreateChannel from "./Modal/CreateChannel/CreateChannel";
 import CreateGroup from "./Modal/CreateGroup/CreateGroup";
 import CreateSubgroup from "./Modal/CreateSubgroup/CreateSubgroup";
 
@@ -20,7 +21,7 @@ export default function Wrapper(props: WrapperProps) {
     document.title = props.pageTitle ?? "Copy-Chat";
   });
 
-  const onClick = () => dropdown && dispatch(ui.toggleDropdown({}));
+  const onClick = () => dropdown && dispatch(ui_actions.toggleDropdown({}));
 
   return (
     <div onClick={onClick}>
@@ -30,6 +31,7 @@ export default function Wrapper(props: WrapperProps) {
       <FetchData />
       <CreateGroup />
       <CreateSubgroup />
+      <CreateChannel />
     </div>
   );
 }

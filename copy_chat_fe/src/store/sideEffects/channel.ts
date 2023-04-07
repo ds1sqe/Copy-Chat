@@ -1,35 +1,14 @@
 import { Dispatch } from "@reduxjs/toolkit";
 
 import { api_actions } from "../api";
-
 import { group_actions } from "../groups";
 
 import { REST } from "../../types/rest.types";
 import { emit } from "../../utils/events";
 import { getHeaders } from "../../utils/token";
 
-export async function getGroup(dispatch: Dispatch) {
-  dispatch(
-    api_actions.restCallInit({
-      onSuccess: [],
-      method: "get",
-      headers: await getHeaders(),
-      url: `/fetch/group/`,
-      callback: (result) => {
-        console.log(result);
-        if (result?.groups !== null && result?.groups !== undefined) {
-          dispatch(group_actions.fetch(result?.groups));
-        }
-      },
-      errorCallback: (result) => {
-        console.log(result.data);
-      },
-    })
-  );
-}
-
-export async function createGroup(
-  data: REST.To.Post["/group/create/"],
+export async function createChannel(
+  data: REST.To.Post["/channel/create/"],
   dispatch: Dispatch
 ) {
   dispatch(
@@ -38,7 +17,7 @@ export async function createGroup(
       method: "post",
       headers: await getHeaders(),
       data,
-      url: `/group/create/`,
+      url: `/channel/create/`,
       callback: (result) => {
         if (result?.success) {
           console.log(result);
@@ -46,10 +25,7 @@ export async function createGroup(
             content: "Group Creation Success",
             variant: "success",
           });
-          dispatch(group_actions.add(result?.group));
-          dispatch(group_actions.add_subgroup(result?.subgroup));
           dispatch(group_actions.add_channel(result?.channel));
-          dispatch(group_actions.add_membership(result?.membership));
         } else {
           console.log(result);
           emit("PopupNotice", {
@@ -69,8 +45,8 @@ export async function createGroup(
   );
 }
 
-export async function deleteGroup(
-  data: REST.To.Post["/group/delete/"],
+export async function deleteChannel(
+  data: REST.To.Post["/channel/delete/"],
   dispatch: Dispatch
 ) {
   dispatch(
@@ -79,7 +55,7 @@ export async function deleteGroup(
       method: "delete",
       headers: await getHeaders(),
       data,
-      url: `/group/delete/`,
+      url: `/channel/delete/`,
       callback: (result) => {
         if (result?.success) {
           console.log(result);
@@ -87,7 +63,7 @@ export async function deleteGroup(
             content: "Group Remove Success",
             variant: "success",
           });
-          dispatch(group_actions.remove(result?.group_id));
+          dispatch(group_actions.remove_channel(result?.channel_id));
         } else {
           console.log(result);
           emit("PopupNotice", {

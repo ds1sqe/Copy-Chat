@@ -1,11 +1,11 @@
 import axios from "axios";
 
-import { actions, REST_Args } from "../api";
+import { api_actions, REST_Args } from "../api";
 
 import { Middleware } from "redux";
 
 export const rest: Middleware<{}> = (store) => (next) => async (action) => {
-  if (action.type !== actions.restCallInit.type) return next(action);
+  if (action.type !== api_actions.restCallInit.type) return next(action);
 
   const { url, method, data, onSuccess, headers, callback, errorCallback } =
     action.payload as REST_Args;
@@ -23,7 +23,7 @@ export const rest: Middleware<{}> = (store) => (next) => async (action) => {
     .then((response) => {
       const result = response.data;
 
-      store.dispatch(actions.restCallSucceded({ url, response: result }));
+      store.dispatch(api_actions.restCallSucceded({ url, response: result }));
       if (onSuccess)
         for (const type of onSuccess) store.dispatch({ type, payload: result });
       if (callback) callback(result);
@@ -31,7 +31,7 @@ export const rest: Middleware<{}> = (store) => (next) => async (action) => {
     .catch((err) => {
       const response = (err as any).response;
       const result = response.data;
-      store.dispatch(actions.restCallFailed({ url, response: result }));
+      store.dispatch(api_actions.restCallFailed({ url, response: result }));
       if (errorCallback) errorCallback(response);
     });
 };

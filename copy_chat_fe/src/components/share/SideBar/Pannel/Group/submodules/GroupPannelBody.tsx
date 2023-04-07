@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "../../../../../../store/configStore";
 
@@ -18,15 +18,14 @@ import { Link, useParams } from "react-router-dom";
 
 import React from "react";
 import { TextFields, ExpandMore } from "@mui/icons-material";
+import { ui_actions } from "../../../../../../store/ui";
+import { Entity } from "../../../../../../types/entity.types";
 
 const GroupPannelBody = () => {
+  const dispatch = useDispatch();
   const [channelId, setChannelId] = React.useState<number | null>(null);
-  const { groupId, subGroupId } = useParams();
+  const { groupId } = useParams();
   const activeGroup = useSelector((s: RootState) => s.ui.activeGroup);
-  const subgroupList = useSelector(
-    (s: RootState) => s.ui.activeGroup?.subgroups
-  );
-  const channelList = useSelector((s: RootState) => s.ui.activeGroup?.channels);
   const [subgroupContextMenu, setSubgroupContextMenu] = React.useState<{
     mouseX: number;
     mouseY: number;
@@ -54,9 +53,9 @@ const GroupPannelBody = () => {
       );
     };
   const handleSubgroupManu =
-    (id: number) => (e: React.MouseEvent<HTMLElement>) => {
+    (subgroup: Entity.SubGroup) => (e: React.MouseEvent<HTMLElement>) => {
       e.preventDefault();
-      setChannelId(channelId === null ? id : null);
+      dispatch(ui_actions.focusSubgroup(subgroup));
       setSubgroupContextMenu(
         subgroupContextMenu === null
           ? {
@@ -77,13 +76,21 @@ const GroupPannelBody = () => {
     setChannelContextMenu(null);
   };
 
+  const createChannel = () => {
+    dispatch(ui_actions.openModal("CreateChannel"));
+  };
+
   const listOfSubgroup = activeGroup.subgroups.map((subgroup) => (
-    <div key={subgroup.id} onContextMenu={handleSubgroupManu(subgroup.id)}>
-      <Accordion>
+    <div key={subgroup.id} onContextMenu={handleSubgroupManu(subgroup)}>
+      <Accordion key={subgroup.id}>
         <AccordionSummary
           expandIcon={<ExpandMore />}
           sx={{
             flexDirection: "row-reverse",
+            ml: 0,
+            mx: 0,
+            pl: 0,
+            py: 0,
           }}
         >
           <Tooltip title={subgroup.name}>
@@ -103,8 +110,10 @@ const GroupPannelBody = () => {
               : undefined
           }
         >
+          <Typography>{subgroup.name}</Typography>
           <MenuItem>Manage Subgroup</MenuItem>
           <MenuItem>Change Subgroup Name</MenuItem>
+          <MenuItem onClick={createChannel}>Create Channel</MenuItem>
           <MenuItem color="red">Delete Subgroup</MenuItem>
         </Menu>
         <AccordionDetails
@@ -135,16 +144,17 @@ const GroupPannelBody = () => {
                       : undefined
                   }
                 >
-                  <MenuItem>Invite Member</MenuItem>
-                  <MenuItem>Change Group Profile</MenuItem>
+                  <MenuItem>Mange Channel</MenuItem>
+                  <MenuItem>Change Channel Name</MenuItem>
                   <MenuItem color="red">Delete Channel</MenuItem>
                 </Menu>
                 <div>
                   <Tooltip title={e.name}>
                     <Link to={`/group/${groupId}/${e.id}`}>
-                      <Button startIcon={e.type === "TXT" && <TextFields />}>
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        {e.type === "TXT" && <TextFields />}
                         <Typography variant="body1">{e.name}</Typography>
-                      </Button>
+                      </div>
                     </Link>
                   </Tooltip>
                 </div>

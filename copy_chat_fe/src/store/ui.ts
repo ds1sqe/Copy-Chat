@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Entity } from "../types/entity.types";
 import { Store } from "../types/store";
 
 const slice = createSlice({
@@ -25,8 +26,11 @@ const slice = createSlice({
     },
     pageSwitched: (state, { payload }) => {
       state.activeGroup = payload.Group;
-      state.activeSubGroup = payload.SubGroup;
     },
+    focusSubgroup: (state, { payload }: PayloadAction<Entity.SubGroup>) => {
+      state.activeSubGroup = payload;
+    },
+
     addPopNotice: (state, { payload }) => {
       state.popupNotifications.reverse();
       state.popupNotifications.push(payload);
@@ -38,5 +42,5 @@ const slice = createSlice({
   },
 });
 
-export const actions = slice.actions;
+export const ui_actions = slice.actions;
 export default slice.reducer;

@@ -3,7 +3,7 @@ import { Store } from "../../../types/store";
 
 import { useEffect } from "react";
 
-import { actions as meta } from "../../../store/meta";
+import { meta_actions } from "../../../store/meta";
 import { getGroup } from "../../../store/sideEffects/groups";
 
 const FetchData: React.FunctionComponent = () => {
@@ -12,15 +12,15 @@ const FetchData: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!fetchNeeded) return;
-    dispatch(meta.FetchingStart());
+    dispatch(meta_actions.FetchingStart());
 
     // return () => {
     //   dispatch(meta.DetachListener());
     // };
     getGroup(dispatch);
 
-    dispatch(meta.FetchNotNeeded());
-    dispatch(meta.FetchingEnd());
+    dispatch(meta_actions.FetchNotNeeded());
+    dispatch(meta_actions.FetchingEnd());
   });
 
   return null;

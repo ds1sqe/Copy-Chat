@@ -5,7 +5,7 @@ import { off, on } from "../../../../utils/events";
 import { Ui } from "../../../../types/ui.types";
 import { useDispatch, useSelector } from "react-redux";
 import { Store } from "../../../../types/store";
-import { actions as meta } from "../../../../store/meta";
+import { meta_actions } from "../../../../store/meta";
 
 export default function PopupListener() {
   const { enqueueSnackbar } = useSnackbar();
@@ -37,7 +37,7 @@ export default function PopupListener() {
 
     on("PopupNotice", popupNoticeListener as PopupListenerType);
 
-    dispatch(meta.AttachPopUpListener());
+    dispatch(meta_actions.AttachPopUpListener());
     // return () => {
     //   off("PopupNotice", popupNoticeListener as PopupListenerType);
     //   dispatch(meta.DetachPopUpListener());

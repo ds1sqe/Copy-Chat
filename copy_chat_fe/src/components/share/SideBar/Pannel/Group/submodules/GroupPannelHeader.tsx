@@ -2,7 +2,7 @@ import { Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../../store/configStore";
-import { actions as ui } from "../../../../../../store/ui";
+import { ui_actions } from "../../../../../../store/ui";
 import { useDispatch } from "react-redux";
 
 export default function GroupPannelHeader() {
@@ -34,7 +34,7 @@ export default function GroupPannelHeader() {
   };
 
   const openSubgroupCreate = () => {
-    dispatch(ui.openModal("CreateSubgroup"));
+    dispatch(ui_actions.openModal("CreateSubgroup"));
   };
 
   if (group) {

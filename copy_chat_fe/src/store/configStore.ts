@@ -4,9 +4,6 @@ import auth from "./auth";
 import ui from "./ui";
 import meta from "./meta";
 import groups from "./groups";
-import subgroups from "./subgroups";
-import channels from "./channels";
-import memberships from "./memberships";
 
 import { Store } from "../types/store";
 
@@ -16,7 +13,7 @@ const store = configureStore<Store.AppState>({
     auth,
     ui,
     meta,
-    entities: combineReducers({ groups, subgroups, channels, memberships }),
+    entities: combineReducers({ groups }),
   },
 });
 export default store;

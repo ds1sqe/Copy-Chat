@@ -27,9 +27,6 @@ declare namespace Store {
     };
     entities: {
       groups: Entity.Group[];
-      subgroups: Entity.SubGroup[];
-      channels: Entity.Channel[];
-      memberships: Entity.Membership[];
     };
   }
   export interface Action<P> {

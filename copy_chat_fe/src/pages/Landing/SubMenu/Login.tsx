@@ -4,7 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Store } from "../../../types/store";
 import { loginUser } from "../../../store/sideEffects/auth";
-import { actions as auth } from "../../../store/auth";
+import { auth_actions as auth } from "../../../store/auth";
 import Wrapper from "../../../components/share/Wrapper";
 import {
   Button,

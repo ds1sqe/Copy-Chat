@@ -8,7 +8,7 @@ import Wrapper from "../../components/share/Wrapper";
 import { RootState } from "../../store/configStore";
 import { findGroup } from "../../store/selectors/group";
 
-import { actions as ui } from "../../store/ui";
+import { ui_actions } from "../../store/ui";
 
 export default function Group() {
   const { groupId, subgroupId } = useParams();
@@ -19,7 +19,7 @@ export default function Group() {
   const group = useSelector(findGroup(Number(groupId)));
 
   useEffect(() => {
-    dispatch(ui.pageSwitched({ Group: group }));
+    dispatch(ui_actions.pageSwitched({ Group: group }));
   });
 
   if (!group) {

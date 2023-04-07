@@ -13,7 +13,7 @@ export namespace Entity {
     member_ids: number[];
     subgroups: SubGroup[];
     channels: Channel[];
-    Memberships: Membership[];
+    memberships: Membership[];
   }
   export interface SubGroup {
     id: number;

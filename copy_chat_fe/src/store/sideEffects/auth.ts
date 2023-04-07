@@ -1,7 +1,7 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { actions as api } from "../api";
-import { actions as auth } from "../auth";
-import { actions as meta } from "../meta";
+import { api_actions } from "../api";
+import { auth_actions } from "../auth";
+import { meta_actions } from "../meta";
 import { REST } from "../../types/rest.types";
 import { emit } from "../../utils/events";
 
@@ -10,13 +10,13 @@ export const loginUser = async (
   dispatch: Dispatch
 ) => {
   dispatch(
-    api.restCallInit({
+    api_actions.restCallInit({
       onSuccess: [],
       method: "post",
       data,
       url: `/account/login/`,
       callback: (result) => {
-        dispatch(auth.logInAttempted());
+        dispatch(auth_actions.logInAttempted());
         if (result?.access_token) {
           const token = {
             access_token: result.access_token,
@@ -24,8 +24,8 @@ export const loginUser = async (
             expire_on: Date.now() + (5 * 60 * 1000 - 3 * 1000),
           };
           sessionStorage.setItem("token", JSON.stringify(token));
-          dispatch(auth.loginSuccess());
-          dispatch(meta.FetchNeeded());
+          dispatch(auth_actions.loginSuccess());
+          dispatch(meta_actions.FetchNeeded());
 
           emit("PopupNotice", { content: "Login Success", variant: "success" });
         } else {
@@ -36,7 +36,7 @@ export const loginUser = async (
         }
       },
       errorCallback: () => {
-        dispatch(auth.loginFailed());
+        dispatch(auth_actions.loginFailed());
         emit("PopupNotice", {
           content: "Login Faild, Please Check username and password",
           variant: "warning",
@@ -51,14 +51,14 @@ export function registerUser(
   dispatch: Dispatch
 ) {
   dispatch(
-    api.restCallInit({
+    api_actions.restCallInit({
       onSuccess: [],
       method: "post",
       data,
       url: `/account/register/`,
       callback: (result) => {
         if (result?.success) {
-          dispatch(auth.created());
+          dispatch(auth_actions.created());
           emit("PopupNotice", {
             content: "Account created. Please Login",
             variant: "success",
@@ -76,7 +76,7 @@ export function registerUser(
 }
 
 export function logoutUser(dispatch: Dispatch) {
-  dispatch(auth.logOut());
+  dispatch(auth_actions.logOut());
   localStorage.removeItem("token");
   sessionStorage.removeItem("token");
 }
