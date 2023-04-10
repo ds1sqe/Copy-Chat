@@ -1,5 +1,4 @@
 import { Groups } from "@mui/icons-material";
-import AddIcon from "@mui/icons-material/Add";
 import { Fab, Menu, MenuItem, Tooltip } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +10,7 @@ export default function GroupList() {
   const dispatch = useDispatch();
 
   const groups = useSelector((s: RootState) => s.entities.groups);
+  const activeGroup = useSelector((s: RootState) => s.ui.activeGroup);
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
     mouseY: number;
@@ -40,8 +40,17 @@ export default function GroupList() {
     }
   };
 
+  const is_active = (id: number) => id === activeGroup?.id;
+
   const groupsIcons = groups.map((e) => (
-    <div key={e.id} id={e.name} onContextMenu={handleManu(e.id)}>
+    <div
+      key={e.id}
+      id={e.name}
+      onContextMenu={handleManu(e.id)}
+      style={{
+        border: is_active(e.id) ? "1px solid white" : "",
+      }}
+    >
       <Menu
         open={contextMenu !== null}
         onClose={handleManuClose}
@@ -60,7 +69,11 @@ export default function GroupList() {
       </Menu>
       <Tooltip title={e.name}>
         <Link to={`/group/${e.id}/`}>
-          <Fab>
+          <Fab
+            style={{
+              border: is_active(e.id) ? "2px solid white" : "",
+            }}
+          >
             <Groups />
           </Fab>
         </Link>

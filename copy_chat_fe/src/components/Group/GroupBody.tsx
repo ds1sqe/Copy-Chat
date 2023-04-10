@@ -4,9 +4,25 @@ import MemberList from "./Member/MemberList";
 
 export default function GroupBody() {
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        border: "2px dashed gray",
+        width: "100%",
+      }}
+    >
       <ChannelBar />
-      <MemberList />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row-reverse",
+          border: "2px dashed gray",
+          height: "100%",
+        }}
+      >
+        <MemberList />
+      </Box>
     </Box>
   );
 }

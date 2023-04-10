@@ -48,9 +48,9 @@ const MemberList = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        position: "absolute",
-        right: "10px",
-        top: "100px",
+        maxWidth: "20em",
+        height: "100%",
+        border: "1px solid gray",
       }}
     >
       {lists}

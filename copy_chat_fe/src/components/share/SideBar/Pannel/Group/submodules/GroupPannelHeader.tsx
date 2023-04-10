@@ -1,10 +1,11 @@
-import { Button, Menu, MenuItem, Typography } from "@mui/material";
+import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../../store/configStore";
 import { ui_actions } from "../../../../../../store/ui";
 import { useDispatch } from "react-redux";
 import { Close, ExpandMore } from "@mui/icons-material";
+import { border } from "@mui/system";
 
 export default function GroupPannelHeader() {
   const group = useSelector((s: RootState) => s.ui.activeGroup);
@@ -26,7 +27,14 @@ export default function GroupPannelHeader() {
 
   if (group) {
     return (
-      <div>
+      <Box
+        sx={{
+          height: 48,
+          border: "1px solid gray",
+          alignItems: "center",
+          justifyItems: "center",
+        }}
+      >
         <Button
           key={group.id}
           onClick={(e) => handleManu(e)}
@@ -55,7 +63,7 @@ export default function GroupPannelHeader() {
           <MenuItem>Change Group Setting</MenuItem>
           <MenuItem onClick={openSubgroupCreate}>Create SubGroup </MenuItem>
         </Menu>
-      </div>
+      </Box>
     );
   } else {
     return null;

@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
@@ -38,14 +38,17 @@ export default function Group() {
 
   return (
     <Wrapper>
-      <Grid container direction="row" spacing={1}>
-        <Grid item xs={4}>
-          <Sidebar />
-        </Grid>
-        <Grid item xs={8}>
-          <GroupBody />
-        </Grid>
-      </Grid>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          height: "100vh",
+          boxSizing: "content-box",
+        }}
+      >
+        <Sidebar />
+        <GroupBody />
+      </Box>
     </Wrapper>
   );
 }
