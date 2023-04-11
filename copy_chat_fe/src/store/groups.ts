@@ -24,13 +24,13 @@ const slice = createSlice({
     },
     add_subgroup: (groups, { payload }: PayloadAction<Entity.SubGroup>) => {
       const target_group = groups.find(
-        (group) => (group.id = payload.group_id)
+        (group) => group.id === payload.group_id
       );
       target_group?.subgroups.push(payload);
     },
     remove_subgroup: (groups, { payload }: PayloadAction<Entity.SubGroup>) => {
       const target_group = groups.find(
-        (group) => (group.id = payload.group_id)
+        (group) => group.id === payload.group_id
       );
       if (target_group) {
         target_group.subgroups = target_group.subgroups.filter(
@@ -40,13 +40,13 @@ const slice = createSlice({
     },
     add_channel: (groups, { payload }: PayloadAction<Entity.Channel>) => {
       const target_group = groups.find(
-        (group) => (group.id = payload.group_id)
+        (group) => group.id === payload.group_id
       );
       target_group?.channels.push(payload);
     },
     remove_channel: (groups, { payload }: PayloadAction<Entity.SubGroup>) => {
       const target_group = groups.find(
-        (group) => (group.id = payload.group_id)
+        (group) => group.id === payload.group_id
       );
       if (target_group) {
         target_group.channels = target_group.channels.filter(
@@ -56,7 +56,7 @@ const slice = createSlice({
     },
     add_membership: (groups, { payload }: PayloadAction<Entity.Membership>) => {
       const target_group = groups.find(
-        (group) => (group.id = payload.group_id)
+        (group) => group.id === payload.group_id
       );
       target_group?.memberships.push(payload);
     },
@@ -65,7 +65,7 @@ const slice = createSlice({
       { payload }: PayloadAction<Entity.Membership>
     ) => {
       const target_group = groups.find(
-        (group) => (group.id = payload.group_id)
+        (group) => group.id === payload.group_id
       );
       if (target_group) {
         target_group.memberships = target_group.memberships.filter(

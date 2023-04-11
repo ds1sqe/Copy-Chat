@@ -10,6 +10,7 @@ from ..serializers import (
     ChannelSerializer,
     GroupCreateSerializer,
     GroupDefaultSerializer,
+    GroupFetchSerializer,
     SubGroupSerializer,
 )
 
@@ -78,13 +79,7 @@ class GroupCreateView(generics.CreateAPIView):
                     data={
                         "success": True,
                         "msg": "group created",
-                        "group": GroupCreateSerializer(group).data,
-                        "membership": [
-                            GroupMembershipSerializer(head).data,
-                            GroupMembershipSerializer(member).data,
-                        ],
-                        "subgroup": SubGroupSerializer(new_subgroup).data,
-                        "channel": ChannelSerializer(c).data,
+                        "group": GroupFetchSerializer(group).data,
                     },
                     safe=False,
                 )

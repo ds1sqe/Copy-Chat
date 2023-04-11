@@ -47,9 +47,6 @@ export async function createGroup(
             variant: "success",
           });
           dispatch(group_actions.add(result?.group));
-          dispatch(group_actions.add_subgroup(result?.subgroup));
-          dispatch(group_actions.add_channel(result?.channel));
-          dispatch(group_actions.add_membership(result?.membership));
         } else {
           console.log(result);
           emit("PopupNotice", {
