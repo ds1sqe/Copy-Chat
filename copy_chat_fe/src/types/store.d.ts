@@ -12,7 +12,7 @@ declare namespace Store {
     };
     ui: {
       openDropdown?: string;
-      openModal?: string;
+      openedModal?: string;
       saveChangesOpen?: boolean;
       activeUser?: Entity.User;
       activeGroup?: Entity.Group;

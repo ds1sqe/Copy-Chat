@@ -52,7 +52,7 @@ const Modal: React.FunctionComponent<ModalProps> = ({
   maxWidth,
   fullWidth,
 }) => {
-  const openModal = useSelector((s: Store.AppState) => s.ui.openModal);
+  const openedModal = useSelector((s: Store.AppState) => s.ui.openedModal);
   const dispatch = useDispatch();
 
   const max_width = maxWidth ? maxWidth : "md";
@@ -62,7 +62,7 @@ const Modal: React.FunctionComponent<ModalProps> = ({
     <div className={className}>
       <Dialog
         aria-labelledby="customized-dialog-title"
-        open={openModal === typeName}
+        open={openedModal === typeName}
         // @ts-expect-error
         maxWidth={max_width}
         fullWidth={full_width}

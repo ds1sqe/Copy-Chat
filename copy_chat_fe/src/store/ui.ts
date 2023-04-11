@@ -10,10 +10,10 @@ const slice = createSlice({
   } as Store.AppState["ui"],
   reducers: {
     openModal: (state, { payload }) => {
-      state.openModal = payload;
+      state.openedModal = payload;
     },
     closeModal: (state) => {
-      delete state.openModal;
+      delete state.openedModal;
     },
     toggleDropdown: (state, { payload }) => {
       state.openDropdown = payload?.name;

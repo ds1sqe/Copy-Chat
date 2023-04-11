@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import CreateGroup from "./subcomponents/CreateGroup";
+import AddGroup from "./subcomponents/AddGroup";
 import DashBoardIcon from "./subcomponents/DashBoardIcon";
 import GroupList from "./subcomponents/GroupList";
 
@@ -15,7 +15,7 @@ export default function SidebarIcons() {
     >
       <DashBoardIcon />
       <GroupList />
-      <CreateGroup />
+      <AddGroup />
     </Box>
   );
 }

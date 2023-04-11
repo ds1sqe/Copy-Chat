@@ -5,8 +5,11 @@ import { Store } from "../../types/store";
 import FetchData from "./FetchData/FetchData";
 import Listener from "./Listener/Listener";
 import CreateChannel from "./Modal/CreateChannel/CreateChannel";
-import CreateGroup from "./Modal/CreateGroup/CreateGroup";
+import AddGroup from "./Modal/CreateOrJoinGroup/CreateOrAddGroup";
+import CreateGroup from "./Modal/CreateOrJoinGroup/submodule/CreateGroup";
 import CreateSubgroup from "./Modal/CreateSubgroup/CreateSubgroup";
+import Invite from "./Modal/Invite/Invite";
+import CreateInvitation from "./Modal/Invite/submodule/CreateInvitaion";
 
 export type WrapperProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -29,7 +32,14 @@ export default function Wrapper(props: WrapperProps) {
 
       <Listener />
       <FetchData />
+
+      <AddGroup />
       <CreateGroup />
+
+      <Invite />
+
+      <CreateInvitation />
+
       <CreateSubgroup />
       <CreateChannel />
     </div>

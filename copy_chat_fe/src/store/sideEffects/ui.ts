@@ -11,7 +11,7 @@ export function dropdownIsOpen(component: React.FunctionComponent) {
 }
 export function modalIsOpen(component: React.FunctionComponent) {
   return createSelector(
-    (state: Store.AppState) => state.ui.openModal,
+    (state: Store.AppState) => state.ui.openedModal,
     (name) => name === component.name
   );
 }

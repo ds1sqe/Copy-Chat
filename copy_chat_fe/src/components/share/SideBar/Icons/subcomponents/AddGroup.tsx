@@ -3,16 +3,16 @@ import { ui_actions } from "../../../../../store/ui";
 import AddIcon from "@mui/icons-material/Add";
 import { Fab, Tooltip } from "@mui/material";
 
-export default function CreateGroup() {
+export default function AddGroup() {
   const dispatch = useDispatch();
 
-  const openCreateGroupModal = () => {
-    dispatch(ui_actions.openModal("CreateGroup"));
+  const openAddGroupModal = () => {
+    dispatch(ui_actions.openModal("AddGroup"));
   };
 
   return (
-    <div onClick={openCreateGroupModal}>
-      <Tooltip title="Create New Group">
+    <div onClick={openAddGroupModal}>
+      <Tooltip title="Create or Join a Group">
         <Fab>
           <AddIcon />
         </Fab>

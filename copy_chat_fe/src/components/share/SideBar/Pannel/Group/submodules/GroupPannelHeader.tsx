@@ -21,10 +21,6 @@ export default function GroupPannelHeader() {
     setGroupMenuAnchor(null);
   };
 
-  const openSubgroupCreate = () => {
-    dispatch(ui_actions.openModal("CreateSubgroup"));
-  };
-
   if (group) {
     return (
       <Box
@@ -59,9 +55,15 @@ export default function GroupPannelHeader() {
           anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           transformOrigin={{ vertical: "top", horizontal: "left" }}
         >
-          <MenuItem>Invite Member</MenuItem>
-          <MenuItem>Change Group Setting</MenuItem>
-          <MenuItem onClick={openSubgroupCreate}>Create SubGroup </MenuItem>
+          <MenuItem onClick={() => dispatch(ui_actions.openModal("Invite"))}>
+            Invite to group
+          </MenuItem>
+          <MenuItem>Change group setting</MenuItem>
+          <MenuItem
+            onClick={() => dispatch(ui_actions.openModal("CreateSubGroup"))}
+          >
+            Create subGroup{" "}
+          </MenuItem>
         </Menu>
       </Box>
     );
