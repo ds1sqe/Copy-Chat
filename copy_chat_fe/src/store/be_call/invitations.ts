@@ -68,13 +68,13 @@ export async function createInvitation(
 }
 
 export async function checkInvitation(
-  data: REST.From.Get["/invitation/validation/"],
+  data: REST.To.Post["/invitation/validation/"],
   dispatch: Dispatch
 ) {
   dispatch(
     api_actions.restCallInit({
       onSuccess: [],
-      method: "get",
+      method: "post",
       headers: await getHeaders(),
       data,
       url: `/invitation/validation/`,
@@ -102,7 +102,7 @@ export async function checkInvitation(
 }
 
 export async function activateInvitation(
-  data: REST.To.Post["/invitation/validation/"],
+  data: REST.To.Post["/invitation/activation/"],
   dispatch: Dispatch
 ) {
   dispatch(
@@ -111,7 +111,7 @@ export async function activateInvitation(
       method: "post",
       headers: await getHeaders(),
       data,
-      url: `/invitation/validation/`,
+      url: `/invitation/activation/`,
       callback: (result) => {
         if (result?.success) {
           console.log(result);

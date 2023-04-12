@@ -1,11 +1,21 @@
 import { BusinessRounded, CheckCircle } from "@mui/icons-material";
-import { InputAdornment, FormControl, TextField, Fab } from "@mui/material";
+import {
+  InputAdornment,
+  FormControl,
+  TextField,
+  Fab,
+  Typography,
+  Button,
+} from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../store/configStore";
-import { createGroup } from "../../../../../store/be_call/groups";
-import { checkInvitation } from "../../../../../store/be_call/invitations";
+import {
+  activateInvitation,
+  checkInvitation,
+} from "../../../../../store/be_call/invitations";
 import Modal from "../../Modal";
+import { ui_actions } from "../../../../../store/ui";
 
 export default function JoinGroup() {
   const dispatch = useDispatch();
@@ -19,10 +29,16 @@ export default function JoinGroup() {
     };
     checkInvitation(payload, dispatch);
   };
-
+  const joinGroup = async (e: any) => {
+    e.preventDefault();
+    const payload = {
+      code: code,
+    };
+    activateInvitation(payload, dispatch);
+  };
   return (
     <Modal className="JoinGroup" typeName={"JoinGroup"} title={"Join Group"}>
-      {target_group === null || undefined ? (
+      {target_group === null || target_group === undefined ? (
         <form onSubmit={valiateCode}>
           <FormControl>
             <TextField
@@ -44,7 +60,19 @@ export default function JoinGroup() {
           </FormControl>
         </form>
       ) : (
-        <>target_group:</>
+        <>
+          <Typography variant="h3">{target_group.name}</Typography>
+          <Typography variant="body1">{target_group.description}</Typography>
+          <Button variant="outlined" onClick={joinGroup}>
+            Join
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => dispatch(ui_actions.unsetModalDetail())}
+          >
+            Cancel
+          </Button>
+        </>
       )}
     </Modal>
   );

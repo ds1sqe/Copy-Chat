@@ -41,15 +41,9 @@ export namespace REST {
       "/invitation/validation/": {
         code: string;
       };
-    }
-  }
-
-  export namespace From {
-    export interface Get {
-      "/invitation/validation/": {
+      "/invitation/activation/": {
         code: string;
       };
     }
-    export interface Post {}
   }
 }
