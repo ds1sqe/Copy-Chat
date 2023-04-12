@@ -16,15 +16,6 @@ export function modalIsOpen(component: React.FunctionComponent) {
   );
 }
 
-export const openSaveChanges =
-  (isOpen: boolean) => (dispatch: Dispatch, getState: () => Store.AppState) => {
-    if (getState().ui.saveChangesOpen === isOpen) return;
-
-    dispatch(ui_actions.toggleSaveChanges(isOpen));
-  };
-
 export function closeModal(dispatch: Dispatch) {
   dispatch(ui_actions.closeModal());
-  openSaveChanges(false);
-  dispatch(ui_actions.focusedUser(null));
 }

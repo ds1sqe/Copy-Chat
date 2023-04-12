@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 import { meta_actions } from "../../../store/meta";
 import { getGroup } from "../../../store/sideEffects/groups";
+import { getInvitation } from "../../../store/sideEffects/invitations";
 
 const FetchData: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const FetchData: React.FunctionComponent = () => {
     //   dispatch(meta.DetachListener());
     // };
     getGroup(dispatch);
+    getInvitation(dispatch);
 
     dispatch(meta_actions.FetchNotNeeded());
     dispatch(meta_actions.FetchingEnd());

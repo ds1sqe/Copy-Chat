@@ -54,10 +54,10 @@ INSTALLED_APPS = [
     "data.apps.FileConfig",
     "data.apps.MessageConfig",
     "data.apps.EventConfig",
-    "data.apps.InvitationConfig",
     "data.apps.CounterConfig",
     "group.apps.GroupConfig",
     "group.apps.GroupMembershipConfig",
+    "group.apps.InvitationConfig",
     # 3rd party
     "rest_framework",
     "rest_framework.authtoken",

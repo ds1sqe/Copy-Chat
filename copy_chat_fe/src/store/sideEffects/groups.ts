@@ -103,5 +103,3 @@ export async function deleteGroup(
     })
   );
 }
-
-export async function createInvitation() {}

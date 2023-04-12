@@ -36,6 +36,13 @@ export namespace Entity {
     owners: number[];
     permission: number;
   }
+  export interface Invitation {
+    id: number;
+    group_id: number;
+    inviter_id: number;
+    target_id: number;
+    code: string;
+  }
 }
 
 export namespace UserTypes {

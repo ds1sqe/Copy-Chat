@@ -33,12 +33,22 @@ export namespace REST {
         group_id: number;
         subgroup_id: number;
       };
+
+      "/invitation/create/": {
+        group_id: number;
+        target_id?: number;
+      };
+      "/invitation/validation/": {
+        code: string;
+      };
     }
   }
 
   export namespace From {
     export interface Get {
-      "/group/": {};
+      "/invitation/validation/": {
+        code: string;
+      };
     }
     export interface Post {}
   }

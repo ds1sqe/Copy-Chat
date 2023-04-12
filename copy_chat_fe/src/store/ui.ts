@@ -14,7 +14,15 @@ const slice = createSlice({
     },
     closeModal: (state) => {
       delete state.openedModal;
+      delete state?.openedModalDetail;
     },
+    setModalDetail: (state, { payload }) => {
+      state.openedModalDetail = payload;
+    },
+    unsetModalDetail: (state) => {
+      delete state.openedModalDetail;
+    },
+
     toggleDropdown: (state, { payload }) => {
       state.openDropdown = payload?.name;
     },

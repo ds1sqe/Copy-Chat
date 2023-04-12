@@ -4,6 +4,7 @@ import auth from "./auth";
 import ui from "./ui";
 import meta from "./meta";
 import groups from "./groups";
+import invitations from "./invitations";
 
 import { Store } from "../types/store";
 
@@ -13,7 +14,7 @@ const store = configureStore<Store.AppState>({
     auth,
     ui,
     meta,
-    entities: combineReducers({ groups }),
+    entities: combineReducers({ groups, invitations }),
   },
 });
 export default store;

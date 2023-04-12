@@ -13,6 +13,7 @@ declare namespace Store {
     ui: {
       openDropdown?: string;
       openedModal?: string;
+      openedModalDetail?: object;
       saveChangesOpen?: boolean;
       activeUser?: Entity.User;
       activeGroup?: Entity.Group;
@@ -28,6 +29,7 @@ declare namespace Store {
     };
     entities: {
       groups: Entity.Group[];
+      invitations: Entity.Invitation[];
     };
   }
   export interface Action<P> {

@@ -2,9 +2,15 @@ from django.apps import AppConfig
 
 
 class GroupConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'group'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "group"
+
 
 class GroupMembershipConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'group.membership'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "group.membership"
+
+
+class InvitationConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "group.invitation"
