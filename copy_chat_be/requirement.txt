@@ -9,6 +9,7 @@ python-dotenv
 mysqlclient
 requests
 drf-yasg
-channels
-channels_redis
+redis
+python-socketio
+eventlet
 pillow #image

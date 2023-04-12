@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     "group.apps.GroupConfig",
     "group.apps.GroupMembershipConfig",
     "group.apps.InvitationConfig",
+    # realtime
+    "realtime.apps.RealtimeConfig",
     # 3rd party
     "rest_framework",
     "rest_framework.authtoken",
@@ -124,13 +126,8 @@ DATABASES = {
         "use_unicode": True,
     },
 }
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [(os.getenv("REDIS_HOST"), os.getenv("REDIS_PORT"))],
-        },
-    },
+REDIS = {
+    "hosts": [(os.getenv("REDIS_HOST"), os.getenv("REDIS_PORT"))],
 }
 
 # AUTH
