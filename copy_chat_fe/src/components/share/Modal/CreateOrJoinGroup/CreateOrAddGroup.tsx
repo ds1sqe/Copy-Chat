@@ -7,7 +7,7 @@ export default function AddGroup() {
   const dispatch = useDispatch();
 
   const openJoinGroupModal = () => {
-    dispatch(ui_actions.openModal(""));
+    dispatch(ui_actions.openModal("JoinGroup"));
   };
   const openCreateGroupModal = () => {
     dispatch(ui_actions.openModal("CreateGroup"));

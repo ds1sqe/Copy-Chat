@@ -55,7 +55,15 @@ export default function CreateInvitation() {
       <>
         {default_invitation() !== undefined ? (
           <>
-            <Button variant="text">
+            <Button
+              variant="text"
+              onClick={() => {
+                const code = default_invitation()?.code;
+                if (code !== undefined) {
+                  navigator.clipboard.writeText(code);
+                }
+              }}
+            >
               Invitation Code:
               {default_invitation()?.code}
               <ContentCopyOutlined />

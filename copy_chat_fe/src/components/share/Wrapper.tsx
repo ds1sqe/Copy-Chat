@@ -7,6 +7,7 @@ import Listener from "./Listener/Listener";
 import CreateChannel from "./Modal/CreateChannel/CreateChannel";
 import AddGroup from "./Modal/CreateOrJoinGroup/CreateOrAddGroup";
 import CreateGroup from "./Modal/CreateOrJoinGroup/submodule/CreateGroup";
+import JoinGroup from "./Modal/CreateOrJoinGroup/submodule/JoinGroup";
 import CreateSubgroup from "./Modal/CreateSubgroup/CreateSubgroup";
 import Invite from "./Modal/Invite/Invite";
 import CreateInvitation from "./Modal/Invite/submodule/CreateInvitaion";
@@ -35,6 +36,7 @@ export default function Wrapper(props: WrapperProps) {
 
       <AddGroup />
       <CreateGroup />
+      <JoinGroup />
 
       <Invite />
 
