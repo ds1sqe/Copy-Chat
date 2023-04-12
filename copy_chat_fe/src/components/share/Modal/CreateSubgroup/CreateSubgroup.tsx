@@ -3,7 +3,7 @@ import { InputAdornment, FormControl, TextField, Fab } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/configStore";
-import { createSubgroup } from "../../../../store/sideEffects/subgroup";
+import { createSubgroup } from "../../../../store/be_call/subgroup";
 import Modal from "../Modal";
 
 export default function CreateSubgroup() {

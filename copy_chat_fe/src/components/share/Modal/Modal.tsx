@@ -1,7 +1,7 @@
 import { CloseOutlined } from "@mui/icons-material";
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../../../store/sideEffects/ui";
+import { closeModal } from "../../../store/be_call/ui";
 import { Store } from "../../../types/store";
 
 export interface ModalDialogTitleProps {

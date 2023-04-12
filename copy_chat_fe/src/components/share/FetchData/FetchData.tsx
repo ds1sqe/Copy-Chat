@@ -4,8 +4,8 @@ import { Store } from "../../../types/store";
 import { useEffect } from "react";
 
 import { meta_actions } from "../../../store/meta";
-import { getGroup } from "../../../store/sideEffects/groups";
-import { getInvitation } from "../../../store/sideEffects/invitations";
+import { getGroup } from "../../../store/be_call/groups";
+import { getInvitation } from "../../../store/be_call/invitations";
 
 const FetchData: React.FunctionComponent = () => {
   const dispatch = useDispatch();

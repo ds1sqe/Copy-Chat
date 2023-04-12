@@ -2,7 +2,7 @@ import { BusinessRounded, CheckCircle } from "@mui/icons-material";
 import { InputAdornment, FormControl, TextField, Fab } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createGroup } from "../../../../../store/sideEffects/groups";
+import { createGroup } from "../../../../../store/be_call/groups";
 import Modal from "../../Modal";
 
 export default function CreateGroup() {

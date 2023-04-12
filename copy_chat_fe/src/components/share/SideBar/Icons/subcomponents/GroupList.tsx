@@ -4,7 +4,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../../../../../store/configStore";
-import { deleteGroup } from "../../../../../store/sideEffects/groups";
+import { deleteGroup } from "../../../../../store/be_call/groups";
 
 export default function GroupList() {
   const dispatch = useDispatch();

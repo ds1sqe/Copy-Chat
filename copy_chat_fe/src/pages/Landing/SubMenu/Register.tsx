@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import Wrapper from "../../../components/share/Wrapper";
-import { registerUser } from "../../../store/sideEffects/auth";
+import { registerUser } from "../../../store/be_call/auth";
 import { Store } from "../../../types/store";
 
 export default function Register() {

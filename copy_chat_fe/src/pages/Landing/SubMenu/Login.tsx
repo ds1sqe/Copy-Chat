@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Store } from "../../../types/store";
-import { loginUser } from "../../../store/sideEffects/auth";
+import { loginUser } from "../../../store/be_call/auth";
 import { auth_actions as auth } from "../../../store/auth";
 import Wrapper from "../../../components/share/Wrapper";
 import {

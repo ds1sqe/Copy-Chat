@@ -3,7 +3,7 @@ import { InputAdornment, FormControl, TextField, Fab } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/configStore";
-import { createChannel } from "../../../../store/sideEffects/channel";
+import { createChannel } from "../../../../store/be_call/channel";
 import Modal from "../Modal";
 
 export default function CreateChannel() {

@@ -3,8 +3,8 @@ import { InputAdornment, FormControl, TextField, Fab } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../store/configStore";
-import { createGroup } from "../../../../../store/sideEffects/groups";
-import { checkInvitation } from "../../../../../store/sideEffects/invitations";
+import { createGroup } from "../../../../../store/be_call/groups";
+import { checkInvitation } from "../../../../../store/be_call/invitations";
 import Modal from "../../Modal";
 
 export default function JoinGroup() {
