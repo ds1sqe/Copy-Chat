@@ -10,6 +10,7 @@ from dj_rest_auth.views import (
 from django.contrib import admin
 from django.urls import path
 from group.invitation.views import (
+    InvitationActivationView,
     InvitationCreateView,
     InvitationFetchView,
     InvitationValidationView,
@@ -68,5 +69,10 @@ urlpatterns = [
         "invitation/validation/",
         InvitationValidationView.as_view(),
         name="invitation_validatation",
+    ),
+    path(
+        "invitation/activation/",
+        InvitationActivationView.as_view(),
+        name="invitation_activation",
     ),
 ]

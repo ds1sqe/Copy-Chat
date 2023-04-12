@@ -127,22 +127,20 @@ class InvitationCreateView(generics.CreateAPIView):
 
 class InvitationValidationView(generics.GenericAPIView):
     """
-    join group with invitation code
+    Check invitation code
     """
 
-    http_method_names = ["get", "post"]
+    http_method_names = ["post"]
     permission_classes = (IsAuthenticated,)
     serializer_class = InvitationSerializer
 
-    def get(self, request: Request, *args, **kwargs):
+    def post(self, request: Request, *args, **kwargs):
         """
         Check invitation code, and if it's valid, return group info
         """
 
         try:
-            invitation = Invitation.objects.get(
-                code=request.data.get("invitation_code")
-            )
+            invitation = Invitation.objects.get(code=request.data.get("code"))
         except invitation.DoesNotExist as e:
             return JsonResponse(
                 data={
@@ -173,14 +171,22 @@ class InvitationValidationView(generics.GenericAPIView):
                 safe=False,
             )
 
+
+class InvitationActivationView(generics.GenericAPIView):
+    """
+    join group with invitation code
+    """
+
+    http_method_names = ["post"]
+    permission_classes = (IsAuthenticated,)
+    serializer_class = InvitationSerializer
+
     def post(self, request: Request, *args, **kwargs):
         """
         Activate invitation, and if it's valid, join to group
         """
         try:
-            invitation = Invitation.objects.get(
-                code=request.data.get("invitation_code")
-            )
+            invitation = Invitation.objects.get(code=request.data.get("code"))
         except invitation.DoesNotExist as e:
             return JsonResponse(
                 data={
@@ -206,6 +212,7 @@ class InvitationValidationView(generics.GenericAPIView):
                 group=invitation.group, is_default=True
             )
             membership.owners.add(request.user)
+            invitation.group.members.add(request.user)
 
             return JsonResponse(
                 status=status.HTTP_200_OK,
