@@ -1,7 +1,7 @@
 import { CloseOutlined } from "@mui/icons-material";
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "../../../store/be_call/ui";
+import { ui_actions } from "../../../store/ui";
 import { Store } from "../../../types/store";
 
 export interface ModalDialogTitleProps {
@@ -36,7 +36,7 @@ function ModalDialogTitle(props: ModalDialogTitleProps) {
 
 export interface ModalProps {
   typeName: string;
-  className?: string;
+  className: string;
   title?: string;
   onClose?: Function;
   children: any;
@@ -69,8 +69,10 @@ const Modal: React.FunctionComponent<ModalProps> = ({
       >
         <DialogContent>
           <ModalDialogTitle
-            id="customized-dialog-title"
-            onClose={() => closeModal(dispatch)}
+            id={className}
+            onClose={() => {
+              dispatch(ui_actions.closeModal());
+            }}
           >
             {title}
           </ModalDialogTitle>
