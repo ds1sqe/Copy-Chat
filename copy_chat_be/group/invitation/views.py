@@ -115,7 +115,7 @@ class InvitationCreateView(generics.CreateAPIView):
                     data={
                         "success": True,
                         "msg": "invitation created",
-                        "invitation": InvitationSerializer(invitation).data,
+                        "invitation": InvitationCreateSerializer(invitation).data,
                     },
                     safe=False,
                 )

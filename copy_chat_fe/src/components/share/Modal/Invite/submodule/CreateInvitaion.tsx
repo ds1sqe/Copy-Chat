@@ -23,13 +23,12 @@ export default function CreateInvitation() {
   const dispatch = useDispatch();
   const activeGroup = useSelector((s: RootState) => s.ui.activeGroup);
   const invitations = useSelector((s: RootState) => s.entities.invitations);
-  const default_invitation = invitations.find(
-    (e) =>
-      e.group_id === activeGroup?.id &&
-      (e?.target_id === null || e?.target_id === undefined)
-  );
-
-  console.log(default_invitation);
+  const default_invitation = () =>
+    invitations.find(
+      (e) =>
+        e.group_id === activeGroup?.id &&
+        (e?.target_id === null || e?.target_id === undefined)
+    );
 
   if (activeGroup === undefined) {
     return null;
@@ -54,11 +53,11 @@ export default function CreateInvitation() {
       title={`Invite to ${activeGroup?.name}`}
     >
       <>
-        {default_invitation !== undefined ? (
+        {default_invitation() !== undefined ? (
           <>
             <Button variant="text">
               Invitation Code:
-              {default_invitation.code}
+              {default_invitation()?.code}
               <ContentCopyOutlined />
             </Button>
 

@@ -18,7 +18,7 @@ export default function Invite() {
         variant="outlined"
         onClick={() => dispatch(ui_actions.openModal("CreateInvitation"))}
       >
-        Create Invitation
+        Create Or Share Invitation Code
       </Button>
     </Modal>
   );

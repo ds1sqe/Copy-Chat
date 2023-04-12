@@ -19,7 +19,7 @@ export async function getInvitation(dispatch: Dispatch) {
       callback: (result) => {
         console.log(result);
         if (result?.invitation !== null && result?.invitation !== undefined) {
-          dispatch(invitation_actions.add(result?.invitation));
+          dispatch(invitation_actions.fetch(result?.invitation));
         }
       },
       errorCallback: (result) => {

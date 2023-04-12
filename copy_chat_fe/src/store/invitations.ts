@@ -7,6 +7,10 @@ const slice = createSlice({
   initialState: [] as Store.AppState["entities"]["invitations"],
 
   reducers: {
+    fetch: (invitations, { payload }: PayloadAction<Entity.Invitation[]>) => {
+      invitations.push(...payload);
+    },
+
     add: (invitations, { payload }: PayloadAction<Entity.Invitation>) => {
       invitations.push(payload);
     },

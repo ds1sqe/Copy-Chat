@@ -6,16 +6,9 @@ from .models import Invitation
 
 
 class InvitationCreateSerializer(serializers.ModelSerializer):
-    group = GroupDefaultSerializer()
-
-    inviter = AccountSerializer()
-
-    target = AccountSerializer()
-
     class Meta:
         model = Invitation
-        fields = ["id", "group", "inviter", "target"]
-        depth = 1
+        fields = ["id", "group_id", "inviter_id", "target_id", "code"]
 
 
 class InvitationSerializer(serializers.ModelSerializer):
