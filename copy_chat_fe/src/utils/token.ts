@@ -59,3 +59,11 @@ export async function getHeaders() {
     return undefined;
   }
 }
+
+export async function getAccessToken() {
+  const token = await getToken();
+  if (token !== undefined && token !== null) return `${token?.access_token}`;
+  else {
+    return undefined;
+  }
+}
