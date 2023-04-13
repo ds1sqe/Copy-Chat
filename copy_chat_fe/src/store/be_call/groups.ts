@@ -1,6 +1,6 @@
 import { Dispatch } from "@reduxjs/toolkit";
 
-import { api_actions } from "../api";
+import { rest_actions } from "../api";
 
 import { group_actions } from "../groups";
 
@@ -10,7 +10,7 @@ import { getHeaders } from "../../utils/token";
 
 export async function getGroup(dispatch: Dispatch) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "get",
       headers: await getHeaders(),
@@ -33,7 +33,7 @@ export async function createGroup(
   dispatch: Dispatch
 ) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "post",
       headers: await getHeaders(),
@@ -71,7 +71,7 @@ export async function deleteGroup(
   dispatch: Dispatch
 ) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "delete",
       headers: await getHeaders(),

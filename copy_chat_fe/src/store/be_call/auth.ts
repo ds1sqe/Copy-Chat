@@ -1,5 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import { api_actions } from "../api";
+import { rest_actions } from "../api";
 import { auth_actions } from "../auth";
 import { meta_actions } from "../meta";
 import { REST } from "../../types/rest.types";
@@ -10,7 +10,7 @@ export const loginUser = async (
   dispatch: Dispatch
 ) => {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "post",
       data,
@@ -51,7 +51,7 @@ export function registerUser(
   dispatch: Dispatch
 ) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "post",
       data,

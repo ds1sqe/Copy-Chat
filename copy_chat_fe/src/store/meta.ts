@@ -21,6 +21,13 @@ const slice = createSlice({
     DetachPopUpListener: (meta) => {
       meta.popuplistenerAttached = false;
     },
+    AttachWsListener: (meta) => {
+      meta.wslistenerAttached = true;
+    },
+    DetachWsListener: (meta) => {
+      meta.wslistenerAttached = false;
+    },
+
     FetchNeeded: (meta) => {
       meta.fetchNeeded = true;
     },

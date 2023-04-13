@@ -5,6 +5,7 @@ import { useEffect } from "react";
 
 import { meta_actions } from "../../../store/meta";
 import PopupListener from "./listeners/popupListener";
+import WsListener from "./listeners/wsListener";
 
 const Listener: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const Listener: React.FunctionComponent = () => {
   return (
     <>
       <PopupListener />
+      <WsListener />
     </>
   );
 };

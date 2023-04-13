@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  MiddlewareArray,
+} from "@reduxjs/toolkit";
 import { rest } from "./middleware/rest";
 import auth from "./auth";
 import ui from "./ui";
@@ -7,15 +11,17 @@ import groups from "./groups";
 import invitations from "./invitations";
 
 import { Store } from "../types/store";
+import { socketMiddleware } from "./middleware/socket";
 
 const store = configureStore<Store.AppState>({
-  middleware: [rest],
   reducer: {
     auth,
     ui,
     meta,
     entities: combineReducers({ groups, invitations }),
   },
+  // @ts-ignore
+  middleware: new MiddlewareArray().prepend(rest, socketMiddleware),
 });
 export default store;
 

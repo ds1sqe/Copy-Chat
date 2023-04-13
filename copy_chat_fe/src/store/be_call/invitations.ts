@@ -1,6 +1,6 @@
 import { Dispatch } from "@reduxjs/toolkit";
 
-import { api_actions } from "../api";
+import { rest_actions } from "../api";
 
 import { REST } from "../../types/rest.types";
 import { emit } from "../../utils/events";
@@ -11,7 +11,7 @@ import { ui_actions } from "../ui";
 
 export async function getInvitation(dispatch: Dispatch) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "get",
       headers: await getHeaders(),
@@ -34,7 +34,7 @@ export async function createInvitation(
   dispatch: Dispatch
 ) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "post",
       headers: await getHeaders(),
@@ -72,7 +72,7 @@ export async function checkInvitation(
   dispatch: Dispatch
 ) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "post",
       headers: await getHeaders(),
@@ -106,7 +106,7 @@ export async function activateInvitation(
   dispatch: Dispatch
 ) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "post",
       headers: await getHeaders(),

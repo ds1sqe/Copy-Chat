@@ -1,5 +1,6 @@
 import { Box } from "@mui/system";
 import ChannelBar from "./Channel/ChannelBar";
+import ChannelContext from "./Channel/ChannelContext";
 import MemberList from "./Member/MemberList";
 
 export default function GroupBody() {
@@ -22,6 +23,7 @@ export default function GroupBody() {
         }}
       >
         <MemberList />
+        <ChannelContext />
       </Box>
     </Box>
   );

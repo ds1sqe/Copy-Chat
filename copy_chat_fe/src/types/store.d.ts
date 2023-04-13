@@ -26,6 +26,7 @@ declare namespace Store {
       isFetching?: boolean;
       listenerAttached?: boolean;
       popuplistenerAttached?: boolean;
+      wslistenerAttached?: boolean;
     };
     entities: {
       groups: Entity.Group[];

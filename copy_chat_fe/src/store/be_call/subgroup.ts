@@ -1,6 +1,6 @@
 import { Dispatch } from "@reduxjs/toolkit";
 
-import { api_actions } from "../api";
+import { rest_actions } from "../api";
 import { group_actions } from "../groups";
 
 import { REST } from "../../types/rest.types";
@@ -12,7 +12,7 @@ export async function createSubgroup(
   dispatch: Dispatch
 ) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "post",
       headers: await getHeaders(),
@@ -50,7 +50,7 @@ export async function deleteSubgroup(
   dispatch: Dispatch
 ) {
   dispatch(
-    api_actions.restCallInit({
+    rest_actions.restCallInit({
       onSuccess: [],
       method: "delete",
       headers: await getHeaders(),
