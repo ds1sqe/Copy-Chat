@@ -21,16 +21,21 @@ export default function WsListener() {
     if (wslistenerAttached) return;
 
     socket.on("connect", async () => {
-      socket.emit("meta.auth", { token: await getAccessToken() });
+      socket.emit("meta.auth.init", { token: await getAccessToken() });
+    });
+    socket.on("meta.auth.success", async () => {
+      socket.emit("meta.auth.enlist");
+    });
+
+    socket.on("message", (data) => {
+      console.log(data);
+    });
+    socket.onAny((ev, data) => {
+      console.log(ev, data);
     });
 
     socket.connect();
-
     dispatch(meta_actions.AttachWsListener());
-    // return () => {
-    //   off("PopupNotice", popupNoticeListener as PopupListenerType);
-    //   dispatch(meta.DetachPopUpListener());
-    // };
   });
   return null;
 }

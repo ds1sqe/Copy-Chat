@@ -1,5 +1,5 @@
 import socketio
-from rest_framework_simplejwt.tokens import TokenError
+from realtime.handlers.auth import AuthHandlers
 from root import settings
 from tools.auth import AuthHelper
 
@@ -12,28 +12,22 @@ sio = socketio.Server(
     cors_allowed_origins=settings.CORS_ORIGIN_WHITELIST,
 )
 
+auth_handler = AuthHandlers(sio)
+
 
 @sio.event
 def connect(sid, environ, auth):
-    print("sio:connect>", repr(sid), repr(environ), repr(auth))
+    print(f"sio:connect>sid {repr(sid)} connected")
     sio.save_session(sid, {"authorized": False})
-
-
-def meta_auth(sid, data):
-    print("sio:meta.auth>", repr(sid), repr(data))
-    try:
-        AuthHelper.find_user_by_access_token(data.get("token"))
-    except TokenError as e:
-        print("sio:meta.auth>token error with sid", sid)
-        sio.send(e, to=sid)
-
-
-sio.on("meta.auth", meta_auth)
 
 
 @sio.event
 def message(sid, environ, auth):
     print("sio:message>", repr(sid), repr(environ), repr(auth))
+
+
+sio.on("meta.auth.init", auth_handler.meta_auth_init)
+sio.on("meta.auth.enlist", auth_handler.meta_auth_enlist)
 
 
 @sio.event
@@ -42,5 +36,13 @@ def disconnect(sid, environ, auth):
 
 
 @sio.on("*")
-def fallback(sid, environ, data):
-    print("sio:fallback  >", repr(sid), repr(environ), repr(data))
+def fallback(event, sid, data):
+    print(
+        f"sio:fallback>sid:{repr(sid)} \n> event:{event}\n> received data: {repr(data)}"
+    )
+    sio.send({"msg": f"{event} is not valid event"}, to=sid)
+    try:
+        print("> session info :", repr(sio.get_session(sid)))
+        print("> rooms :", repr(sio.rooms(sid)))
+    except KeyError as e:
+        print("> err          :", repr(e))

@@ -12,9 +12,7 @@ class AuthHelper:
         access_token: put access token
         return: `Account` object and user pk.
         """
-
         access_token_obj = AccessToken(access_token)
-        print(repr((access_token_obj)))
         account_id = access_token_obj["user_id"]
         account = Account.objects.get(id=account_id)
         return account, account_id
