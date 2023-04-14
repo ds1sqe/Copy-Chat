@@ -73,6 +73,24 @@ const slice = createSlice({
         );
       }
     },
+    add_message: (groups, { payload }: PayloadAction<Entity.Message>) => {
+      const target_channel = groups
+        .find((group) => group.id === payload.group_id)
+        ?.channels.find((channel) => channel.id === payload.channel_id);
+      console.log(target_channel);
+      console.log(payload);
+      target_channel?.messages.push(payload);
+    },
+    remove_message: (groups, { payload }: PayloadAction<Entity.Message>) => {
+      const target_channel = groups
+        .find((group) => group.id === payload.group_id)
+        ?.channels.find((channel) => channel.id === payload.channel_id);
+      if (target_channel) {
+        target_channel.messages = target_channel.messages.filter(
+          (msg) => msg.id !== payload.id
+        );
+      }
+    },
   },
 });
 

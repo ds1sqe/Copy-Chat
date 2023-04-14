@@ -27,6 +27,7 @@ export namespace Entity {
     name: string;
     type: string;
     is_unique: string;
+    messages: Message[];
   }
   export interface Membership {
     id: number;
@@ -42,6 +43,16 @@ export namespace Entity {
     inviter_id: number;
     target_id: number;
     code: string;
+  }
+  export interface Message {
+    id: number;
+    group_id: number;
+    channel_id: number;
+    account_id: number;
+    event: any;
+    file: any;
+    text: string;
+    datetime: string;
   }
 }
 

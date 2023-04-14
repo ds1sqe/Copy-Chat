@@ -4,14 +4,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 
 from ..membership.models import GroupMembership, Permission
-from ..membership.serializers import GroupMembershipSerializer
 from ..models import Channel, Group, SubGroup
 from ..serializers import (
-    ChannelSerializer,
     GroupCreateSerializer,
     GroupDefaultSerializer,
     GroupFetchSerializer,
-    SubGroupSerializer,
 )
 
 

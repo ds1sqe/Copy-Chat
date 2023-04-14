@@ -4,7 +4,6 @@ import { WsArgs, ws_actions } from "../api";
 
 export const socketMiddleware: Middleware<{}> =
   (store) => (next) => async (action) => {
-    console.log(action.type);
     if (action.type !== ws_actions.wsCallInit.type) return next(action);
 
     const { event, data } = action.payload as WsArgs;

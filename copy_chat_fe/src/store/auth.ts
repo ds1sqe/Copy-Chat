@@ -18,7 +18,8 @@ const slice = createSlice({
       auth.loginAttempted = false;
       auth.logined = false;
     },
-    loginSuccess: (auth) => {
+    loginSuccess: (auth, { payload }) => {
+      auth.user = payload;
       auth.logined = true;
       auth.loginFailed = false;
     },

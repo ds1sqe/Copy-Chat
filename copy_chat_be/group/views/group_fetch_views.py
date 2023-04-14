@@ -20,6 +20,7 @@ class GroupFetchView(generics.ListAPIView):
             Group
                 SubGroup
                 Channels
+                   Message
                 Members
                 Membership
                     Owner

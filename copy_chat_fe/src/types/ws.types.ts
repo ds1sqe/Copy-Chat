@@ -1,17 +1,22 @@
-import { Params } from "react-router-dom";
-
 export declare namespace WS {
   export interface To {
     "message.create": wsParam.message["create"];
+    "meta.state.enter": wsParam.meta["enter"];
   }
 }
 
 export namespace wsParam {
   export interface message {
     create: {
-      groupId: number;
-      channelId: number;
-      message: string;
+      gid: number;
+      cid: number;
+      text: string;
+    };
+  }
+  export interface meta {
+    enter: {
+      gid: number;
+      cid: number;
     };
   }
 }

@@ -24,7 +24,12 @@ export const loginUser = async (
             expire_on: Date.now() + (5 * 60 * 1000 - 3 * 1000),
           };
           sessionStorage.setItem("token", JSON.stringify(token));
-          dispatch(auth_actions.loginSuccess());
+          dispatch(
+            auth_actions.loginSuccess({
+              id: result.user?.pk,
+              username: result.user?.username,
+            })
+          );
           dispatch(meta_actions.FetchNeeded());
 
           emit("PopupNotice", { content: "Login Success", variant: "success" });

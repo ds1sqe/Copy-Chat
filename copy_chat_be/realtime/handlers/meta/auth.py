@@ -37,7 +37,13 @@ class AuthHandlers:
             print(f"> failed: not authorized")
         else:
             account: Account = ss["account"]
+            __groups = {}
             for group in account.joined_groups.all():
                 self.sio.enter_room(sid, f"gid.{group.id}")
+                __channels = []
                 for channel in group.channels.all():
                     self.sio.enter_room(sid, f"cid.{channel.id}")
+                    __channels.append(channel.id)
+                __groups[group.id] = __channels
+            ss["entered_to"] = __groups
+            self.sio.save_session(sid, ss)

@@ -5,8 +5,6 @@ import { rest_actions, REST_Args } from "../api";
 import { Middleware } from "redux";
 
 export const rest: Middleware<{}> = (store) => (next) => async (action) => {
-  console.log(action.type);
-
   if (action.type !== rest_actions.restCallInit.type) return next(action);
 
   const { url, method, data, onSuccess, headers, callback, errorCallback } =

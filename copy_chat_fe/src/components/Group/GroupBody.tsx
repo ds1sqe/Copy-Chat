@@ -20,6 +20,7 @@ export default function GroupBody() {
           flexDirection: "row-reverse",
           border: "2px dashed gray",
           height: "100%",
+          minHeight: 0,
         }}
       >
         <MemberList />

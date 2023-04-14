@@ -13,7 +13,7 @@ export default function ChannelBar() {
         height: 48,
         border: "1px solid gray",
         width: "100%",
-        display: "flex",
+        display: "inline-block",
         alignItems: "center",
         justifyItems: "center",
       }}

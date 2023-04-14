@@ -1,7 +1,8 @@
 import socketio
-from realtime.handlers.auth import AuthHandlers
+from realtime.handlers.message import MessageHandlers
+from realtime.handlers.meta.auth import AuthHandlers
+from realtime.handlers.meta.state import StateHandlers
 from root import settings
-from tools.auth import AuthHelper
 
 mgr = socketio.RedisManager(
     url="redis://" + settings.REDIS["host"] + ":" + settings.REDIS["port"]
@@ -12,7 +13,9 @@ sio = socketio.Server(
     cors_allowed_origins=settings.CORS_ORIGIN_WHITELIST,
 )
 
-auth_handler = AuthHandlers(sio)
+auth = AuthHandlers(sio)
+state = StateHandlers(sio)
+message_h = MessageHandlers(sio)
 
 
 @sio.event
@@ -26,8 +29,11 @@ def message(sid, environ, auth):
     print("sio:message>", repr(sid), repr(environ), repr(auth))
 
 
-sio.on("meta.auth.init", auth_handler.meta_auth_init)
-sio.on("meta.auth.enlist", auth_handler.meta_auth_enlist)
+sio.on("meta.auth.init", auth.meta_auth_init)
+sio.on("meta.auth.enlist", auth.meta_auth_enlist)
+sio.on("meta.state.enter", state.meta_state_enter)
+
+sio.on("message.create", message_h.message_create)
 
 
 @sio.event

@@ -9,26 +9,30 @@ import Wrapper from "../../components/share/Wrapper";
 import { findGroup } from "../../store/selectors/group";
 
 import { ui_actions } from "../../store/ui";
+import { EnterRoom } from "../../store/ws_call/meta";
 
 export default function Group() {
   const { groupId, channelId } = useParams();
 
   const dispatch = useDispatch();
 
-  const group = useSelector(findGroup(Number(groupId)));
+  const activeGroup = useSelector(findGroup(Number(groupId)));
 
-  const activeChannel = group?.channels.find(
+  const activeChannel = activeGroup?.channels.find(
     (ch) => ch.id === Number(channelId)
   );
 
   useEffect(() => {
-    dispatch(ui_actions.pageSwitched({ Group: group }));
-    if (activeChannel) {
-      dispatch(ui_actions.focusChannel(activeChannel));
+    if (activeGroup) {
+      dispatch(ui_actions.pageSwitched({ Group: activeGroup }));
+      if (activeChannel) {
+        dispatch(ui_actions.focusChannel(activeChannel));
+        EnterRoom({ gid: activeGroup.id, cid: activeChannel.id }, dispatch);
+      }
     }
   });
 
-  if (!group) {
+  if (!activeGroup) {
     return (
       <Wrapper>
         <Navigate to={`/@me/`} />
