@@ -41,6 +41,9 @@ const slice = createSlice({
     focusChannel: (state, { payload }: PayloadAction<Entity.Channel>) => {
       state.activeChannel = payload;
     },
+    deleteFocusChannel: (state) => {
+      delete state.activeChannel;
+    },
 
     addPopNotice: (state, { payload }) => {
       state.popupNotifications.reverse();

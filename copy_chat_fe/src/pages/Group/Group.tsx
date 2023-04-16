@@ -28,6 +28,8 @@ export default function Group() {
       if (activeChannel) {
         dispatch(ui_actions.focusChannel(activeChannel));
         EnterRoom({ gid: activeGroup.id, cid: activeChannel.id }, dispatch);
+      } else {
+        dispatch(ui_actions.deleteFocusChannel());
       }
     }
   });

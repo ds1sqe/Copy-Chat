@@ -26,4 +26,4 @@ class Invitation(models.Model):
     since = models.DateTimeField(auto_now_add=True)
     due = models.DateTimeField(null=True, blank=True)
 
-    code = models.CharField(max_length=30, default=Hasher.hash(30))
+    code = models.CharField(max_length=30, default=Hasher.hash)

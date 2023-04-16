@@ -6,7 +6,7 @@ from uuid import uuid4
 
 class Hasher:
     @staticmethod
-    def hash(length, string: str = str(uuid4())):
+    def hash(length: int = 30, string: str = str(uuid4())):
         """
         take string and return hash string
         """

@@ -40,10 +40,12 @@ export default function ChannelContext() {
   };
 
   const enterPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-      setMessage("");
+    if (e.key === "Enter") {
+      if (!e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+        setMessage("");
+      }
     }
   };
 
@@ -78,7 +80,12 @@ export default function ChannelContext() {
             <ListItemText
               primary={
                 <>
-                  <Typography variant="body2">{m.text}</Typography>
+                  <Typography
+                    variant="body2"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {m.text}
+                  </Typography>
                 </>
               }
               secondary={
@@ -99,6 +106,7 @@ export default function ChannelContext() {
     scrollToBottom();
   }, [messageList]);
 
+  if (!activeChannel) return null;
   return (
     <Box
       sx={{
@@ -107,17 +115,9 @@ export default function ChannelContext() {
         border: "1px solid gray",
         width: "100%",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "column-reverse",
       }}
     >
-      <Container sx={{ overflowY: "scroll", width: "100%" }}>
-        {messageList !== undefined && (
-          <List sx={{ display: "flex", flexDirection: "column" }}>
-            {messageList}
-          </List>
-        )}
-        <div ref={anchor}></div>
-      </Container>
       <Container sx={{ width: "100%", my: { xs: 3 } }}>
         <TextField
           onChange={(e) => setMessage(e.target.value)}
@@ -135,6 +135,14 @@ export default function ChannelContext() {
           placeholder={"message"}
           value={message}
         ></TextField>
+      </Container>
+      <Container sx={{ overflowY: "scroll", width: "100%" }}>
+        {messageList !== undefined && (
+          <List sx={{ display: "flex", flexDirection: "column" }}>
+            {messageList}
+          </List>
+        )}
+        <div ref={anchor}></div>
       </Container>
     </Box>
   );
