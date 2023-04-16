@@ -27,7 +27,12 @@ const slice = createSlice({
     DetachWsListener: (meta) => {
       meta.wslistenerAttached = false;
     },
-
+    AttachRtcListener: (meta) => {
+      meta.rtclistenerAttached = true;
+    },
+    DetachRtcListener: (meta) => {
+      meta.rtclistenerAttached = false;
+    },
     FetchNeeded: (meta) => {
       meta.fetchNeeded = true;
     },

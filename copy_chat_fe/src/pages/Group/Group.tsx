@@ -10,6 +10,7 @@ import { findGroup } from "../../store/selectors/group";
 
 import { ui_actions } from "../../store/ui";
 import { EnterRoom } from "../../store/ws_call/meta";
+import { sendJoin } from "../../store/ws_call/webrtc";
 
 export default function Group() {
   const { groupId, channelId } = useParams();

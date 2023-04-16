@@ -1,8 +1,9 @@
-from django.http import JsonResponse 
-from rest_framework import generics, status 
-from rest_framework.permissions import IsAuthenticated 
-from rest_framework.request import Request 
-from ..membership.models import GroupMembership, Permission 
+from django.http import JsonResponse
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
+
+from ..membership.models import GroupMembership, Permission
 from ..models import Channel, Group, SubGroup
 from ..serializers import ChannelSerializer
 
@@ -20,6 +21,7 @@ class ChannelCreateView(generics.CreateAPIView):
         group_id = request.data.get("group_id")
         subgroup_id = request.data.get("subgroup_id")
         channel_name = request.data.get("channel_name")
+        channel_type = request.data.get("channel_type")
 
         if not group_id:
             return JsonResponse(
@@ -28,11 +30,10 @@ class ChannelCreateView(generics.CreateAPIView):
                 safe=False,
             )
 
-        group =Group.objects.filter(id=group_id) 
-        
+        group = Group.objects.filter(id=group_id)
+
         group_exists = group.exists()
 
-        
         if not group_exists:
             return JsonResponse(
                 data={
@@ -40,9 +41,11 @@ class ChannelCreateView(generics.CreateAPIView):
                     "msg": "Group Not Found",
                 },
                 safe=False,
-                )
+            )
 
-        channel_exists = Channel.objects.filter(group_id=group_id,subgroup_id=subgroup_id,name=channel_name).exists()
+        channel_exists = Channel.objects.filter(
+            group_id=group_id, subgroup_id=subgroup_id, name=channel_name
+        ).exists()
 
         if channel_exists:
             return JsonResponse(
@@ -51,8 +54,7 @@ class ChannelCreateView(generics.CreateAPIView):
                     "msg": "Channel name duplicated",
                 },
                 safe=False,
-                )
-
+            )
 
         try:
             group = group.get()
@@ -62,13 +64,15 @@ class ChannelCreateView(generics.CreateAPIView):
             p = Permission(membership.permission)
 
             if p.create_channel:
-                c = Channel.objects.create(group=group,subgroup_id=subgroup_id,name=channel_name)
+                c = Channel.objects.create(
+                    group=group,
+                    subgroup_id=subgroup_id,
+                    name=channel_name,
+                    type=channel_type,
+                )
 
                 return JsonResponse(
-                    data={
-                        "success": True,
-                        "channel": ChannelSerializer(c).data
-                    },
+                    data={"success": True, "channel": ChannelSerializer(c).data},
                     safe=False,
                 )
             else:
@@ -90,12 +94,10 @@ class ChannelCreateView(generics.CreateAPIView):
             )
 
 
-
 class ChannelDeleteView(generics.DestroyAPIView):
     http_method_names = ["delete"]
     permission_classes = (IsAuthenticated,)
     serializer_class = ChannelSerializer
-
 
     def delete(self, request: Request, *args, **kwargs):
         channel_id = request.data.get("channel_id")
@@ -128,8 +130,9 @@ class ChannelDeleteView(generics.DestroyAPIView):
                     data={
                         "success": False,
                         "msg": "Need Permission to Delete Channel",
-                    },)
-                
+                    },
+                )
+
         except GroupMembership.DoesNotExist as e:
             return JsonResponse(
                 data={

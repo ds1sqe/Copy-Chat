@@ -2,6 +2,7 @@ import socketio
 from realtime.handlers.message import MessageHandlers
 from realtime.handlers.meta.auth import AuthHandlers
 from realtime.handlers.meta.state import StateHandlers
+from realtime.handlers.rtc import RtcHandlers
 from root import settings
 
 mgr = socketio.RedisManager(
@@ -16,6 +17,7 @@ sio = socketio.Server(
 auth = AuthHandlers(sio)
 state = StateHandlers(sio)
 message_h = MessageHandlers(sio)
+rtc = RtcHandlers(sio)
 
 
 @sio.event
@@ -35,6 +37,11 @@ sio.on("meta.state.enter", state.meta_state_enter)
 
 sio.on("message.create", message_h.message_create)
 
+sio.on("rtc.join", rtc.rtc_join)
+sio.on("rtc.sdp.offer", rtc.rtc_sdp_offer)
+sio.on("rtc.sdp.answer", rtc.rtc_sdp_answer)
+sio.on("rtc.ice.candidate", rtc.rtc_ice_candidate)
+
 
 @sio.event
 def disconnect(sid, environ, auth):
@@ -51,4 +58,4 @@ def fallback(event, sid, data):
         print("> session info :", repr(sio.get_session(sid)))
         print("> rooms :", repr(sio.rooms(sid)))
     except KeyError as e:
-        print("> err          :", repr(e))
+        print("> err :", repr(e))

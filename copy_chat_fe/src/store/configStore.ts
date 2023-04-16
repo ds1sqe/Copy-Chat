@@ -9,7 +9,7 @@ import ui from "./ui";
 import meta from "./meta";
 import groups from "./groups";
 import invitations from "./invitations";
-
+import webrtc from "./webrtc";
 import { Store } from "../types/store";
 import { socketMiddleware } from "./middleware/socket";
 
@@ -19,6 +19,7 @@ const store = configureStore<Store.AppState>({
     ui,
     meta,
     entities: combineReducers({ groups, invitations }),
+    webrtc,
   },
   // @ts-ignore
   middleware: new MiddlewareArray().prepend(rest, socketMiddleware),
