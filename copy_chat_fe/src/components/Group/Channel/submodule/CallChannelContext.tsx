@@ -12,7 +12,7 @@ import {
 import { createDataChannel } from "../../../../utils/webrtc";
 
 export default function CallChannelContext() {
-  let localstream: MediaStream | null;
+  const [localstream, setLocalstream] = useState<MediaStream | null>(null);
   const dispatch = useDispatch();
   const activeChannel = useSelector((s: RootState) => s.ui.activeChannel);
   const joiners = useSelector((s: RootState) => s.webrtc.joiners);
@@ -33,7 +33,8 @@ export default function CallChannelContext() {
         video: true,
         audio: true,
       });
-      localstream = new MediaStream(stream);
+      const __localstream = new MediaStream(stream);
+      setLocalstream(__localstream);
       const vidTrack = stream.getVideoTracks();
       const audTrack = stream.getAudioTracks();
       vidTrack[0].enabled = false;
@@ -224,6 +225,7 @@ export default function CallChannelContext() {
         <div>
           <p>self</p>
           <video
+            style={{ height: "600px", width: "300px" }}
             autoPlay
             ref={(ref) => {
               if (ref) {
@@ -250,6 +252,7 @@ export default function CallChannelContext() {
         <li key={peer.id}>
           <p>{peer.id}</p>
           <video
+            style={{ height: "600px", width: "300px" }}
             autoPlay
             key={peer.id}
             ref={(ref) => {
@@ -272,7 +275,7 @@ export default function CallChannelContext() {
         dispatch(webrtc_actions.deleteJoiner(joiner.id));
       }
     }
-  });
+  }, [joiners]);
   useEffect(() => {
     if (offerers?.length >= 1) {
       const offerer = offerers[0];
@@ -281,7 +284,7 @@ export default function CallChannelContext() {
         dispatch(webrtc_actions.deleteOfferer(offerer.id));
       }
     }
-  });
+  }, [offerers]);
   useEffect(() => {
     if (answers?.length >= 1) {
       const answer = answers[0];
@@ -290,7 +293,7 @@ export default function CallChannelContext() {
         dispatch(webrtc_actions.deleteAnswerer(answer.id));
       }
     }
-  });
+  }, [answers]);
 
   return (
     <>
