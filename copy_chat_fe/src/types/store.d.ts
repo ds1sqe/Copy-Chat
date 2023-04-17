@@ -35,8 +35,12 @@ declare namespace Store {
       invitations: Entity.Invitation[];
     };
     webrtc: {
-      localstream?: Webrtc.Localstream;
-      peers: Webrtc.Peer[];
+      localstream: Webrtc.Localstream;
+      joiners: Webrtc.Peer[];
+      offerers: Webrtc.Peer[];
+      answers: Webrtc.Peer[];
+      established: Webrtc.Peer[];
+      icecandidates: Webrtc.Candidate[];
     };
   }
   export interface Action<P> {

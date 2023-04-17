@@ -4,23 +4,47 @@ import { Webrtc } from "../types/webrtc.types";
 
 const slice = createSlice({
   name: "webrtc",
-  initialState: { peers: [] } as Store.AppState["webrtc"],
+  initialState: {} as Store.AppState["webrtc"],
   reducers: {
-    setLocalStream: (state, { payload }: PayloadAction<Webrtc.Localstream>) => {
-      state.localstream = payload;
+    newJoiner: (state, { payload }: PayloadAction<Webrtc.Peer>) => {
+      if (state.joiners) {
+        state.joiners.push(payload);
+      } else {
+        state.joiners = [payload];
+      }
     },
-    removeLocalStream: (state) => {
-      delete state.localstream;
+    deleteJoiner: (state, { payload }: PayloadAction<number>) => {
+      state.joiners.filter((j) => j.id !== payload);
     },
-    addRemoteStream: (state, { payload }: PayloadAction<Webrtc.Peer>) => {
-      state.peers.push(payload);
+    newOfferer: (state, { payload }: PayloadAction<Webrtc.Peer>) => {
+      if (state.offerers) {
+        state.offerers.push(payload);
+      } else {
+        state.offerers = [payload];
+      }
     },
-    removeRemoteStream: (state, { payload }: PayloadAction<Number>) => {
-      state.peers.filter((peer) => peer.id !== payload);
+    deleteOfferer: (state, { payload }: PayloadAction<number>) => {
+      state.offerers.filter((j) => j.id !== payload);
     },
-    dropAll: (state) => {
-      delete state.localstream;
-      state.peers = [];
+    newAnswerer: (state, { payload }: PayloadAction<Webrtc.Peer>) => {
+      if (state.answers) {
+        state.answers.push(payload);
+      } else {
+        state.answers = [payload];
+      }
+    },
+    deleteAnswerer: (state, { payload }: PayloadAction<number>) => {
+      state.offerers.filter((j) => j.id !== payload);
+    },
+    newCandidate: (state, { payload }: PayloadAction<Webrtc.Candidate>) => {
+      if (state.icecandidates) {
+        state.icecandidates.push(payload);
+      } else {
+        state.icecandidates = [payload];
+      }
+    },
+    deleteCandidate: (state, { payload }: PayloadAction<number>) => {
+      state.offerers.filter((j) => j.id !== payload);
     },
   },
 });

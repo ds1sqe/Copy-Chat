@@ -4,19 +4,17 @@ export namespace Webrtc {
       isVoiceOn: boolean;
       isVideoOn: boolean;
     };
-    stream: MediaStream;
-  }
-  export interface RemoteStream {
-    meta: {
-      isVoiceOn: boolean;
-      isVideoOn: boolean;
-    };
-    stream: MediaStream;
   }
   export interface Peer {
     id: number;
-    remoteStream?: RemoteStream;
-    dataChannel?: RTCDataChannel;
-    peerConnection: RTCPeerConnection;
+    meta?: {
+      isVoiceOn: boolean;
+      isVideoOn: boolean;
+    };
+    sdp?: RTCSessionDescription;
+  }
+  export interface Candidate {
+    id: number;
+    candidate: string;
   }
 }
