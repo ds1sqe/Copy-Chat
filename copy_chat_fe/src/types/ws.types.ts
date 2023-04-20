@@ -41,7 +41,7 @@ export namespace wsParam {
     ice: {
       candidate: {
         target_id: number;
-        candidate: RTCIceCandidate;
+        candidate: string;
       };
     };
   }

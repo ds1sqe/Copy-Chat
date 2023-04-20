@@ -41,7 +41,13 @@ class RtcHandlers:
     def rtc_sdp_offer(self, sid, data):
         print(f"sio:rtc.sdp.offer>sid:{repr(sid)} \n> received data: {repr(data)}")
         ss = self.sio.get_session(sid)
-        payload = ({"sender_id": ss["account"].id, "detail": data["detail"]},)
+        payload = (
+            {
+                "sender_id": ss["account"].id,
+                "target_id": data["target_id"],
+                "detail": data["detail"],
+            },
+        )
         self.sio.emit(
             "rtc.sdp.offer", room=ss.get("rtc_room"), data=payload, skip_sid=sid
         )
@@ -49,10 +55,25 @@ class RtcHandlers:
     def rtc_sdp_answer(self, sid, data):
         print(f"sio:rtc.sdp.answer>sid:{repr(sid)} \n> received data: {repr(data)}")
         ss = self.sio.get_session(sid)
-        payload = ({"sender_id": ss["account"].id, "detail": data["detail"]},)
+        payload = (
+            {
+                "sender_id": ss["account"].id,
+                "target_id": data["target_id"],
+                "detail": data["detail"],
+            },
+        )
         self.sio.emit("rtc.sdp.answer", room=ss["rtc_room"], data=payload, skip_sid=sid)
 
     def rtc_ice_candidate(self, sid, data):
         print(f"sio:rtc.sdp.answer>sid:{repr(sid)} \n> received data: {repr(data)}")
         ss = self.sio.get_session(sid)
-        self.sio.emit("rtc.ice.candidate", room=ss["rtc_room"], data=data, skip_sid=sid)
+        payload = (
+            {
+                "sender_id": ss["account"].id,
+                "target_id": data["target_id"],
+                "candidate": data["candidate"],
+            },
+        )
+        self.sio.emit(
+            "rtc.sdp.ice.candidate", room=ss["rtc_room"], data=payload, skip_sid=sid
+        )

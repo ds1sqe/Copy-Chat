@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/configStore";
@@ -9,7 +9,7 @@ import {
   sendJoin,
   sendOffer,
 } from "../../../../store/ws_call/webrtc";
-import { createDataChannel } from "../../../../utils/webrtc";
+import { createConnections } from "../../../../utils/webrtc";
 
 export default function CallChannelContext() {
   const [localstream, setLocalstream] = useState<MediaStream | null>(null);
@@ -18,13 +18,17 @@ export default function CallChannelContext() {
   const joiners = useSelector((s: RootState) => s.webrtc.joiners);
   const offerers = useSelector((s: RootState) => s.webrtc.offerers);
   const answers = useSelector((s: RootState) => s.webrtc.answers);
+  const candidates = useSelector((s: RootState) => s.webrtc.icecandidates);
 
   interface Connection {
     id: number;
+    //connected?: boolean;
     datachannel: RTCDataChannel;
     peerconnection: RTCPeerConnection;
+    stream: MediaStream;
   }
 
+  //const [connections, setConnections] = useState<Connection[]>([]);
   const [connections, setConnections] = useState<Connection[]>([]);
 
   async function createLocalStream() {
@@ -37,8 +41,8 @@ export default function CallChannelContext() {
       setLocalstream(__localstream);
       const vidTrack = stream.getVideoTracks();
       const audTrack = stream.getAudioTracks();
-      vidTrack[0].enabled = false;
-      audTrack[0].enabled = false;
+      vidTrack[0].enabled = true;
+      audTrack[0].enabled = true;
     } catch (error) {
       console.log(error);
       return null;
@@ -47,15 +51,25 @@ export default function CallChannelContext() {
 
   const createOffer = async (target_id: number) => {
     if (!localstream) return;
-    const dtc = createDataChannel(target_id, localstream);
-    setConnections([
-      ...connections,
-      {
-        id: target_id,
-        datachannel: dtc.dataChannel,
-        peerconnection: dtc.peerConnection,
-      },
-    ]);
+    const dtc = createConnections(target_id, localstream);
+
+    dtc.peerConnection.onnegotiationneeded = () => {
+      dtc.peerConnection
+        .createOffer()
+        .then((offer) => dtc.peerConnection.setLocalDescription(offer))
+        .then(() => {
+          console.log("sdp offer created for", target_id);
+        })
+        .then(() => {
+          sendOffer(
+            {
+              target_id: target_id,
+              detail: dtc.peerConnection.localDescription,
+            },
+            dispatch
+          );
+        });
+    };
     dtc.peerConnection.addEventListener("iceconnectionstatechange", (ev) => {
       let iceConnectionState = dtc.peerConnection.iceConnectionState;
       if (
@@ -77,44 +91,52 @@ export default function CallChannelContext() {
       if (ev.candidate) {
         console.log("New icecandidate :", JSON.stringify(ev.candidate));
         sendCandidate(
-          { target_id: target_id, candidate: ev.candidate },
+          { target_id: target_id, candidate: JSON.stringify(ev.candidate) },
           dispatch
         );
         return;
       } else {
         // ice candidate gather completed
-        sendOffer(
+      }
+    });
+
+    setConnections([
+      ...connections.filter((p) => p.id !== target_id),
+      {
+        id: target_id,
+        datachannel: dtc.dataChannel,
+        peerconnection: dtc.peerConnection,
+        stream: dtc.stream,
+      },
+    ]);
+  };
+
+  const createAnswer = (target_id: number, detail: RTCSessionDescription) => {
+    if (!localstream) return;
+    const desc = new RTCSessionDescription(detail);
+    const dtc = createConnections(target_id, localstream);
+    //setting remote description with offer
+    dtc.peerConnection
+      .setRemoteDescription(desc)
+      .then(() => {
+        console.log("Remote description setted for id:", target_id);
+      })
+      .then(() => dtc.peerConnection.createAnswer())
+      .then((answer) => {
+        console.log("Answer Created", answer);
+        return dtc.peerConnection.setLocalDescription(answer);
+      })
+      .then(() => {
+        console.log("localDescription:", dtc.peerConnection.localDescription);
+        sendAnswer(
           {
             target_id: target_id,
             detail: dtc.peerConnection.localDescription,
           },
           dispatch
         );
-      }
-    });
-    dtc.peerConnection
-      .createOffer()
-      .then((offer) => dtc.peerConnection.setLocalDescription(offer))
-      .then(() => {
-        console.log("sdp offer created for", target_id);
       });
-  };
 
-  const createAnswer = (
-    target_id: number,
-    detail: RTCSessionDescription,
-    local_stream: MediaStream
-  ) => {
-    const desc = new RTCSessionDescription(detail);
-    const dtc = createDataChannel(target_id, local_stream);
-    setConnections([
-      ...connections,
-      {
-        id: target_id,
-        datachannel: dtc.dataChannel,
-        peerconnection: dtc.peerConnection,
-      },
-    ]);
     dtc.peerConnection.addEventListener("iceconnectionstatechange", (ev) => {
       let iceConnectionState = dtc.peerConnection.iceConnectionState;
       if (
@@ -135,34 +157,25 @@ export default function CallChannelContext() {
       if (ev.candidate) {
         console.log("New icecandidate :", JSON.stringify(ev.candidate));
         sendCandidate(
-          { target_id: target_id, candidate: ev.candidate },
+          { target_id: target_id, candidate: JSON.stringify(ev.candidate) },
           dispatch
         );
         return;
       } else {
         // ice candidate gather completed
-        sendAnswer(
-          {
-            target_id: target_id,
-            detail: dtc.peerConnection.localDescription,
-          },
-          dispatch
-        );
+        console.log("candidate gathered for target id:", target_id);
       }
     });
-    //setting remote description with offer
-    dtc.peerConnection
-      .setRemoteDescription(desc)
-      .then(() => {
-        console.log("Remote description setted for id:", target_id);
-      })
-      .then(() => {
-        return dtc.peerConnection.createAnswer();
-      })
-      .then((answer) => {
-        console.log("Answer Created", answer);
-        dtc.peerConnection.setLocalDescription(answer);
-      });
+
+    setConnections([
+      ...connections.filter((p) => p.id !== target_id),
+      {
+        id: target_id,
+        datachannel: dtc.dataChannel,
+        peerconnection: dtc.peerConnection,
+        stream: dtc.stream,
+      },
+    ]);
   };
 
   const acceptAnswer = (target_id: number, detail: RTCSessionDescription) => {
@@ -170,17 +183,21 @@ export default function CallChannelContext() {
     if (target_dtc) {
       console.log("adding remote description for target_id", target_id);
       target_dtc.peerconnection.setRemoteDescription(detail);
+      setConnections([
+        ...connections.filter((p) => p.id !== target_id),
+        target_dtc,
+      ]);
     } else {
       console.log("cannot find connection with target_id", target_id);
     }
   };
 
-  const manageCandidate = (target_id: number, detail: RTCIceCandidate) => {
-    const newCandidate = new RTCIceCandidate(detail);
-    const target_dtc = connections.find((e) => e.id === target_id);
-    if (target_dtc) {
-      console.log("adding candidaate", newCandidate);
-      target_dtc.peerconnection
+  const manageCandidate = (target_id: number, detail: string) => {
+    const newCandidate = new RTCIceCandidate(JSON.parse(detail));
+    const target_connection = connections.find((e) => e.id === target_id);
+    if (target_connection) {
+      console.log("adding candidate", newCandidate);
+      target_connection.peerconnection
         .addIceCandidate(newCandidate)
         .catch((err) => console.log(err));
     } else {
@@ -191,10 +208,12 @@ export default function CallChannelContext() {
   const attachLocalStream = async () => {
     if (!localstream) {
       await createLocalStream();
-    }
-
-    if (localstream) {
       console.log("attach localstream", localstream);
+    }
+  };
+
+  const joinReq = async () => {
+    if (localstream) {
       if (activeChannel) {
         sendJoin(
           { gid: activeChannel?.group_id, cid: activeChannel?.id },
@@ -203,7 +222,6 @@ export default function CallChannelContext() {
       }
     }
   };
-
   const vidToggle = async () => {
     if (localstream) {
       const vids = localstream.getVideoTracks();
@@ -222,10 +240,9 @@ export default function CallChannelContext() {
       return null;
     } else {
       return (
-        <div>
-          <p>self</p>
+        <Box>
           <video
-            style={{ height: "600px", width: "300px" }}
+            style={{ height: "400px", width: "200px" }}
             autoPlay
             ref={(ref) => {
               if (ref) {
@@ -233,35 +250,28 @@ export default function CallChannelContext() {
               }
             }}
           />
-        </div>
+          <p>self</p>
+        </Box>
       );
     }
   };
   const RemoteVideos = () => {
     const vids = connections.map((peer) => {
-      const remoteStream = new MediaStream();
-      peer.peerconnection.addEventListener(
-        "track",
-        async (ev: RTCTrackEvent) => {
-          console.log("attaching track:", peer.id);
-          console.log("detail:", ev.track);
-          remoteStream.addTrack(ev.track);
-        }
-      );
       return (
-        <li key={peer.id}>
-          <p>{peer.id}</p>
+        <Box key={peer.id}>
           <video
             style={{ height: "600px", width: "300px" }}
             autoPlay
             key={peer.id}
+            id={"remote_video." + peer.id}
             ref={(ref) => {
               if (ref) {
-                ref.srcObject = remoteStream;
+                ref.srcObject = peer.stream;
               }
             }}
           />
-        </li>
+          <p>id:{peer.id}</p>
+        </Box>
       );
     });
     return <>{vids}</>;
@@ -279,8 +289,8 @@ export default function CallChannelContext() {
   useEffect(() => {
     if (offerers?.length >= 1) {
       const offerer = offerers[0];
-      if (offerer && offerer?.sdp && localstream) {
-        createAnswer(offerer.id, offerer.sdp, localstream);
+      if (offerer && offerer?.sdp) {
+        createAnswer(offerer.id, offerer.sdp);
         dispatch(webrtc_actions.deleteOfferer(offerer.id));
       }
     }
@@ -294,13 +304,26 @@ export default function CallChannelContext() {
       }
     }
   }, [answers]);
+  useEffect(() => {
+    if (candidates?.length >= 1) {
+      const candidate = candidates[0];
+      if (candidate && candidate?.candidate) {
+        manageCandidate(candidate.id, candidate.candidate);
+        dispatch(webrtc_actions.shiftCandidate());
+      }
+    }
+  }, [candidates]);
 
   return (
     <>
-      <Button onClick={attachLocalStream}>attach</Button>
-      <Button onClick={vidToggle}>vid</Button>
-      <Button onClick={audToggle}>aud</Button>
-      <SelfVid />
+      <Box>
+        <Button onClick={attachLocalStream}>attach</Button>
+        <Button onClick={joinReq}>join</Button>
+        <Button onClick={vidToggle}>vid</Button>
+        <Button onClick={audToggle}>aud</Button>
+        <Button onClick={() => console.log(connections)}>debug</Button>
+        <SelfVid />
+      </Box>
       <RemoteVideos />
     </>
   );

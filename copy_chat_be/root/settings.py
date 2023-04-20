@@ -40,10 +40,17 @@ SESSION_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:3000",
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
+    "https://127.0.0.1:3000",
+    "https://localhost:3000",
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+    "https://127.0.0.1:3000",
+    "https://localhost:3000",
+    "https://192.168.0.27:3000",
+]
 
 # Application definition
 
@@ -162,12 +169,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    "http://127.0.0.1:3000",
-    "http://localhost:3000",
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-]
 
 REST_FRAMEWORK = {
     "PAGINATE_BY": 10,

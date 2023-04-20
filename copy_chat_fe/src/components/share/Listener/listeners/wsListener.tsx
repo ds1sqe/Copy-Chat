@@ -12,6 +12,7 @@ import { webrtc_actions } from "../../../../store/webrtc";
 export default function WsListener() {
   const dispatch = useDispatch();
   const logined = useSelector((s: RootState) => s.auth.logined);
+  const uid = useSelector((s: RootState) => s.auth.user?.id);
 
   const wslistenerAttached = useSelector(
     (s: RootState) => s.meta.wslistenerAttached
@@ -47,27 +48,33 @@ export default function WsListener() {
     });
 
     socket.on("rtc.sdp.offer", async (data) => {
-      console.log("received rtc.sdp.offer request", data);
-      dispatch(
-        webrtc_actions.newOfferer({ id: data.sender_id, sdp: data.detail })
-      );
+      if (data?.target_id === uid) {
+        console.log("received rtc.sdp.offer request", data);
+        dispatch(
+          webrtc_actions.newOfferer({ id: data.sender_id, sdp: data.detail })
+        );
+      }
     });
 
     socket.on("rtc.sdp.answer", (data) => {
-      console.log("received rtc.sdp.answer", data);
-      dispatch(
-        webrtc_actions.newAnswerer({ id: data.sender_id, sdp: data.detail })
-      );
+      if (data?.target_id === uid) {
+        console.log("received rtc.sdp.answer", data);
+        dispatch(
+          webrtc_actions.newAnswerer({ id: data.sender_id, sdp: data.detail })
+        );
+      }
     });
 
     socket.on("rtc.sdp.ice.candidate", async (data) => {
-      console.log("received rtc.sdp.ice.candidate", data);
-      dispatch(
-        webrtc_actions.newCandidate({
-          id: data.sender_id,
-          candidate: data.detail,
-        })
-      );
+      if (data?.target_id === uid) {
+        console.log("received rtc.sdp.ice.candidate", data);
+        dispatch(
+          webrtc_actions.newCandidate({
+            id: data.sender_id,
+            candidate: data.candidate,
+          })
+        );
+      }
     });
     socket.on("rtc.sdp.exit", () => {
       "manange exit";
