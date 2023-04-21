@@ -36,11 +36,7 @@ declare namespace Store {
     };
     webrtc: {
       localstream: Webrtc.Localstream;
-      joiners: Webrtc.Peer[];
-      offerers: Webrtc.Peer[];
-      answers: Webrtc.Peer[];
-      established: Webrtc.Peer[];
-      icecandidates: Webrtc.Candidate[];
+      peers: Webrtc.Peer[];
     };
   }
   export interface Action<P> {

@@ -4,47 +4,46 @@ import { Webrtc } from "../types/webrtc.types";
 
 const slice = createSlice({
   name: "webrtc",
-  initialState: {} as Store.AppState["webrtc"],
+  initialState: { peers: [] as Webrtc.Peer[] } as Store.AppState["webrtc"],
   reducers: {
-    newJoiner: (state, { payload }: PayloadAction<Webrtc.Peer>) => {
-      if (state.joiners) {
-        state.joiners.push(payload);
+    addPeer: (state, { payload }: PayloadAction<Webrtc.Peer>) => {
+      state.peers.push(payload);
+    },
+    removePeer: (state, { payload: target_id }: PayloadAction<Number>) => {
+      state.peers = state.peers.filter((p) => p.id !== target_id);
+    },
+    updatePeerState: (state, { payload }) => {
+      state.peers = state.peers.map((p) => {
+        if (p.id === payload.id) {
+          return {
+            ...p,
+            state: payload.state,
+          };
+        } else {
+          return p;
+        }
+      });
+    },
+    pushRTCPacket: (
+      state,
+      { payload }: PayloadAction<Webrtc.RTCPacketStringIncome>
+    ) => {
+      const target_peer = state.peers.find((p) => p.id === payload.sender_id);
+      if (target_peer) {
+        state.peers
+          .find((p) => p.id === payload.sender_id)
+          ?.packets.push(payload.packet);
       } else {
-        state.joiners = [payload];
+        state.peers.push({
+          id: payload.sender_id,
+          sid: payload.sender_sid,
+          state: "new",
+          packets: [payload.packet],
+        });
       }
     },
-    deleteJoiner: (state, { payload }: PayloadAction<number>) => {
-      state.joiners = state.joiners.filter((j) => j.id !== payload);
-    },
-    newOfferer: (state, { payload }: PayloadAction<Webrtc.Peer>) => {
-      if (state.offerers) {
-        state.offerers.push(payload);
-      } else {
-        state.offerers = [payload];
-      }
-    },
-    deleteOfferer: (state, { payload }: PayloadAction<number>) => {
-      state.offerers = state.offerers.filter((j) => j.id !== payload);
-    },
-    newAnswerer: (state, { payload }: PayloadAction<Webrtc.Peer>) => {
-      if (state.answers) {
-        state.answers.push(payload);
-      } else {
-        state.answers = [payload];
-      }
-    },
-    deleteAnswerer: (state, { payload }: PayloadAction<number>) => {
-      state.answers = state.answers.filter((j) => j.id !== payload);
-    },
-    newCandidate: (state, { payload }: PayloadAction<Webrtc.Candidate>) => {
-      if (state.icecandidates) {
-        state.icecandidates.push(payload);
-      } else {
-        state.icecandidates = [payload];
-      }
-    },
-    shiftCandidate: (state) => {
-      state.icecandidates = state.icecandidates.filter((v, i) => i !== 0);
+    shiftRTCPacket: (state, { payload: target_id }: PayloadAction<Number>) => {
+      state.peers.find((p) => p.id === target_id)?.packets.shift();
     },
   },
 });

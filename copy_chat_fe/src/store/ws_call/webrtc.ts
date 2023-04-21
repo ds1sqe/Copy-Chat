@@ -11,37 +11,13 @@ export const sendJoin = async (data: WS.To["rtc.join"], dispatch: Dispatch) => {
   );
 };
 
-export const sendOffer = async (
-  data: WS.To["rtc.sdp.offer"],
+export const sendRtcPacket = async (
+  data: WS.To["rtc.sdp.packet"],
   dispatch: Dispatch
 ) => {
   dispatch(
     ws_actions.wsCallInit({
-      event: "rtc.sdp.offer",
-      data: data,
-    })
-  );
-};
-
-export const sendAnswer = async (
-  data: WS.To["rtc.sdp.answer"],
-  dispatch: Dispatch
-) => {
-  dispatch(
-    ws_actions.wsCallInit({
-      event: "rtc.sdp.answer",
-      data: data,
-    })
-  );
-};
-
-export const sendCandidate = async (
-  data: WS.To["rtc.ice.candidate"],
-  dispatch: Dispatch
-) => {
-  dispatch(
-    ws_actions.wsCallInit({
-      event: "rtc.ice.candidate",
+      event: "rtc.sdp.packet",
       data: data,
     })
   );

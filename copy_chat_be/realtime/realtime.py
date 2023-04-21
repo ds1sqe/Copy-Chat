@@ -38,14 +38,13 @@ sio.on("meta.state.enter", state.meta_state_enter)
 sio.on("message.create", message_h.message_create)
 
 sio.on("rtc.join", rtc.rtc_join)
-sio.on("rtc.sdp.offer", rtc.rtc_sdp_offer)
-sio.on("rtc.sdp.answer", rtc.rtc_sdp_answer)
-sio.on("rtc.ice.candidate", rtc.rtc_ice_candidate)
+sio.on("rtc.sdp.packet", rtc.rtc_sdp_packet)
 
 
 @sio.event
-def disconnect(sid, environ, auth):
-    print("sio:disconnect>", repr(sid), repr(environ), repr(auth))
+def disconnect(sid):
+    print("sio:disconnect>", repr(sid))
+    print("> session info :", repr(sio.get_session(sid)))
 
 
 @sio.on("*")

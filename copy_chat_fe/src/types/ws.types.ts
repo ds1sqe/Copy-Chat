@@ -1,11 +1,11 @@
+import { Webrtc } from "./webrtc.types";
+
 export declare namespace WS {
   export interface To {
     "message.create": wsParam.message["create"];
     "meta.state.enter": wsParam.meta["enter"];
     "rtc.join": wsParam.webrtc["join"];
-    "rtc.sdp.offer": wsParam.webrtc["sdp"]["offer"];
-    "rtc.sdp.answer": wsParam.webrtc["sdp"]["answer"];
-    "rtc.ice.candidate": wsParam.webrtc["ice"]["candidate"];
+    "rtc.sdp.packet": wsParam.webrtc["sdp"]["packet"];
   }
 }
 
@@ -29,19 +29,10 @@ export namespace wsParam {
       cid: number;
     };
     sdp: {
-      offer: {
+      packet: {
         target_id: number;
-        detail: RTCSessionDescription | null;
-      };
-      answer: {
-        target_id: number;
-        detail: RTCSessionDescription | null;
-      };
-    };
-    ice: {
-      candidate: {
-        target_id: number;
-        candidate: string;
+        target_sid: string;
+        packet: Webrtc.RTCPacketString;
       };
     };
   }

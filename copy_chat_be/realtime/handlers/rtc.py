@@ -26,7 +26,7 @@ class RtcHandlers:
                 self.sio.emit(
                     "rtc.join",
                     room=f"rtc.{cid}",
-                    data={"sender_id": ss["account"].id},
+                    data={"sender_id": ss["account"].id, "sid": sid},
                     skip_sid=sid,
                 )
                 print(f">session info", ss)
@@ -38,42 +38,22 @@ class RtcHandlers:
             print(f"> error: invalid data")
             self.sio.send(f"error: invalid data ", to=sid)
 
-    def rtc_sdp_offer(self, sid, data):
-        print(f"sio:rtc.sdp.offer>sid:{repr(sid)} \n> received data: {repr(data)}")
+    def rtc_sdp_packet(self, sid, data):
+        print(f"sio:rtc.sdp.packet>sid:{repr(sid)} \n> received data: {repr(data)}")
         ss = self.sio.get_session(sid)
         payload = (
             {
                 "sender_id": ss["account"].id,
+                "sender_sid": sid,
+                "target_sid": data["target_sid"],
                 "target_id": data["target_id"],
-                "detail": data["detail"],
+                "packet": data["packet"],
             },
         )
         self.sio.emit(
-            "rtc.sdp.offer", room=ss.get("rtc_room"), data=payload, skip_sid=sid
-        )
-
-    def rtc_sdp_answer(self, sid, data):
-        print(f"sio:rtc.sdp.answer>sid:{repr(sid)} \n> received data: {repr(data)}")
-        ss = self.sio.get_session(sid)
-        payload = (
-            {
-                "sender_id": ss["account"].id,
-                "target_id": data["target_id"],
-                "detail": data["detail"],
-            },
-        )
-        self.sio.emit("rtc.sdp.answer", room=ss["rtc_room"], data=payload, skip_sid=sid)
-
-    def rtc_ice_candidate(self, sid, data):
-        print(f"sio:rtc.sdp.answer>sid:{repr(sid)} \n> received data: {repr(data)}")
-        ss = self.sio.get_session(sid)
-        payload = (
-            {
-                "sender_id": ss["account"].id,
-                "target_id": data["target_id"],
-                "candidate": data["candidate"],
-            },
-        )
-        self.sio.emit(
-            "rtc.sdp.ice.candidate", room=ss["rtc_room"], data=payload, skip_sid=sid
+            "rtc.sdp.packet",
+            room=ss.get("rtc_room"),
+            data=payload,
+            to=data["target_sid"],
+            skip_sid=sid,
         )

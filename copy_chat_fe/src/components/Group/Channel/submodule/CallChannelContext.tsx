@@ -1,35 +1,62 @@
 import { Box, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/configStore";
 import { webrtc_actions } from "../../../../store/webrtc";
-import {
-  sendAnswer,
-  sendCandidate,
-  sendJoin,
-  sendOffer,
-} from "../../../../store/ws_call/webrtc";
-import { createConnections } from "../../../../utils/webrtc";
+import { sendJoin } from "../../../../store/ws_call/webrtc";
+import { Webrtc } from "../../../../types/webrtc.types";
+import { createConnectionModel } from "../../../../utils/webrtc";
 
 export default function CallChannelContext() {
-  const [localstream, setLocalstream] = useState<MediaStream | null>(null);
   const dispatch = useDispatch();
+
+  const [localstream, setLocalstream] = useState<MediaStream | null>(null);
+
   const activeChannel = useSelector((s: RootState) => s.ui.activeChannel);
-  const joiners = useSelector((s: RootState) => s.webrtc.joiners);
-  const offerers = useSelector((s: RootState) => s.webrtc.offerers);
-  const answers = useSelector((s: RootState) => s.webrtc.answers);
-  const candidates = useSelector((s: RootState) => s.webrtc.icecandidates);
+  const account = useSelector((s: RootState) => s.auth.user);
 
-  interface Connection {
-    id: number;
-    //connected?: boolean;
-    datachannel: RTCDataChannel;
-    peerconnection: RTCPeerConnection;
-    stream: MediaStream;
+  const newpeers = useSelector((s: RootState) =>
+    s.webrtc.peers.filter((p) => p.state === "new")
+  );
+  const negotiating_peers = useSelector((s: RootState) =>
+    s.webrtc.peers.filter((p) => p.state === "negotiating")
+  );
+
+  const connections = useRef<{ [key: string]: Webrtc.ConnectionModel }>({});
+
+  function mapNewPeer() {
+    newpeers.forEach(async (peer) => {
+      if (!account || !localstream) return;
+      else {
+        const new_connection = await createConnectionModel(
+          dispatch,
+          account.id,
+          localstream
+        )(peer.id, peer.sid);
+        connections.current[peer.id] = new_connection;
+        dispatch(
+          webrtc_actions.updatePeerState({
+            id: new_connection.id,
+            state: "negotiating",
+          })
+        );
+      }
+    });
   }
+  useEffect(() => mapNewPeer(), [newpeers]);
 
-  //const [connections, setConnections] = useState<Connection[]>([]);
-  const [connections, setConnections] = useState<Connection[]>([]);
+  function negotiate() {
+    negotiating_peers.forEach((p) => {
+      if (p.packets.length > 0) {
+        const t = connections.current[p.id];
+        if (t.handler) {
+          t.handler(p.packets[0]);
+          dispatch(webrtc_actions.shiftRTCPacket(p.id));
+        }
+      }
+    });
+  }
+  useEffect(() => negotiate(), [negotiating_peers]);
 
   async function createLocalStream() {
     try {
@@ -48,163 +75,6 @@ export default function CallChannelContext() {
       return null;
     }
   }
-
-  const createOffer = async (target_id: number) => {
-    if (!localstream) return;
-    const dtc = createConnections(target_id, localstream);
-
-    dtc.peerConnection.onnegotiationneeded = () => {
-      dtc.peerConnection
-        .createOffer()
-        .then((offer) => dtc.peerConnection.setLocalDescription(offer))
-        .then(() => {
-          console.log("sdp offer created for", target_id);
-        })
-        .then(() => {
-          sendOffer(
-            {
-              target_id: target_id,
-              detail: dtc.peerConnection.localDescription,
-            },
-            dispatch
-          );
-        });
-    };
-    dtc.peerConnection.addEventListener("iceconnectionstatechange", (ev) => {
-      let iceConnectionState = dtc.peerConnection.iceConnectionState;
-      if (
-        iceConnectionState === "failed" ||
-        iceConnectionState === "disconnected" ||
-        iceConnectionState === "closed"
-      ) {
-        console.log("iceConnectionState change:", iceConnectionState);
-        console.log("removing peer connection:", target_id);
-        setConnections(connections.filter((p) => p.id !== target_id));
-        if (iceConnectionState !== "closed") {
-          dtc.peerConnection.close();
-        }
-      }
-    });
-
-    dtc.peerConnection.addEventListener("icecandidate", (ev) => {
-      console.log("icecandidate event:", ev);
-      if (ev.candidate) {
-        console.log("New icecandidate :", JSON.stringify(ev.candidate));
-        sendCandidate(
-          { target_id: target_id, candidate: JSON.stringify(ev.candidate) },
-          dispatch
-        );
-        return;
-      } else {
-        // ice candidate gather completed
-      }
-    });
-
-    setConnections([
-      ...connections.filter((p) => p.id !== target_id),
-      {
-        id: target_id,
-        datachannel: dtc.dataChannel,
-        peerconnection: dtc.peerConnection,
-        stream: dtc.stream,
-      },
-    ]);
-  };
-
-  const createAnswer = (target_id: number, detail: RTCSessionDescription) => {
-    if (!localstream) return;
-    const desc = new RTCSessionDescription(detail);
-    const dtc = createConnections(target_id, localstream);
-    //setting remote description with offer
-    dtc.peerConnection
-      .setRemoteDescription(desc)
-      .then(() => {
-        console.log("Remote description setted for id:", target_id);
-      })
-      .then(() => dtc.peerConnection.createAnswer())
-      .then((answer) => {
-        console.log("Answer Created", answer);
-        return dtc.peerConnection.setLocalDescription(answer);
-      })
-      .then(() => {
-        console.log("localDescription:", dtc.peerConnection.localDescription);
-        sendAnswer(
-          {
-            target_id: target_id,
-            detail: dtc.peerConnection.localDescription,
-          },
-          dispatch
-        );
-      });
-
-    dtc.peerConnection.addEventListener("iceconnectionstatechange", (ev) => {
-      let iceConnectionState = dtc.peerConnection.iceConnectionState;
-      if (
-        iceConnectionState === "failed" ||
-        iceConnectionState === "disconnected" ||
-        iceConnectionState === "closed"
-      ) {
-        console.log("iceConnectionState change:", iceConnectionState);
-        console.log("removing peer connection:", target_id);
-        if (iceConnectionState !== "closed") {
-          dtc.peerConnection.close();
-        }
-      }
-    });
-
-    dtc.peerConnection.addEventListener("icecandidate", (ev) => {
-      console.log("icecandidate event:", ev);
-      if (ev.candidate) {
-        console.log("New icecandidate :", JSON.stringify(ev.candidate));
-        sendCandidate(
-          { target_id: target_id, candidate: JSON.stringify(ev.candidate) },
-          dispatch
-        );
-        return;
-      } else {
-        // ice candidate gather completed
-        console.log("candidate gathered for target id:", target_id);
-      }
-    });
-
-    setConnections([
-      ...connections.filter((p) => p.id !== target_id),
-      {
-        id: target_id,
-        datachannel: dtc.dataChannel,
-        peerconnection: dtc.peerConnection,
-        stream: dtc.stream,
-      },
-    ]);
-  };
-
-  const acceptAnswer = (target_id: number, detail: RTCSessionDescription) => {
-    const target_dtc = connections.find((e) => e.id === target_id);
-    if (target_dtc) {
-      console.log("adding remote description for target_id", target_id);
-      target_dtc.peerconnection.setRemoteDescription(detail);
-      setConnections([
-        ...connections.filter((p) => p.id !== target_id),
-        target_dtc,
-      ]);
-    } else {
-      console.log("cannot find connection with target_id", target_id);
-    }
-  };
-
-  const manageCandidate = (target_id: number, detail: string) => {
-    const newCandidate = new RTCIceCandidate(JSON.parse(detail));
-    const target_connection = connections.find((e) => e.id === target_id);
-    if (target_connection) {
-      console.log("adding candidate", newCandidate);
-      target_connection.peerconnection
-        .addIceCandidate(newCandidate)
-        .catch((err) => console.log(err));
-    } else {
-      console.log("cannot find connection with target_id", target_id);
-    }
-  };
-
   const attachLocalStream = async () => {
     if (!localstream) {
       await createLocalStream();
@@ -256,7 +126,7 @@ export default function CallChannelContext() {
     }
   };
   const RemoteVideos = () => {
-    const vids = connections.map((peer) => {
+    const vids = Object.values(connections.current).map((peer) => {
       return (
         <Box key={peer.id}>
           <video
@@ -266,7 +136,7 @@ export default function CallChannelContext() {
             id={"remote_video." + peer.id}
             ref={(ref) => {
               if (ref) {
-                ref.srcObject = peer.stream;
+                ref.srcObject = peer.remotestream;
               }
             }}
           />
@@ -276,43 +146,6 @@ export default function CallChannelContext() {
     });
     return <>{vids}</>;
   };
-
-  useEffect(() => {
-    if (joiners?.length >= 1) {
-      const joiner = joiners[0];
-      if (joiner) {
-        createOffer(joiner.id);
-        dispatch(webrtc_actions.deleteJoiner(joiner.id));
-      }
-    }
-  }, [joiners]);
-  useEffect(() => {
-    if (offerers?.length >= 1) {
-      const offerer = offerers[0];
-      if (offerer && offerer?.sdp) {
-        createAnswer(offerer.id, offerer.sdp);
-        dispatch(webrtc_actions.deleteOfferer(offerer.id));
-      }
-    }
-  }, [offerers]);
-  useEffect(() => {
-    if (answers?.length >= 1) {
-      const answer = answers[0];
-      if (answer && answer?.sdp) {
-        acceptAnswer(answer.id, answer.sdp);
-        dispatch(webrtc_actions.deleteAnswerer(answer.id));
-      }
-    }
-  }, [answers]);
-  useEffect(() => {
-    if (candidates?.length >= 1) {
-      const candidate = candidates[0];
-      if (candidate && candidate?.candidate) {
-        manageCandidate(candidate.id, candidate.candidate);
-        dispatch(webrtc_actions.shiftCandidate());
-      }
-    }
-  }, [candidates]);
 
   return (
     <>

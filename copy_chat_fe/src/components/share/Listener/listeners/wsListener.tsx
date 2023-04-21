@@ -12,8 +12,6 @@ import { webrtc_actions } from "../../../../store/webrtc";
 export default function WsListener() {
   const dispatch = useDispatch();
   const logined = useSelector((s: RootState) => s.auth.logined);
-  const uid = useSelector((s: RootState) => s.auth.user?.id);
-
   const wslistenerAttached = useSelector(
     (s: RootState) => s.meta.wslistenerAttached
   );
@@ -44,44 +42,26 @@ export default function WsListener() {
 
     socket.on("rtc.join", async (data) => {
       console.log("received rtc.join request", data);
-      dispatch(webrtc_actions.newJoiner({ id: data.sender_id }));
+      dispatch(
+        webrtc_actions.addPeer({
+          id: data.sender_id,
+          sid: data.sid,
+          state: "new",
+          packets: [],
+        })
+      );
+    });
+    socket.on("rtc.sdp.packet", async (data) => {
+      console.log("received rtc.sdp.packet", data);
+      dispatch(webrtc_actions.pushRTCPacket(data));
     });
 
-    socket.on("rtc.sdp.offer", async (data) => {
-      if (data?.target_id === uid) {
-        console.log("received rtc.sdp.offer request", data);
-        dispatch(
-          webrtc_actions.newOfferer({ id: data.sender_id, sdp: data.detail })
-        );
-      }
-    });
-
-    socket.on("rtc.sdp.answer", (data) => {
-      if (data?.target_id === uid) {
-        console.log("received rtc.sdp.answer", data);
-        dispatch(
-          webrtc_actions.newAnswerer({ id: data.sender_id, sdp: data.detail })
-        );
-      }
-    });
-
-    socket.on("rtc.sdp.ice.candidate", async (data) => {
-      if (data?.target_id === uid) {
-        console.log("received rtc.sdp.ice.candidate", data);
-        dispatch(
-          webrtc_actions.newCandidate({
-            id: data.sender_id,
-            candidate: data.candidate,
-          })
-        );
-      }
-    });
     socket.on("rtc.sdp.exit", () => {
       "manange exit";
     });
 
     socket.onAny((ev, data) => {
-      console.log("ev:", ev, "data:", data);
+      console.log("fallback>> ev:", ev, "data:", data);
       console.log(socket);
     });
 
