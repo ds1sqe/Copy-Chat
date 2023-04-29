@@ -7,7 +7,7 @@ COPY . /app/copy_chat_fe
 RUN npm install
 RUN npm run build
 
-FROM nginx:1.21.4-alpine
+FROM nginx:stable
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
