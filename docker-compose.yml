@@ -3,11 +3,11 @@ version: "3.9"
 services:
   django:
     restart: unless-stopped
-    build: ./copychat-be
+    build: ./copy_chat_be
     ports:
       - 8000:8000
   nginx:
-    build: ./copychat-fe
+    build: ./copy_chat_fe
     restart: unless-stopped
     ports:
       - 80:80
