@@ -9,10 +9,7 @@ WORKDIR /home/copy_chat/app/copy_chat_be
 
 COPY . /home/copy_chat/app/copy_chat_be
 
-RUN apt-get update && \
-  apt-get -y upgrade && \
-  pip install --upgrade pip && \
-  pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
