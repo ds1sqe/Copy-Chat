@@ -9,7 +9,7 @@ WORKDIR /home/copy_chat/app/copy_chat_be
 
 COPY . /home/copy_chat/app/copy_chat_be
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirement.txt
 
 EXPOSE 8000
 
