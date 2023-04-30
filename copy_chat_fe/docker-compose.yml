@@ -1,19 +1,12 @@
 version: "3.9"
 
 services:
-  django:
-    restart: unless-stopped
-    build: ./copy_chat_be
-    ports:
-      - 8000:8000
   nginx:
-    build: ./copy_chat_fe
+    build: .
     restart: unless-stopped
     ports:
       - 80:80
       - 443:443
-    depends_on:
-      - django
     volumes:
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro

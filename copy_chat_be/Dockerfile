@@ -1,9 +1,9 @@
 FROM python:3.10.11-bullseye
 
 
-RUN adduser --disabled-login copy_chat
+RUN adduser --disabled-login copy_chat_be
 
-USER copy_chat
+USER copy_chat_be
 
 WORKDIR /home/copy_chat/app/copy_chat_be
 
