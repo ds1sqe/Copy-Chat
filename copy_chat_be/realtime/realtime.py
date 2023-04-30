@@ -8,9 +8,9 @@ from root import settings
 mgr = socketio.RedisManager(
     url="redis://" + settings.REDIS["host"] + ":" + settings.REDIS["port"]
 )
-sio = socketio.Server(
+sio = socketio.AsyncServer(
     client_manager=mgr,
-    async_mode="eventlet",
+    async_mode="asgi",
     cors_allowed_origins=settings.CORS_ORIGIN_WHITELIST,
 )
 

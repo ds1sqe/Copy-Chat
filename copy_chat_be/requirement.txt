@@ -11,6 +11,5 @@ requests
 drf-yasg
 redis
 python-socketio
-eventlet
 pillow #image
-gunicorn
+daphne
