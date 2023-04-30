@@ -5,7 +5,9 @@ from realtime.handlers.meta.state import StateHandlers
 from realtime.handlers.rtc import RtcHandlers
 from root import settings
 
-mgr = socketio.RedisManager(
+print("sio:initializing...\n")
+
+mgr = socketio.AsyncRedisManager(
     url="redis://" + settings.REDIS["host"] + ":" + settings.REDIS["port"]
 )
 sio = socketio.AsyncServer(
@@ -14,6 +16,8 @@ sio = socketio.AsyncServer(
     cors_allowed_origins=settings.CORS_ORIGIN_WHITELIST,
 )
 
+print("sio:attaching handlers...\n")
+
 auth = AuthHandlers(sio)
 state = StateHandlers(sio)
 message_h = MessageHandlers(sio)
@@ -21,9 +25,9 @@ rtc = RtcHandlers(sio)
 
 
 @sio.event
-def connect(sid, environ, auth):
+async def connect(sid, environ, auth):
     print(f"sio:connect>sid {repr(sid)} connected")
-    sio.save_session(sid, {"authorized": False})
+    await sio.save_session(sid, {"authorized": False})
 
 
 @sio.event
@@ -42,19 +46,22 @@ sio.on("rtc.sdp.packet", rtc.rtc_sdp_packet)
 
 
 @sio.event
-def disconnect(sid):
+async def disconnect(sid):
     print("sio:disconnect>", repr(sid))
-    print("> session info :", repr(sio.get_session(sid)))
+    print("> session info :", repr(await sio.get_session(sid)))
 
 
 @sio.on("*")
-def fallback(event, sid, data):
+async def fallback(event, sid, data):
     print(
         f"sio:fallback>sid:{repr(sid)} \n> event:{event}\n> received data: {repr(data)}"
     )
     sio.send({"msg": f"{event} is not valid event"}, to=sid)
     try:
-        print("> session info :", repr(sio.get_session(sid)))
-        print("> rooms :", repr(sio.rooms(sid)))
+        print("> session info :", repr(await sio.get_session(sid)))
+        print("> rooms :", repr(await sio.rooms(sid)))
     except KeyError as e:
         print("> err :", repr(e))
+
+
+print("sio:handlers attached \n")

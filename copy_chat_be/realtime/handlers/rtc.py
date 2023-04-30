@@ -7,11 +7,11 @@ class RtcHandlers:
     def __init__(self, sio: Server):
         self.sio = sio
 
-    def rtc_join(self, sid, data):
+    async def rtc_join(self, sid, data):
         print(f"sio:rtc.join>sid:{repr(sid)} \n> received data: {repr(data)}")
 
         # check he's in
-        ss = self.sio.get_session(sid)
+        ss = await self.sio.get_session(sid)
         try:
             (
                 gid,
@@ -23,24 +23,24 @@ class RtcHandlers:
             if (gid, cid) == ss["current_in"]:
                 self.sio.enter_room(sid, room=f"rtc.{cid}")
                 ss["rtc_room"] = f"rtc.{cid}"
-                self.sio.emit(
+                await self.sio.emit(
                     "rtc.join",
                     room=f"rtc.{cid}",
                     data={"sender_id": ss["account"].id, "sid": sid},
                     skip_sid=sid,
                 )
                 print(f">session info", ss)
-                self.sio.save_session(sid, ss)
+                await self.sio.save_session(sid, ss)
             else:
-                self.sio.send(f"error: invalid data ", to=sid)
+                await self.sio.send(f"error: invalid data ", to=sid)
 
         except KeyError:
             print(f"> error: invalid data")
-            self.sio.send(f"error: invalid data ", to=sid)
+            await self.sio.send(f"error: invalid data ", to=sid)
 
-    def rtc_sdp_packet(self, sid, data):
+    async def rtc_sdp_packet(self, sid, data):
         print(f"sio:rtc.sdp.packet>sid:{repr(sid)} \n> received data: {repr(data)}")
-        ss = self.sio.get_session(sid)
+        ss = await self.sio.get_session(sid)
         payload = (
             {
                 "sender_id": ss["account"].id,
@@ -50,7 +50,7 @@ class RtcHandlers:
                 "packet": data["packet"],
             },
         )
-        self.sio.emit(
+        await self.sio.emit(
             "rtc.sdp.packet",
             room=ss.get("rtc_room"),
             data=payload,
