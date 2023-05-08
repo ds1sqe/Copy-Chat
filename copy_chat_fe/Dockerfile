@@ -5,7 +5,7 @@ WORKDIR /app/copy_chat_fe
 COPY . /app/copy_chat_fe
 
 RUN npm install
-RUN npm run build
+RUN npm run build --verbose
 
 FROM nginx:1.21.4-alpine
 

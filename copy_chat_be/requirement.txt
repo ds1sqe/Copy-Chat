@@ -12,4 +12,4 @@ drf-yasg
 redis
 python-socketio
 pillow #image
-daphne
+uvicorn[standard]

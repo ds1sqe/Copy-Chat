@@ -8,4 +8,4 @@ RUN pip install -r requirement.txt
 
 EXPOSE 8000
 
-CMD ["daphne", "-b", "0.0.0.0","-p","8000", "root.asgi:application"]
+CMD ["uvicorn","--host","0.0.0.0","--log-level","trace","root.asgi:application"]

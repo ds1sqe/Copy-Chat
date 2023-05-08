@@ -58,19 +58,12 @@ export function attachIceHandler(pc: RTCPeerConnection, signaler: Function) {
       pc.restartIce();
     }
   };
-
   pc.onicecandidate = (ev) => {
     console.log("icecandidate event:", ev);
     if (ev.candidate) {
       console.log("New icecandidate :", JSON.stringify(ev.candidate));
       signaler(ev.candidate);
       return;
-    }
-  };
-
-  pc.oniceconnectionstatechange = () => {
-    if (pc.iceConnectionState === "failed") {
-      pc.restartIce();
     }
   };
 }
@@ -127,6 +120,12 @@ export function createPeerConnection(st: MediaStream) {
         urls: `${process.env.REACT_APP_TURN_URL}`,
         username: `${process.env.REACT_APP_TURN_USER}`,
         credential: `${process.env.REACT_APP_TURN_PWD}`,
+      },
+      {
+        urls: "stun:stun.l.google.com:19302",
+      },
+      {
+        urls: `${process.env.REACT_APP_STUN_URL}`,
       },
     ],
   });
