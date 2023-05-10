@@ -17,9 +17,9 @@ export default function CreateChannel() {
   const dispatch = useDispatch();
   const [channelName, setChannelName] = useState("");
   const [channelType, setChannelType] = useState("TXT");
-  const current_group_id = useSelector((s: RootState) => s.ui.activeGroup?.id);
+  const current_group_id = useSelector((s: RootState) => s.ui.active.group?.id);
   const current_subgroup_id = useSelector(
-    (s: RootState) => s.ui.activeSubGroup?.id
+    (s: RootState) => s.ui.active.subgroup?.id
   );
 
   const handleCreate = async (e: any) => {

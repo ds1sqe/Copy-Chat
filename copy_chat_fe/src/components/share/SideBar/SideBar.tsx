@@ -1,10 +1,9 @@
-// import { Grid } from "@mui/material";
-// import { Container } from "@mui/system";
 import { Box } from "@mui/material";
 import SidebarIcons from "./Icons/SideBarIcons";
 import SidePannel from "./Pannel/SidePannel";
 
 export default function Sidebar() {
+  // Group list, subgroup, channels
   return (
     <Box
       sx={{

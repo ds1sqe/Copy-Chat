@@ -20,7 +20,7 @@ import { ui_actions } from "../../../../../store/ui";
 export default function JoinGroup() {
   const dispatch = useDispatch();
   const [code, setCode] = useState("");
-  const target_group = useSelector((s: RootState) => s.ui.openedModalDetail);
+  const target_group = useSelector((s: RootState) => s.ui.modal.detail);
 
   const valiateCode = async (e: any) => {
     e.preventDefault();

@@ -19,8 +19,8 @@ export default function TextChannelContext() {
   const [message, setMessage] = useState<string>("");
   const dispatch = useDispatch();
 
-  const activeChannel = useSelector((s: RootState) => s.ui.activeChannel);
-  const activeGroup = useSelector((s: RootState) => s.ui.activeGroup);
+  const activeChannel = useSelector((s: RootState) => s.ui.active.channel);
+  const activeGroup = useSelector((s: RootState) => s.ui.active.group);
   const user = useSelector((s: RootState) => s.auth.user);
   const anchor = useRef<HTMLDivElement | null>(null);
 

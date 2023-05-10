@@ -31,8 +31,8 @@ const GroupPannelBody = () => {
   const dispatch = useDispatch();
   const [closedChannels, setClosedChannels] = React.useState<number[]>([]);
   const [closedSubgroups, setClosedSubgroups] = React.useState<number[]>([]);
-  const activeGroup = useSelector((s: RootState) => s.ui.activeGroup);
-  const activeChannel = useSelector((s: RootState) => s.ui.activeChannel);
+  const activeGroup = useSelector((s: RootState) => s.ui.active.group);
+  const activeChannel = useSelector((s: RootState) => s.ui.active.channel);
   const [subgroupContextMenu, setSubgroupContextMenu] = React.useState<{
     mouseX: number;
     mouseY: number;

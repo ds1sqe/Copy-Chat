@@ -9,7 +9,7 @@ export function dropdownIsOpen(component: React.FunctionComponent) {
 }
 export function modalIsOpen(component: React.FunctionComponent) {
   return createSelector(
-    (state: Store.AppState) => state.ui.openedModal,
+    (state: Store.AppState) => state.ui.modal,
     (name) => name === component.name
   );
 }

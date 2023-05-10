@@ -10,7 +10,6 @@ import { findGroup } from "../../store/selectors/group";
 
 import { ui_actions } from "../../store/ui";
 import { EnterRoom } from "../../store/ws_call/meta";
-import { sendJoin } from "../../store/ws_call/webrtc";
 
 export default function Group() {
   const { groupId, channelId } = useParams();
@@ -25,7 +24,7 @@ export default function Group() {
 
   useEffect(() => {
     if (activeGroup) {
-      dispatch(ui_actions.pageSwitched({ Group: activeGroup }));
+      dispatch(ui_actions.focusGroup(activeGroup));
       if (activeChannel) {
         dispatch(ui_actions.focusChannel(activeChannel));
         EnterRoom({ gid: activeGroup.id, cid: activeChannel.id }, dispatch);

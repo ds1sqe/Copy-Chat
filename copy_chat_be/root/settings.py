@@ -54,8 +54,6 @@ CORS_ORIGIN_WHITELIST = [
 # Application definition
 
 INSTALLED_APPS = [
-    # deploy
-    "daphne",
     # apps
     "account.apps.AccountConfig",
     "account.apps.ProfileConfig",

@@ -4,7 +4,7 @@ import TextChannelContext from "./submodule/TextChannelContext";
 import CallChannelContext from "./submodule/CallChannelContext";
 
 export default function ChannelContext() {
-  const activeChannel = useSelector((s: RootState) => s.ui.activeChannel);
+  const activeChannel = useSelector((s: RootState) => s.ui.active.channel);
 
   if (!activeChannel || activeChannel?.type === undefined) {
     return <></>;

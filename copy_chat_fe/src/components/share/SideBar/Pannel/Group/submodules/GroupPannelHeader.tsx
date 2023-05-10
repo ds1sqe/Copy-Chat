@@ -5,10 +5,9 @@ import { RootState } from "../../../../../../store/configStore";
 import { ui_actions } from "../../../../../../store/ui";
 import { useDispatch } from "react-redux";
 import { Close, ExpandMore } from "@mui/icons-material";
-import { border } from "@mui/system";
 
 export default function GroupPannelHeader() {
-  const group = useSelector((s: RootState) => s.ui.activeGroup);
+  const group = useSelector((s: RootState) => s.ui.active.group);
   const dispatch = useDispatch();
 
   const [groupMenuAnchor, setGroupMenuAnchor] =

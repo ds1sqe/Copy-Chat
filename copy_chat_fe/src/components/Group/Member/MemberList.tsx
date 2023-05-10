@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/configStore";
 
 const MemberList = () => {
-  const current_group = useSelector((s: RootState) => s.ui.activeGroup);
+  const current_group = useSelector((s: RootState) => s.ui.active.group);
   const current_memberships = current_group?.memberships;
   const current_members = current_group?.members;
 

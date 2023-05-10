@@ -12,7 +12,7 @@ export default function CallChannelContext() {
 
   const [localstream, setLocalstream] = useState<MediaStream | null>(null);
 
-  const activeChannel = useSelector((s: RootState) => s.ui.activeChannel);
+  const activeChannel = useSelector((s: RootState) => s.ui.active.channel);
   const account = useSelector((s: RootState) => s.auth.user);
 
   const newpeers = useSelector((s: RootState) =>

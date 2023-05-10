@@ -13,13 +13,13 @@ declare namespace Store {
     };
     ui: {
       openDropdown?: string;
-      openedModal?: string;
-      openedModalDetail?: any;
       saveChangesOpen?: boolean;
-      activeUser?: Entity.User;
-      activeGroup?: Entity.Group;
-      activeSubGroup?: Entity.SubGroup;
-      activeChannel?: Entity.Channel;
+      modal: Ui.Modal;
+      sidebar: Ui.SideBar;
+      active: Ui.Active;
+      memberList: {
+        open: boolean;
+      };
       popupNotifications: Ui.PopUpNotification[];
     };
     meta: {

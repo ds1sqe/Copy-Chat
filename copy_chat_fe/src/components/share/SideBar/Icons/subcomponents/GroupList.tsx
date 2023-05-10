@@ -10,7 +10,7 @@ export default function GroupList() {
   const dispatch = useDispatch();
 
   const groups = useSelector((s: RootState) => s.entities.groups);
-  const activeGroup = useSelector((s: RootState) => s.ui.activeGroup);
+  const activeGroup = useSelector((s: RootState) => s.ui.active.group);
   const [contextMenu, setContextMenu] = React.useState<{
     mouseX: number;
     mouseY: number;

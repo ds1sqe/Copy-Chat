@@ -7,20 +7,28 @@ const slice = createSlice({
   initialState: {
     saveChangesOpen: false,
     popupNotifications: [],
+    modal: {},
+    sidebar: {
+      open: true,
+    },
+    memberList: {
+      open: true,
+    },
+    active: {},
   } as Store.AppState["ui"],
   reducers: {
     openModal: (state, { payload }) => {
-      state.openedModal = payload;
-    },
-    closeModal: (state) => {
-      delete state.openedModal;
-      delete state?.openedModalDetail;
+      state.modal.type = payload;
     },
     setModalDetail: (state, { payload }) => {
-      state.openedModalDetail = payload;
+      state.modal.detail = payload;
     },
     unsetModalDetail: (state) => {
-      delete state.openedModalDetail;
+      delete state.modal.detail;
+    },
+    closeModal: (state) => {
+      delete state.modal?.type;
+      delete state.modal?.detail;
     },
 
     toggleDropdown: (state, { payload }) => {
@@ -29,20 +37,47 @@ const slice = createSlice({
     toggleSaveChanges: (state, { payload }) => {
       state.saveChangesOpen = payload;
     },
-    focusedUser: (state, { payload }) => {
-      state.activeUser = payload;
+
+    focusUser: (state, { payload }) => {
+      state.active.user = payload;
     },
-    pageSwitched: (state, { payload }) => {
-      state.activeGroup = payload.Group;
+    focusGroup: (state, { payload }: PayloadAction<Entity.Group>) => {
+      state.active.group = payload;
+    },
+    deleteFocusGroup: (state) => {
+      delete state.active.group;
     },
     focusSubgroup: (state, { payload }: PayloadAction<Entity.SubGroup>) => {
-      state.activeSubGroup = payload;
+      state.active.subgroup = payload;
+    },
+    deleteFocusSubgroup: (state) => {
+      delete state.active.subgroup;
     },
     focusChannel: (state, { payload }: PayloadAction<Entity.Channel>) => {
-      state.activeChannel = payload;
+      state.active.channel = payload;
     },
     deleteFocusChannel: (state) => {
-      delete state.activeChannel;
+      delete state.active.channel;
+    },
+
+    openSidebar: (state) => {
+      state.sidebar.open = true;
+    },
+    closeSidebar: (state) => {
+      state.sidebar.open = false;
+    },
+    toggleSidebar: (state) => {
+      state.sidebar.open = !state.sidebar.open;
+    },
+
+    openMemberList: (state) => {
+      state.memberList.open = true;
+    },
+    closeMemberList: (state) => {
+      state.memberList.open = false;
+    },
+    toggleMemberList: (state) => {
+      state.memberList.open = !state.sidebar.open;
     },
 
     addPopNotice: (state, { payload }) => {

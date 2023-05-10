@@ -7,7 +7,9 @@ import { ui_actions } from "../../store/ui";
 export default function DashBoard() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(ui_actions.pageSwitched({ Group: null, SubGroup: null }));
+    dispatch(ui_actions.deleteFocusGroup());
+    dispatch(ui_actions.deleteFocusSubgroup());
+    dispatch(ui_actions.deleteFocusChannel());
   });
 
   return (
