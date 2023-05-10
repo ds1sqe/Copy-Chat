@@ -21,7 +21,7 @@ import Modal from "../../Modal";
 
 export default function CreateInvitation() {
   const dispatch = useDispatch();
-  const activeGroup = useSelector((s: RootState) => s.ui.activeGroup);
+  const activeGroup = useSelector((s: RootState) => s.ui.active?.group);
   const invitations = useSelector((s: RootState) => s.entities.invitations);
   const default_invitation = () =>
     invitations.find(

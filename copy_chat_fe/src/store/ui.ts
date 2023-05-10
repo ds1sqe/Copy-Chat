@@ -77,7 +77,7 @@ const slice = createSlice({
       state.memberList.open = false;
     },
     toggleMemberList: (state) => {
-      state.memberList.open = !state.sidebar.open;
+      state.memberList.open = !state.memberList.open;
     },
 
     addPopNotice: (state, { payload }) => {

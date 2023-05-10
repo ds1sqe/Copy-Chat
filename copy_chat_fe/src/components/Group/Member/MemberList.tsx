@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/configStore";
 
 const MemberList = () => {
+  const openList = useSelector((s: RootState) => s.ui.memberList.open);
   const current_group = useSelector((s: RootState) => s.ui.active.group);
   const current_memberships = current_group?.memberships;
   const current_members = current_group?.members;
@@ -43,18 +44,22 @@ const MemberList = () => {
     </div>
   ));
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "20em",
-        height: "100%",
-        border: "1px solid gray",
-      }}
-    >
-      {lists}
-    </div>
-  );
+  if (openList) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: "20em",
+          height: "100%",
+          border: "1px solid gray",
+        }}
+      >
+        {lists}
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 export default MemberList;

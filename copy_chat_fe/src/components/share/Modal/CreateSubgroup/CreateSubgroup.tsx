@@ -9,7 +9,9 @@ import Modal from "../Modal";
 export default function CreateSubgroup() {
   const dispatch = useDispatch();
   const [subgroupname, setSubgroupname] = useState("");
-  const current_group_id = useSelector((s: RootState) => s.ui.activeGroup?.id);
+  const current_group_id = useSelector(
+    (s: RootState) => s.ui.active?.group?.id
+  );
 
   const handleCreate = async (e: any) => {
     e.preventDefault();

@@ -52,7 +52,7 @@ const Modal: React.FunctionComponent<ModalProps> = ({
   maxWidth,
   fullWidth,
 }) => {
-  const openedModal = useSelector((s: Store.AppState) => s.ui.openedModal);
+  const openedModal = useSelector((s: Store.AppState) => s.ui.modal.type);
   const dispatch = useDispatch();
 
   const max_width = maxWidth ? maxWidth : "md";
