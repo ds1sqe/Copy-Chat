@@ -5,8 +5,8 @@ built with Django(drf and socket-io) React(Redux with toolkit, socket-io, axios)
 ## Concept
 
 - I designed this project as easy to maintain or improve as possible.
-  avoided code-duplication, tried to create reusable code,
-  and, human-readable data structure
+  avoided code-duplication, tried to create reusable code, with 
+  easy-to-understand & human-readable data structure
 
 - Eventually, almost every data has become nest-structured and centralized (on front),
   and backend has become "event-driven"
@@ -15,7 +15,7 @@ built with Django(drf and socket-io) React(Redux with toolkit, socket-io, axios)
   and used non-serializable data for Webrtc (peer to peer data streaming).
 
 - In frontend, there might be hard-to-understand code like function that create listener function, and
-  arrow function chaining triple time, but i couldn't find better way to split code to outside and keep React-component short
+  arrow function chaining triple time, but i couldn't find better way to split heavy code to outside and keep React-component short
 
 ## Dependency
 
