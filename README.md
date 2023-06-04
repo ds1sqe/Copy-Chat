@@ -4,7 +4,7 @@ built with Django(drf and socket-io) React(Redux with toolkit, socket-io, axios)
 
 ## Concept
 
-- When i designed this project as easy to maintain or improve as possible.
+- I designed this project as easy to maintain or improve as possible.
   avoided code-duplication, tried to create reusable code,
   and, human-readable data structure
 
