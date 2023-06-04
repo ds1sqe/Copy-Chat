@@ -15,7 +15,8 @@ built with Django(drf and socket-io) React(Redux with toolkit, socket-io, axios)
   and used non-serializable data for Webrtc (peer to peer data streaming).
 
 - In frontend, there might be hard-to-understand code like function that create listener function, and
-  arrow function chaining triple time, but i couldn't find better way to split heavy code to outside and keep React-component short
+  arrow function chaining triple time, (on webrtc) 
+  but i couldn't find better way to split heavy code to outside and keep React-component short
 
 ## Dependency
 
