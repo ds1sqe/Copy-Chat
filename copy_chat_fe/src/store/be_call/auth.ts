@@ -15,19 +15,19 @@ export const loginUser = async (
       method: "post",
       data,
       url: `/account/login/`,
-      callback: (result) => {
+      callback: result => {
         dispatch(auth_actions.logInAttempted());
-        if (result?.access_token) {
+        if (result?.access) {
           const token = {
-            access_token: result.access_token,
-            refresh_token: result.refresh_token,
-            expire_on: Date.now() + (5 * 60 * 1000 - 3 * 1000),
+            access_token: result.access,
+            refresh_token: result.refresh,
+            expire_on: Date.now() + (5 * 60 * 1000 - 3 * 1000)
           };
           sessionStorage.setItem("token", JSON.stringify(token));
           dispatch(
             auth_actions.loginSuccess({
               id: result.user?.pk,
-              username: result.user?.username,
+              username: result.user?.username
             })
           );
           dispatch(meta_actions.FetchNeeded());
@@ -36,7 +36,7 @@ export const loginUser = async (
         } else {
           emit("PopupNotice", {
             content: "Login Faild, Please Check username and password",
-            variant: "warning",
+            variant: "warning"
           });
         }
       },
@@ -44,9 +44,9 @@ export const loginUser = async (
         dispatch(auth_actions.loginFailed());
         emit("PopupNotice", {
           content: "Login Faild, Please Check username and password",
-          variant: "warning",
+          variant: "warning"
         });
-      },
+      }
     })
   );
 };
@@ -61,21 +61,21 @@ export function registerUser(
       method: "post",
       data,
       url: `/account/register/`,
-      callback: (result) => {
+      callback: result => {
         if (result?.success) {
           dispatch(auth_actions.created());
           emit("PopupNotice", {
             content: "Account created. Please Login",
-            variant: "success",
+            variant: "success"
           });
         } else if (result?.msg) {
           emit("PopupNotice", {
             content: result?.msg,
-            variant: "warning",
+            variant: "warning"
           });
         }
       },
-      errorCallback: () => {},
+      errorCallback: () => {}
     })
   );
 }
